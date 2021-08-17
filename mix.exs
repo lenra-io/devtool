@@ -51,6 +51,7 @@ defmodule DevTool.MixProject do
   defp deps do
     [
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:bypass, "~> 2.0", only: :test},
       {:phoenix, "~> 1.5.6"},
