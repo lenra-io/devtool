@@ -3,6 +3,8 @@ on: push
 
 jobs:
   checks:
+    env:
+      GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
     name: Checks
     runs-on: ubuntu-latest
     steps:
@@ -18,12 +20,10 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-mix-
+          key: ${{ runner.os }}-mix-v2-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-v2-
       - name: Install dependencies
         run: mix deps.get
-        env:
-          GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
       - name: Compile project
         run: mix compile
       - name: Check formatting
