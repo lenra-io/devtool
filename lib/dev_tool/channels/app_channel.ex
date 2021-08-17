@@ -10,6 +10,7 @@ defmodule DevTool.AppChannel do
 
   @fake_user_id 1
   @fake_build_number 1
+  @fake_action_logs_uuid "94bf24c6-ff42-11eb-9a03-0242ac130003"
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
@@ -19,7 +20,8 @@ defmodule DevTool.AppChannel do
     case ActionBuilder.first_run(%Action{
            user_id: @fake_user_id,
            app_name: app_name,
-           build_number: @fake_build_number
+           build_number: @fake_build_number,
+           action_logs_uuid: @fake_action_logs_uuid
          }) do
       {:ok, ui} ->
         send(self(), {:send_ui, ui})
@@ -53,6 +55,7 @@ defmodule DevTool.AppChannel do
 
     case ApplicationRunner.ActionBuilder.listener_run(%Action{
            user_id: @fake_user_id,
+           action_logs_uuid: @fake_action_logs_uuid,
            app_name: app_name,
            build_number: build_number,
            action_key: action_key,

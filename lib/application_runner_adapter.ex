@@ -3,9 +3,12 @@ defmodule DevTool.ApplicationRunnerAdapter do
   ApplicationRunnerAdapter for DevTool
   Defining functions to communicate with the application
   """
-  alias ApplicationRunner.{Action, Storage}
 
-  @spec run_action(%Action{}) :: {:ok, map} | {:error, map}
+  @behaviour ApplicationRunner.AdapterBehavior
+
+  alias ApplicationRunner.Storage
+
+  @impl true
   def run_action(action) do
     url = Application.fetch_env!(:dev_tool, :application_url)
 
@@ -38,6 +41,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
     raise "Application error (#{status_code}) #{body}"
   end
 
+  @impl true
   def get_data(action) do
     case Storage.get(:datastore, :data) do
       nil -> {:ok, action}
@@ -45,6 +49,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
+  @impl true
   def save_data(_action, data) do
     Storage.insert(:datastore, :data, data)
   end

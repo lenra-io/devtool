@@ -14,6 +14,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
 
   @fake_app_response %{"data" => %{}, "ui" => %{}}
   @fake_app_request %{data: %{}, event: %{}, props: %{}}
+  @fake_action_logs_uuid "d96519ce-6ada-45ee-9e21-d4099d345989"
 
   test "run_action", %{bypass: bypass} do
     Bypass.expect_once(bypass, "POST", "/", fn conn ->
@@ -28,7 +29,8 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
                action_key: "InitData",
                old_data: @fake_app_request.data,
                event: @fake_app_request.event,
-               props: @fake_app_request.props
+               props: @fake_app_request.props,
+               action_logs_uuid: @fake_action_logs_uuid
              })
   end
 
@@ -45,7 +47,8 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
                      action_key: "InitData",
                      old_data: @fake_app_request.data,
                      event: @fake_app_request.event,
-                     props: @fake_app_request.props
+                     props: @fake_app_request.props,
+                     action_logs_uuid: @fake_action_logs_uuid
                    })
                  end
 
@@ -65,18 +68,36 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
         action_key: "InitData",
         old_data: @fake_app_request.data,
         event: @fake_app_request.event,
-        props: @fake_app_request.props
+        props: @fake_app_request.props,
+        action_logs_uuid: @fake_action_logs_uuid
       })
     end
   end
 
   test "get_data and save_data", %{bypass: _} do
     assert {:ok, %Action{user_id: 1, app_name: "test"}} =
-             ApplicationRunnerAdapter.get_data(%Action{user_id: 1, app_name: "test"})
+             ApplicationRunnerAdapter.get_data(%Action{
+               user_id: 1,
+               app_name: "test",
+               action_logs_uuid: @fake_action_logs_uuid,
+               build_number: 1
+             })
 
     ApplicationRunnerAdapter.save_data({1, "test"}, "test")
 
-    assert {:ok, %Action{user_id: 1, app_name: "test", old_data: "test"}} =
-             ApplicationRunnerAdapter.get_data(%Action{user_id: 1, app_name: "test"})
+    assert {:ok,
+            %Action{
+              user_id: 1,
+              app_name: "test",
+              old_data: "test",
+              action_logs_uuid: @fake_action_logs_uuid,
+              build_number: 1
+            }} =
+             ApplicationRunnerAdapter.get_data(%Action{
+               user_id: 1,
+               app_name: "test",
+               action_logs_uuid: @fake_action_logs_uuid,
+               build_number: 1
+             })
   end
 end
