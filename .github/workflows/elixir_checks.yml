@@ -5,6 +5,8 @@ jobs:
   checks:
     name: Checks
     runs-on: ubuntu-latest
+    env:
+      GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
     defaults:
       run:
         working-directory: ./server
