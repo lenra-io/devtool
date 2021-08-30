@@ -5,6 +5,9 @@ jobs:
   checks:
     name: Checks
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     steps:
       - uses: actions/checkout@v2
       - name: Set up Elixir
