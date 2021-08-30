@@ -63,7 +63,7 @@ defmodule DevTool.MixProject do
         name: :application_runner,
         host: "github.com",
         project: "lenra-io/application-runner.git",
-        credentials: "nesqwik:#{System.get_env("GITHUB_PERSONNAL_TOKEN")}",
+        credentials: "nesqwik:#{System.get_env("GH_PERSONNAL_TOKEN")}",
         tag: "v1.0.0"
       )
     ]
