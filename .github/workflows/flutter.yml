@@ -18,11 +18,10 @@ jobs:
       - uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: ${{ env.flutter_version }}
-      # - uses: webfactory/ssh-agent@v0.5.3
-      #   with:
-      #     ssh-private-key: |
-      #           ${{ secrets.LENRA_COMPONENTS_SSH }}
-      #           ${{ secrets.LENRA_UI_RUNNER_SSH }}
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: |
+                ${{ secrets.LENRA_CLIENT_SSH }}
       - name: Restore packages
         run: flutter pub get
 
