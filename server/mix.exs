@@ -3,7 +3,7 @@ defmodule DevTool.MixProject do
 
   def project do
     [
-      app: :dev_tool,
+      app: :dev_tools,
       version: "0.0.0-dev",
       config_path: "config/config.exs",
       elixirc_paths: elixirc_paths(Mix.env()),
