@@ -1,7 +1,10 @@
+import 'package:client/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Base test', () {
-    expect(true, true);
+  testWidgets('Main test', (WidgetTester tester) async {
+    await tester.pumpWidget(DevTools());
+
+    expect(find.byType(DevTools), findsOneWidget);
   });
 }

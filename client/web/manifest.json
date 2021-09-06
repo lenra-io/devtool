@@ -1,6 +1,6 @@
 {
-    "name": "client",
-    "short_name": "client",
+    "name": "Lenra Dev Tools",
+    "short_name": "dev-tools",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
