@@ -1,4 +1,4 @@
-# DevTool
+# DevTools
 
 To start your Phoenix server:
 
