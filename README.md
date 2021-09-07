@@ -3,6 +3,7 @@
 ## About this repo
 
 This repository provides tooling for testing and debugging Lenra applications. Basically, the devtools can easily launch a Lenra App using the same method as the Lenra Server minus the OpenFaaS and database parts.
+
 It is divided in two parts, the client and the server. The client aims to provide everything necessary to ensure that your app will show correctly using the same standards as the Lenra Client. The server takes care of the communication between the client and the Lenra App.
 
 ## Getting started
