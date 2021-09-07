@@ -3,7 +3,7 @@ defmodule DevTool.MixProject do
 
   def project do
     [
-      app: :dev_tool,
+      app: :dev_tools,
       version: "0.0.0-dev",
       config_path: "config/config.exs",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -50,6 +50,7 @@ defmodule DevTool.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:bypass, "~> 2.0", only: :test},
@@ -63,8 +64,8 @@ defmodule DevTool.MixProject do
         name: :application_runner,
         host: "github.com",
         project: "lenra-io/application-runner.git",
-        credentials: "nesqwik:#{System.get_env("GITHUB_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0"
+        credentials: "nesqwik:#{System.get_env("GH_PERSONNAL_TOKEN")}",
+        tag: "v1.0.0-beta.2"
       )
     ]
   end
