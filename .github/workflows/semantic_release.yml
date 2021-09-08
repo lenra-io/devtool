@@ -41,6 +41,8 @@ jobs:
           context: .
           push: false
           tags: devtools:latest
+          build-args: |
+            GH_PERSONNAL_TOKEN=${{ secrets.GH_PERSONNAL_TOKEN }}
       - name: Setup node deps
         run: npm i conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git @semantic-release-plus/docker -D
       - name: Release
