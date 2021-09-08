@@ -5,7 +5,7 @@ config :dev_tool, DevTool.Endpoint,
   server: true
 
 config :dev_tool,
-  application_url: System.get_env("APPLICATION_URL", "http://application:3000/")
+  application_url: System.get_env("APPLICATION_URL", "http://localhost:3000/")
 
 # Do not print debug messages in production
 config :logger, level: :info
