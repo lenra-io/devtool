@@ -22,7 +22,7 @@ defmodule DevTool.MixProject do
       releases: [
         dev_tools: [
           applications: [
-            dev_tool: :permanent,
+            dev_tools: :permanent,
             runtime_tools: :permanent
           ],
           include_executables_for: [:unix]
