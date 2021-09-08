@@ -21,9 +21,8 @@ defmodule DevTool.Endpoint do
   # when deploying your static files in production.
   plug(Plug.Static,
     at: "/",
-    from: :dev_tool,
-    gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    from: {:dev_tool, "priv/static"},
+    gzip: false
   )
 
   # Code reloading can be explicitly enabled under the
