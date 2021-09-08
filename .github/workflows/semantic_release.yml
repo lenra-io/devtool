@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "12"
-      - name: Install Flutter & Dependencies
+      - name: Install & Build DevTools client
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: ${{ env.flutter_version }}
@@ -29,11 +29,9 @@ jobs:
                 ${{ secrets.LENRA_CLIENT_SSH }}
                 ${{ secrets.LENRA_UI_RUNNER_SSH }}
                 ${{ secrets.LENRA_COMPONENTS_SSH }}
-      - name: Build Flutter Web
         run: |
           cd client
           flutter build web
-          pwd
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
