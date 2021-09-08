@@ -11,7 +11,7 @@ plugins:
     - preset: conventionalcommits
   - "@semantic-release/github"
   - - "@semantic-release-plus/docker"
-    - name: "registry.hub.docker.com/lenra/dev-tools"
+    - name: "lenra/dev-tools"
       registryUrl: "registry.hub.docker.com"
       publishLatestTag: true
       publishMajorTag: true
