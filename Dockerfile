@@ -1,7 +1,6 @@
 FROM elixir:1.12-alpine AS build
 
 ARG CI
-ENV CI=$CI
 ARG GH_PERSONNAL_TOKEN
 
 # prepare build dir
