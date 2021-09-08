@@ -5,6 +5,8 @@ on:
       - main
       - beta
       - "*.x"
+env:
+  flutter_version: "2.2.3"
 jobs:
   release:
     name: Release
@@ -17,6 +19,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "12"
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: ${{ env.flutter_version }}
+      - name: Build Flutter Web
+        run: |
+          cd client
+          flutter build web
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: ${{ github.repository }}:latest
       - name: Setup node deps
         run: npm i conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git @semantic-release-plus/docker -D
       - name: Release

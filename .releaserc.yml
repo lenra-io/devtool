@@ -12,7 +12,6 @@ plugins:
   - "@semantic-release/github"
   - - "@semantic-release-plus/docker"
     - name: "lenra/dev-tools"
-      registryUrl: "registry.hub.docker.com"
       publishLatestTag: true
       publishMajorTag: true
       publishMinorTag: true
