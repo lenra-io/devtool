@@ -19,10 +19,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "12"
-      - name: Install Flutter
+      - name: Install Flutter & Dependencies
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: ${{ env.flutter_version }}
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: |
+                ${{ secrets.LENRA_CLIENT_SSH }}
+                ${{ secrets.LENRA_UI_RUNNER_SSH }}
+                ${{ secrets.LENRA_COMPONENTS_SSH }}
       - name: Build Flutter Web
         run: |
           cd client
