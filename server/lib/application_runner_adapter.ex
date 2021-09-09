@@ -7,7 +7,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   @spec run_action(%Action{}) :: {:ok, map} | {:error, map}
   def run_action(action) do
-    url = Application.fetch_env!(:dev_tool, :application_url)
+    url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
 
