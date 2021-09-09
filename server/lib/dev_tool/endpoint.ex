@@ -1,5 +1,5 @@
 defmodule DevTool.Endpoint do
-  use Phoenix.Endpoint, otp_app: :dev_tool
+  use Phoenix.Endpoint, otp_app: :dev_tools
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -21,7 +21,7 @@ defmodule DevTool.Endpoint do
   # when deploying your static files in production.
   plug(Plug.Static,
     at: "/",
-    from: {:dev_tool, "priv/static"},
+    from: {:dev_tools, "priv/static"},
     gzip: false
   )
 
