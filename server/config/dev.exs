@@ -6,14 +6,14 @@ import Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :dev_tool, DevTool.Endpoint,
+config :dev_tools, DevTool.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: false,
   check_origin: false,
   watchers: []
 
-config :dev_tool,
+config :dev_tools,
   application_url: System.get_env("APPLICATION_URL", "http://application:3000/")
 
 # ## SSL Support

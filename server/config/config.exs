@@ -8,7 +8,7 @@
 import Config
 
 # Configures the endpoint
-config :dev_tool, DevTool.Endpoint,
+config :dev_tools, DevTool.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "q0rPsy3L8JOAYVx0hglOsYuKwo/uVWvdYVQTkus5a/wkJnka3F1k7xyLJEK7r2TH",
   render_errors: [view: DevTool.ErrorView, accepts: ~w(json), layout: false],
