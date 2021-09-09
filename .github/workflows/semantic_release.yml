@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - beta
+      - jonas-martinez/fix-docker-CI
       - "*.x"
 env:
   flutter_version: "2.2.3"
