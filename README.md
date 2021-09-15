@@ -11,7 +11,7 @@ It is divided in two parts, the client and the server. The client aims to provid
 
 ### Using Docker Hub
 
-We provide a [docker image](https://hub.docker.com/r/lenra/dev-tools) on Docker Hub that you can use, it contains everything you need to unlock the full potential of the DevTools. We advise you to not use directly this image but to prefer using an image of the [Templates](https://github.com/lenra-io/templates) repository according to your programming language of choice.
+We provide a [docker image](https://hub.docker.com/r/lenra/devtools) on Docker Hub that you can use, it contains everything you need to unlock the full potential of the DevTools. We advise you to not use directly this image but to prefer using an image of the [Templates](https://github.com/lenra-io/templates) repository according to your programming language of choice.
 
 ### Using local docker
 
@@ -25,7 +25,7 @@ flutter build web
 # Go to the root of the repository 
 cd ..
 # Build docker image
-docker build -t lenra/dev-tools .
+docker build -t lenra/devtools .
 ```
 
 Choose a template from the following repository and follow the local installation and running instructions : [lenra-io/templates](https://github.com/lenra-io/templates)

@@ -39,7 +39,7 @@ jobs:
         with:
           context: .
           push: false
-          tags: lenra/dev-tools:latest
+          tags: lenra/devtools:latest
           build-args: |
             GH_PERSONNAL_TOKEN=${{ secrets.GH_PERSONNAL_TOKEN }}
             CI=true
