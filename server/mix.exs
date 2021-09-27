@@ -65,7 +65,7 @@ defmodule DevTool.MixProject do
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "nesqwik:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0-beta.2"
+        tag: "v1.0.0-beta.3"
       )
     ]
   end
@@ -79,10 +79,10 @@ defmodule DevTool.MixProject do
 
     case System.get_env("CI") do
       "true" ->
-        {name, git: "https://#{credentials}@#{host}/#{project}", tag: tag}
+        {name, git: "https://#{credentials}@#{host}/#{project}", tag: tag, submodules: true}
 
       _ ->
-        {name, git: "git@#{host}:#{project}", tag: tag}
+        {name, git: "git@#{host}:#{project}", tag: tag, submodules: true}
     end
   end
 
