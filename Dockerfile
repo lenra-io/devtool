@@ -2,9 +2,11 @@ FROM elixir:1.12-alpine AS build
 
 ARG CI
 ARG GH_PERSONNAL_TOKEN
+# ARG COMPONENTS_API_SSH
 
 # prepare build dir
 WORKDIR /app
+
 
 # install build dependencies
 RUN apk add --no-cache build-base git python3 openssh

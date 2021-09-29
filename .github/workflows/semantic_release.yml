@@ -12,6 +12,8 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -19,6 +21,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - name: Set up Elixir
+        uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
+        with:
+          elixir-version: "1.12"
+          otp-version: "24"
       - name: Install Flutter & Dependencies
         uses: subosito/flutter-action@v1.5.3
         with:
@@ -29,10 +36,17 @@ jobs:
             ${{ secrets.LENRA_CLIENT_SSH }}
             ${{ secrets.LENRA_UI_RUNNER_SSH }}
             ${{ secrets.LENRA_COMPONENTS_SSH }}
+            ${{ secrets.COMPONENTS_API_SSH }}
       - name: Build Flutter Web
         run: |
           cd client
           flutter build web
+          cd ..
+      - name: Deps + compile elixir
+        run: |
+          cd server
+          mix deps.get 
+          mix compile
           cd ..
       - name: Build Docker image
         uses: docker/build-push-action@v2
