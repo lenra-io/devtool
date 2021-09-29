@@ -19,7 +19,7 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :ex_json_schema,
+config :ex_component_schema,
        :remote_schema_resolver,
        {ApplicationRunner.JsonSchemata, :read_schema}
 
