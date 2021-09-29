@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.2"
+    version: "2.6.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -28,7 +28,7 @@ packages:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.1"
+    version: "1.2.0"
   clock:
     dependency: transitive
     description:
@@ -90,8 +90,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: beta
-      resolved-ref: "5d1dcd79d8f5cb4e23259ce035905ca76945f25e"
+      ref: "v1.0.0-beta.3"
+      resolved-ref: "4df9a509e3d1979065818320f576f678247d6305"
       url: "git@github.com:lenra-io/client.git"
     source: git
     version: "0.1.0+alpha.0"
@@ -127,8 +127,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "v1.0.0-beta.1"
-      resolved-ref: "8ae58b16a2e5a2d7fa32dad4d74682fc43d4f56a"
+      ref: "v1.0.0-beta.14"
+      resolved-ref: "6caf019ff02eb2a65f608fcdad66944b082180a4"
       url: "git@github.com:lenra-io/lenra_components.git"
     source: git
     version: "0.0.0"
@@ -136,8 +136,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "v1.0.0-beta.1"
-      resolved-ref: "77e1f6f792a5f922694378299d0576fe6afba7a9"
+      ref: "v1.0.0-beta.11"
+      resolved-ref: "89585c02960a79ddbd8b77cdf7470c03be0128a0"
       url: "git@github.com:lenra-io/lenra_ui_runner.git"
     source: git
     version: "0.0.0"
@@ -154,7 +154,7 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.3.0"
   nested:
     dependency: transitive
     description:
