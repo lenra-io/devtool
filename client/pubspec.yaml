@@ -31,7 +31,7 @@ dependencies:
   fr_lenra_client:
     git:
       url: git@github.com:lenra-io/client.git
-      ref: v1.0.0-beta.6
+      ref: v1.0.0-beta.7
 
 dev_dependencies:
   flutter_test:
