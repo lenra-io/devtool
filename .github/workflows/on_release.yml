@@ -32,6 +32,6 @@ jobs:
           params: |
             {
               "version": "${{ steps.extract_tag.outputs.tag }}",
-              "origin": "${{ github.event.repository.name }}"
+              "origin": "dev-tools"
             }
           token: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
