@@ -5,9 +5,15 @@ import 'package:fr_lenra_client/models/socket_model.dart';
 import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:provider/provider.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() async {
-  runApp(DevTools());
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => DevTools()
+    ),
+  );
 }
 
 class DevTools extends StatelessWidget {
@@ -29,6 +35,8 @@ class DevTools extends StatelessWidget {
           theme: ThemeData(
             textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
           ),
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
           home: LenraUiController(appName),
         ),
       ),
