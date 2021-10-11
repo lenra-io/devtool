@@ -47,6 +47,7 @@ jobs:
               with open('server/mix.exs', 'w') as file:
                 file.writelines(str(result))
               "
+              git add server/mix.exs
             fi
             git commit -m "deps-bot: Upgrade ${{ github.event.inputs.origin }} to ${{ github.event.inputs.version }}
             ${{ github.event.inputs.release_notes }}"
