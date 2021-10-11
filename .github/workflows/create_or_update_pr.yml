@@ -34,9 +34,19 @@ jobs:
               ${{ steps.setup-yq.outputs.yq-binary }} eval ".dependencies.fr_lenra_client.git.ref = \"${{  github.event.inputs.version }}\"" -i client/pubspec.yaml
               git add client/pubspec.yaml
             else
-              // TODO: Parse the server/mix.exs file to upgrade dependency number
-              echo 'Not yet implemented'
-              exit(1);
+              # Regex in bash is not powerful enough but thanks to python regex that work 
+              ## (I choose python because it's already installed on GitHub Action runner)
+              ## This regex parse the private_git element of the server/mix.exs with name is application_runner and replace the tag with the requested version
+              python3 -c "import re
+              regex = re.compile(r'private_git\(\s*name\s*:\s*:${{ github.event.inputs.origin }}\s*,(?:\s|(tag:)?(?(1)\s*\"(.*)\"\s*\)|.))*')
+              with open ('server/mix.exs', 'r') as file :
+                data = str().join(file.readlines())
+                match = re.search(regex, data)
+                result = data[:match.start(2)] + '${{ github.event.inputs.version }}' + data[match.end(2):]
+
+              with open('server/mix.exs', 'w') as file:
+                file.writelines(str(result))
+              "
             fi
             git commit -m "deps-bot: Upgrade ${{ github.event.inputs.origin }} to ${{ github.event.inputs.version }}
             ${{ github.event.inputs.release_notes }}"
