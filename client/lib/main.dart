@@ -4,15 +4,13 @@ import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
 import 'package:fr_lenra_client/models/socket_model.dart';
 import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:lenra_components/lenra_components.dart';
+import 'package:lenra_ui_runner/lenra_application_model.dart';
 import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 
 void main() async {
   runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context) => DevTools()
-    ),
+    DevicePreview(enabled: true, builder: (context) => DevTools()),
   );
 }
 
@@ -27,6 +25,7 @@ class DevTools extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
         ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
+        ChangeNotifierProvider<LenraApplicationModel>(create: (context) => LenraApplicationModel('http://localhost:4000', 'test', '')),
       ],
       builder: (BuildContext context, _) => LenraTheme(
         themeData: themeData,
