@@ -8,10 +8,11 @@ defmodule DevTool.ResourcesController do
     params = Map.put(%{}, :resource, resource_name)
     body = Jason.encode!(params)
 
-    {:ok, resource_stream} = Finch.build(:post, url, headers, body)
-    |> Finch.stream(AppHttp, [], fn
-      chunk, acc -> acc ++ [chunk]
-    end)
+    {:ok, resource_stream} =
+      Finch.build(:post, url, headers, body)
+      |> Finch.stream(AppHttp, [], fn
+        chunk, acc -> acc ++ [chunk]
+      end)
 
     conn =
       conn
