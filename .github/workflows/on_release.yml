@@ -27,7 +27,7 @@ jobs:
           fi
           
           RELEASE_NOTES="$(git log -n1 | head -n5 | tail -n1)"
-          RELEASE_NOTES="${RELEASE_NOTES##* }"
+          RELEASE_NOTES="${RELEASE_NOTES/    /}"
           echo "::set-output name=release-notes::${RELEASE_NOTES}"
       - name: create_pr
         uses: shiipou/workflows/trigger_workflow@main
