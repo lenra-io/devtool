@@ -49,5 +49,9 @@ jobs:
               "
               git add server/mix.exs
             fi
-            git commit -m "deps-bot: Upgrade ${{ github.event.inputs.origin }} to ${{ github.event.inputs.version }}
-            ${{ github.event.inputs.release_notes }}"
+            
+            RELEASE_NOTES="${{ github.event.inputs.release_notes }}"
+            RELEASE_TYPE="${RELEASE_NOTE/:*}"
+            
+            git commit -m "${RELEASE_TYPE}: Upgrade ${{ github.event.inputs.origin }} to ${{ github.event.inputs.version }}
+            ${RELEASE_NOTES}"
