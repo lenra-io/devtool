@@ -31,7 +31,7 @@ class DevTools extends StatelessWidget {
       builder: (BuildContext context, _) => LenraTheme(
         themeData: themeData,
         child: MaterialApp(
-          title: 'DevTool',
+          title: 'Lenra - DevTools',
           theme: ThemeData(
             textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
           ),
