@@ -10,7 +10,10 @@ import 'package:device_preview/device_preview.dart';
 
 void main() async {
   runApp(
-    DevicePreview(enabled: true, builder: (context) => DevTools()),
+    DevicePreview(
+      enabled: true,
+      builder: (context) => DevTools(),
+    ),
   );
 }
 
@@ -25,7 +28,9 @@ class DevTools extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
         ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
-        ChangeNotifierProvider<LenraApplicationModel>(create: (context) => LenraApplicationModel('http://localhost:4000', appName, '')),
+        ChangeNotifierProvider<LenraApplicationModel>(
+          create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
+        ),
       ],
       builder: (BuildContext context, _) => LenraTheme(
         themeData: themeData,
