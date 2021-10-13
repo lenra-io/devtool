@@ -72,7 +72,7 @@ jobs:
           --output type=image,push=false \
           --platform ${{ steps.buildx.outputs.platforms }} \
           --tag lenra/devtools \
-          --build-arg GH_PERSONNAL_TOKEN="${{ secrets.WORKFLOW_GITHUB_TOKEN }}"
+          --build-arg GH_PERSONNAL_TOKEN="${{ secrets.WORKFLOW_GITHUB_TOKEN }}" \
           .
       - name: Release
         id: release
