@@ -85,5 +85,6 @@ jobs:
           --output type=image,push=true \
           --platform ${{ steps.buildx.outputs.platforms }} \
           --tag lenra/devtools:${VERSION} \
+          --build-args CI=true \
+          --build-args GH_PERSONNAL_TOKEN=${{ secrets.WORKFLOW_GITHUB_TOKEN }} \
           .
-
