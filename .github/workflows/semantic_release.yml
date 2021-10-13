@@ -68,7 +68,7 @@ jobs:
         run: |
           docker buildx build \
           --output type=image,push=false \
-          --platform "amd64,arm64,riscv64,arm" \
+          --platform "amd64,arm64,arm" \
           --tag lenra/devtools \
           --build-arg GH_PERSONNAL_TOKEN="${{ secrets.WORKFLOW_GITHUB_TOKEN }}" \
           .
