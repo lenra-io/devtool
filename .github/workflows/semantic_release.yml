@@ -73,13 +73,12 @@ jobs:
         run: npx semantic-release@18
       - name: Build docker
         env: 
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}                                                                                                                                                                                │~
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run:
           echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
           
           VERSION="${{ steps.release.outputs.tag }}"
-          VERSION="${VERSION/v}"
 
           docker buildx build \
           --output type=image,push=true \
