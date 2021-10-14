@@ -48,15 +48,6 @@ jobs:
           mix deps.get 
           mix compile
           cd ..
-      - name: Build Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: false
-          tags: lenra/devtools:latest
-          build-args: |
-            GH_PERSONNAL_TOKEN=${{ secrets.GH_PERSONNAL_TOKEN }}
-            CI=true
       - name: Setup node deps
         run: npm i conventional-changelog-conventionalcommits@4 @semantic-release/exec @semantic-release/git @semantic-release-plus/docker@2 -D
       - name: Set up QEMU
@@ -70,7 +61,7 @@ jobs:
           --output type=image,push=false \
           --platform "amd64,arm64,arm" \
           --tag lenra/devtools \
-          --build-arg GH_PERSONNAL_TOKEN="${{ secrets.WORKFLOW_GITHUB_TOKEN }}" \
+          --build-arg GH_PERSONNAL_TOKEN="${{ secrets.GH_PERSONNAL_TOKEN }}" \
           .
       - name: Release
         id: release
