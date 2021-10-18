@@ -12,7 +12,7 @@ WORKDIR /app
 RUN apk add --no-cache build-base git python3 openssh
 
 # install hex + rebar
-RUN mix local.hex --force && \
+RUN mix archive.install github hexpm/hex branch latest --force && \
     mix local.rebar --force
 
 # set build ENV
@@ -43,7 +43,7 @@ COPY ./entrypoint.sh .
 RUN apk add --no-cache ncurses-libs libstdc++
 
 USER root
-RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \ 
+RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
     chmod -R ugo+rw /lenra/devtools/rel/dev_tools/tmp
 
 ENTRYPOINT [ "/lenra/devtools/entrypoint.sh" ]
