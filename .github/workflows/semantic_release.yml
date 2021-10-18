@@ -45,7 +45,7 @@ jobs:
       - name: Deps + compile elixir
         run: |
           cd server
-          mix deps.get 
+          mix deps.get
           mix compile
           cd ..
       - name: Setup node deps
@@ -55,6 +55,11 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
+      - name: Cache docker build
+        uses: actions/cache@v2
+        with:
+          path: ~/.docker-cache
+          key: ${{ runner.os }}-docker
       - name: Build docker
         run: |
           docker buildx build \
@@ -62,6 +67,8 @@ jobs:
           --platform "amd64,arm64,arm" \
           --tag lenra/devtools \
           --build-arg GH_PERSONNAL_TOKEN="${{ secrets.GH_PERSONNAL_TOKEN }}" \
+          --cache-from type=local,src=~/.docker-cache \
+          --cache-to type=local,dest=~/.docker-cache \
           .
       - name: Release
         id: release
