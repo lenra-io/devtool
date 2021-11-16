@@ -3,19 +3,50 @@ defmodule DevTool.ApplicationRunnerAdapter do
   ApplicationRunnerAdapter for DevTool
   Defining functions to communicate with the application
   """
-  alias ApplicationRunner.{Action, Storage}
+  alias ApplicationRunner.{Storage, AppContext, WidgetContext, ListenerContext}
 
-  @spec run_action(%Action{}) :: {:ok, map} | {:error, map}
-  def run_action(action) do
+  @spec get_manifest(AppContext.t()) :: {:ok, map} | {:error, map}
+  def get_manifest(_app) do
+    url = Application.fetch_env!(:dev_tools, :application_url)
+
+    headers = [{"Content-Type", "application/json"}]
+
+    Finch.build(:post, url, headers)
+    |> Finch.request(AppHttp)
+    |> response(:get_apps)
+  end
+
+  @spec get_widget(AppContext.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
+  def get_widget(_app, widget, data) do
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
 
     body =
       Map.put(
-        %{data: action.old_data, props: action.props, event: action.event},
-        :action,
-        action.action_name
+        %{data: data, props: widget.props},
+        :widget,
+        widget.widget_name
+      )
+
+    body = Jason.encode!(body)
+
+    Finch.build(:post, url, headers, body)
+    |> Finch.request(AppHttp)
+    |> response(:get_apps)
+  end
+
+  @spec run_listener(AppContext.t(), ListenerContext.t(), map()) :: {:ok, map()} | {:error, map}
+  def run_listener(_app, listener, data) do
+    url = Application.fetch_env!(:dev_tools, :application_url)
+
+    headers = [{"Content-Type", "application/json"}]
+
+    body =
+      Map.put(
+        %{data: data, props: listener.props, event: listener.event},
+        :listener,
+        listener.listener_key
       )
 
     body = Jason.encode!(body)
