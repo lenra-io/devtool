@@ -6,7 +6,7 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
-  alias ApplicationRunner.{Action, ActionBuilder}
+  alias ApplicationRunner.{AppContext, ListenerContext, ActionBuilder}
 
   @fake_user_id 1
   @fake_build_number 1
@@ -16,10 +16,11 @@ defmodule DevTool.AppChannel do
 
     socket = assign(socket, app_name: app_name, build_number: @fake_build_number)
 
-    case ActionBuilder.first_run(%Action{
+    case ActionBuilder.first_run(%AppContext{
            user_id: @fake_user_id,
            app_name: app_name,
-           build_number: @fake_build_number
+           build_number: @fake_build_number,
+           widgets_map: %{},
          }) do
       {:ok, ui} ->
         send(self(), {:send_ui, ui})
@@ -51,19 +52,19 @@ defmodule DevTool.AppChannel do
   defp handle_run(socket, action_key, event \\ %{}) do
     %{app_name: app_name, build_number: build_number} = socket.assigns
 
-    case ApplicationRunner.ActionBuilder.listener_run(%Action{
-           user_id: @fake_user_id,
-           app_name: app_name,
-           build_number: build_number,
-           action_key: action_key,
-           event: event
-         }) do
-      {:ok, patch} ->
-        push(socket, "patchUi", %{patch: patch})
-
-      {:error, reason} ->
-        Logger.error(reason)
-    end
+    ApplicationRunner.ActionBuilder.run_listener(
+      %AppContext{
+        user_id: @fake_user_id,
+        app_name: app_name,
+        build_number: build_number,
+        widgets_map: %{},
+      },
+      %ListenerContext{
+        listener_key: action_key,
+        event: event
+      },
+      %{}
+    )
 
     {:noreply, socket}
   end
