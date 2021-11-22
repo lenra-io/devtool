@@ -11,9 +11,12 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     headers = [{"Content-Type", "application/json"}]
 
-    Finch.build(:post, url, headers)
+   case Finch.build(:post, url, headers)
     |> Finch.request(AppHttp)
-    |> response(:get_apps)
+    |> response(:get_apps) do
+      {:ok, %{ "ui" => ui, "stats" => _stats }} -> {:ok, ui}
+      error -> error
+    end
   end
 
   @spec get_widget(AppContext.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
@@ -31,9 +34,12 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     body = Jason.encode!(body)
 
-    Finch.build(:post, url, headers, body)
+    case Finch.build(:post, url, headers, body)
     |> Finch.request(AppHttp)
-    |> response(:get_apps)
+    |> response(:get_apps) do
+      {:ok, %{ "ui" => ui, "stats" => _stats }} -> {:ok, ui}
+      error -> error
+    end
   end
 
   @spec run_listener(AppContext.t(), ListenerContext.t(), map()) :: {:ok, map()} | {:error, map}
@@ -65,8 +71,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
-       when status_code not in [200, 202] do
-    raise "Application error (#{status_code}) #{body}"
+    when status_code not in [200, 202] do
+      raise "Application error (#{status_code}) #{body}"
   end
 
   def get_data(action) do
