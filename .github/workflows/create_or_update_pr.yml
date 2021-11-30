@@ -30,7 +30,7 @@ jobs:
           name: 'Update dependecies'
           token: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
           script: |
-            if [[ "${{ github.event.inputs.origin }}" == "client" ||  "${{ github.event.inputs.origin }}" == "lenra_ui_runner" ]]; then
+            if [[ "${{ github.event.inputs.origin }}" == "fr_lenra_client" ||  "${{ github.event.inputs.origin }}" == "lenra_ui_runner" ]]; then
               ${{ steps.setup-yq.outputs.yq-binary }} eval ".dependencies.${{ github.event.inputs.origin }}.git.ref = \"${{  github.event.inputs.version }}\"" -i client/pubspec.yaml
               git add client/pubspec.yaml
             else
