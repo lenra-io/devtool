@@ -1,5 +1,5 @@
 %{
-  "application_runner": {:git, "git@github.com:lenra-io/application-runner.git", "e7babeceba682b4f4242c2e52e31b0f2caeefe2c", [tag: "v1.0.0-beta.9", submodules: true]},
+  "application_runner": {:git, "git@github.com:lenra-io/application-runner.git", "5cf51d3b769ebc2563b6873420e4d69a1855840b", [tag: "v1.0.0-beta.10", submodules: true]},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm", "7af5c7e09fe1d40f76c8e4f9dd2be7cebd83909f31fee7cd0e9eadc567da8353"},
   "bypass": {:hex, :bypass, "2.1.0", "909782781bf8e20ee86a9cabde36b259d44af8b9f38756173e8f5e2e1fabb9b1", [:mix], [{:plug, "~> 1.7", [hex: :plug, repo: "hexpm", optional: false]}, {:plug_cowboy, "~> 2.0", [hex: :plug_cowboy, repo: "hexpm", optional: false]}, {:ranch, "~> 1.3", [hex: :ranch, repo: "hexpm", optional: false]}], "hexpm", "d9b5df8fa5b7a6efa08384e9bbecfe4ce61c77d28a4282f79e02f1ef78d96b80"},
   "castore": {:hex, :castore, "0.1.11", "c0665858e0e1c3e8c27178e73dffea699a5b28eb72239a3b2642d208e8594914", [:mix], [], "hexpm", "91b009ba61973b532b84f7c09ce441cba7aa15cb8b006cf06c6f4bba18220081"},
@@ -11,7 +11,7 @@
   "decimal": {:hex, :decimal, "2.0.0", "a78296e617b0f5dd4c6caf57c714431347912ffb1d0842e998e9792b5642d697", [:mix], [], "hexpm", "34666e9c55dea81013e77d9d87370fe6cb6291d1ef32f46a1600230b1d44f577"},
   "dialyxir": {:hex, :dialyxir, "1.1.0", "c5aab0d6e71e5522e77beff7ba9e08f8e02bad90dfbeffae60eaf0cb47e29488", [:mix], [{:erlex, ">= 0.2.6", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm", "07ea8e49c45f15264ebe6d5b93799d4dd56a44036cf42d0ad9c960bc266c0b9a"},
   "erlex": {:hex, :erlex, "0.2.6", "c7987d15e899c7a2f34f5420d2a2ea0d659682c06ac607572df55a43753aa12e", [:mix], [], "hexpm", "2ed2e25711feb44d52b17d2780eabf998452f6efda104877a3881c2f8c0c0c75"},
-  "ex_component_schema": {:git, "https://github.com/lenra-io/ex_component_schema", "bd047e4e9994b584e544d7e4a76ffdc1b8dc86dc", [ref: "v1.0.0-beta.1"]},
+  "ex_component_schema": {:git, "https://github.com/lenra-io/ex_component_schema", "a051ba94057cdd3218c4625e24f56a834a586aa6", [ref: "v1.0.0-beta.2"]},
   "ex_json_schema": {:hex, :ex_json_schema, "0.7.4", "09eb5b0c8184e5702bc89625a9d0c05c7a0a845d382e9f6f406a0fc1c9a8cc3f", [:mix], [], "hexpm", "45c67fa840f0d719a2b5578126dc29bcdc1f92499c0f61bcb8a3bcb5935f9684"},
   "excoveralls": {:hex, :excoveralls, "0.14.1", "14140e4ef343f2af2de33d35268c77bc7983d7824cb945e6c2af54235bc2e61f", [:mix], [{:hackney, "~> 1.16", [hex: :hackney, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm", "4a588f9f8cf9dc140cc1f3d0ea4d849b2f76d5d8bee66b73c304bb3d3689c8b0"},
   "file_system": {:hex, :file_system, "0.2.10", "fb082005a9cd1711c05b5248710f8826b02d7d1784e7c3451f9c1231d4fc162d", [:mix], [], "hexpm", "41195edbfb562a593726eda3b3e8b103a309b733ad25f3d642ba49696bf715dc"},
