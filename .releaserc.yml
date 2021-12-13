@@ -15,4 +15,5 @@ plugins:
       publishLatestTag: true
       publishMajorTag: true
       publishMinorTag: true
+      skipLogin: true
 
