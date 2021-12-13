@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=${nextRelease.version} # Get version tag
+version=${1} # Get version tag
 version=${version#v} # remove the first `v` char
 
 tag="--tag ${DOCKER_IMAGE}:$version"
