@@ -69,5 +69,6 @@ jobs:
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
+          DOCKER_IMAGE: lenra/devtools
         run: npx semantic-release@18
 
