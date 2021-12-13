@@ -19,7 +19,7 @@ plugins:
   - - "@semantic-release/exec"
     - publishCmd: |
         docker buildx build \
-          --output type=docker \
+          --output type=image,push=true \
           --platform "amd64,arm64,arm" \
           --tag lenra/devtools:${nextRelease.version} \
           --build-arg CI=true \
