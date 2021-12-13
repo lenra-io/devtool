@@ -16,4 +16,15 @@ plugins:
       publishMajorTag: true
       publishMinorTag: true
       skipLogin: true
-
+  - - "@semantic-release/exec"
+    - publishCmd: |
+        docker buildx build \
+          --output type=docker \
+          --platform "amd64,arm64,arm" \
+          --tag lenra/devtools:${nextRelease.version} \
+          --build-arg CI=true \
+          --build-arg GH_PERSONNAL_TOKEN="${{ secrets.GH_PERSONNAL_TOKEN }}" \
+          --cache-from type=local,src=~/.docker-cache \
+          --cache-to type=local,dest=~/.docker-cache \
+        .
+  
