@@ -7,6 +7,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   @spec get_manifest(EnvState.t()) :: {:ok, map} | {:error, map}
   def get_manifest(_env) do
+
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
@@ -21,6 +22,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   @spec get_widget(EnvState.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
   def get_widget(_env, widget, data) do
+
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
