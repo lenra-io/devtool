@@ -3,10 +3,10 @@ defmodule DevTool.ApplicationRunnerAdapter do
   ApplicationRunnerAdapter for DevTool
   Defining functions to communicate with the application
   """
-  alias ApplicationRunner.{Storage, AppContext, WidgetContext, ListenerContext}
+  alias ApplicationRunner.{Storage, EnvState, WidgetContext, ListenerContext}
 
-  @spec get_manifest(AppContext.t()) :: {:ok, map} | {:error, map}
-  def get_manifest(_app) do
+  @spec get_manifest(EnvState.t()) :: {:ok, map} | {:error, map}
+  def get_manifest(_env) do
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
@@ -19,8 +19,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @spec get_widget(AppContext.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
-  def get_widget(_app, widget, data) do
+  @spec get_widget(EnvState.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
+  def get_widget(_env, widget, data) do
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
@@ -42,8 +42,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @spec run_listener(AppContext.t(), ListenerContext.t(), map()) :: {:ok, map()} | {:error, map}
-  def run_listener(_app, listener, data) do
+  @spec run_listener(EnvState.t(), ListenerContext.t(), map()) :: {:ok, map()} | {:error, map}
+  def run_listener(_env, listener, data) do
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]

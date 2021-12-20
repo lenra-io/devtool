@@ -27,7 +27,14 @@ config :ex_component_schema,
 config :phoenix, :json_library, Jason
 
 config :application_runner,
-  adapter: DevTool.ApplicationRunnerAdapter
+  adapter: DevTool.ApplicationRunnerAdapter,
+  app_loader: ApplicationRunner.AppLoaderImpl,
+  # 10 min
+  session_inactivity_timeout: 1000 * 60 * 10,
+  # 60 min
+  app_inactivity_timeout: 1000 * 60 * 60,
+  additional_app_modules: [],
+  additional_session_modules: []
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

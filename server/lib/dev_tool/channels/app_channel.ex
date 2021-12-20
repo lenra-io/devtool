@@ -6,22 +6,38 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
-  alias ApplicationRunner.{AppContext, ListenerContext, ActionBuilder}
+  alias ApplicationRunner.{SessionManagers, EnvManagers, EnvManager, SessionManager, SessionState, EnvState, WidgetContext, ListenerContext, ActionBuilder}
 
   @fake_user_id 1
+  @fake_app_id 1
   @fake_build_number 1
+  @fake_session_id 1
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
 
-    socket = assign(socket, app_name: app_name, build_number: @fake_build_number)
+    env = %EnvState {
+      env_id: @fake_app_id,
+      app_name: app_name,
+      build_number: @fake_build_number
+    }
 
-    case ActionBuilder.first_run(%AppContext{
-           user_id: @fake_user_id,
-           app_name: app_name,
-           build_number: @fake_build_number,
-           widgets_map: %{},
-         }) do
+    socket = assign(socket, session_id: @fake_session_id, app_id: env.env_id, app_name: env.app_name, build_number: env.build_number)
+
+    {:ok, _session_pid} = SessionManagers.start_session(@fake_session_id, env.env_id, env.build_number, env.app_name)
+    {:ok, _app_pid} = EnvManagers.fetch_env_manager_pid(env.env_id)
+
+    {:ok, %{"entrypoint" => entrypoint}} = EnvManager.get_manifest(env.env_id)
+
+    uuid = UUID.uuid1(:slug)
+
+    case SessionManager.get_widget(%SessionState{
+      session_id: @fake_session_id,
+      env_id: @fake_app_id,
+    }, %WidgetContext{
+      id: uuid,
+      name: entrypoint
+    }) do
       {:ok, ui} ->
         send(self(), {:send_ui, ui})
 
@@ -50,14 +66,12 @@ defmodule DevTool.AppChannel do
   end
 
   defp handle_run(socket, action_key, event \\ %{}) do
-    %{app_name: app_name, build_number: build_number} = socket.assigns
+    %{session_id: session_id, app_id: app_id, app_name: app_name, build_number: build_number} = socket.assigns
 
     ApplicationRunner.ActionBuilder.run_listener(
-      %AppContext{
-        user_id: @fake_user_id,
-        app_name: app_name,
-        build_number: build_number,
-        widgets_map: %{},
+      %SessionState{
+        session_id: session_id,
+        env_id: app_id,
       },
       %ListenerContext{
         listener_key: action_key,
