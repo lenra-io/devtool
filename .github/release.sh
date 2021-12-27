@@ -8,6 +8,8 @@ version="${version#v}" # remove the first `v` char
 tag="--tag ${DOCKER_IMAGE}:$version"
 if [[ "$version" != *"-beta."* ]]; then # If the version is a prerelease then don't publish on the short version code
   tag="${tag} --tag ${DOCKER_IMAGE}:${version%%.*} --tag ${DOCKER_IMAGE}:latest" # Remove all after the first dot (dot included)
+else
+  tag="${tag} --tag ${DOCKER_IMAGE}:${version%.*}" # Add a tag without beta number for generic beta image
 fi
 
 # build the docker image
