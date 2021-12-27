@@ -3,7 +3,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   ApplicationRunnerAdapter for DevTool
   Defining functions to communicate with the application
   """
-  alias ApplicationRunner.{Storage, EnvState, WidgetContext, ListenerContext}
+  alias ApplicationRunner.{Storage, EnvState, WidgetContext, SessionState, SessionManager}
 
   @spec get_manifest(EnvState.t()) :: {:ok, map} | {:error, map}
   def get_manifest(_env) do
@@ -20,8 +20,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @spec get_widget(EnvState.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
-  def get_widget(_env, widget, data) do
+  @spec get_widget(String.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
+  def get_widget(widget_name, data, props) do
 
     url = Application.fetch_env!(:dev_tools, :application_url)
 
@@ -29,9 +29,9 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     body =
       Map.put(
-        %{data: data, props: widget.props},
+        %{data: data, props: props},
         :widget,
-        widget.widget_name
+        widget_name
       )
 
     body = Jason.encode!(body)
@@ -44,24 +44,27 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @spec run_listener(EnvState.t(), ListenerContext.t(), map()) :: {:ok, map()} | {:error, map}
-  def run_listener(_env, listener, data) do
+  @spec run_listener(EnvState.t(), String.t(), map(), map(), map()) :: {:ok, map()} | {:error, map}
+  def run_listener(_env, action, data, props, event) do
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
 
     body =
       Map.put(
-        %{data: data, props: listener.props, event: listener.event},
-        :listener,
-        listener.listener_key
+        %{data: data, props: props, event: event},
+        :action,
+        action
       )
 
     body = Jason.encode!(body)
 
-    Finch.build(:post, url, headers, body)
+    case Finch.build(:post, url, headers, body)
     |> Finch.request(AppHttp)
-    |> response(:get_apps)
+    |> response(:get_apps) do
+      {:ok, %{ "data" => data, "stats" => _stats }} -> {:ok, data}
+      error -> error
+    end
   end
 
   defp response({:ok, %Finch.Response{status: 200, body: body}}, :get_apps) do
@@ -77,14 +80,21 @@ defmodule DevTool.ApplicationRunnerAdapter do
       raise "Application error (#{status_code}) #{body}"
   end
 
-  def get_data(action) do
+  def get_data(_session_state) do
     case Storage.get(:datastore, :data) do
-      nil -> {:ok, action}
-      data -> {:ok, %{action | old_data: data}}
+      nil -> {:ok, nil}
+      data -> {:ok, data}
     end
   end
 
-  def save_data(_action, data) do
-    Storage.insert(:datastore, :data, data)
+  def save_data(_session_state, data) do
+    case Storage.insert(:datastore, :data, data) do
+      {:ok, _} -> :ok
+    end
+  end
+
+  @spec on_ui_changed(SessionState.t(), map()) :: :ok
+  def on_ui_changed(session_state, ui_update) do
+    
   end
 end

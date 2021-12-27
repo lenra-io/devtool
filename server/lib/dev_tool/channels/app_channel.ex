@@ -6,7 +6,7 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
-  alias ApplicationRunner.{SessionManagers, EnvManagers, EnvManager, SessionManager, SessionState, EnvState, WidgetContext, ListenerContext, ActionBuilder}
+  alias ApplicationRunner.{SessionManagers, SessionManager}
 
   @fake_user_id 1
   @fake_app_id 1
@@ -15,35 +15,33 @@ defmodule DevTool.AppChannel do
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
-
-    env = %EnvState {
-      env_id: @fake_app_id,
-      app_name: app_name,
-      build_number: @fake_build_number
-    }
-
-    socket = assign(socket, session_id: @fake_session_id, app_id: env.env_id, app_name: env.app_name, build_number: env.build_number)
-
-    {:ok, _session_pid} = SessionManagers.start_session(@fake_session_id, env.env_id, env.build_number, env.app_name)
-    {:ok, _app_pid} = EnvManagers.fetch_env_manager_pid(env.env_id)
-
-    {:ok, %{"entrypoint" => entrypoint}} = EnvManager.get_manifest(env.env_id)
-
-    uuid = UUID.uuid1(:slug)
-
-    case SessionManager.get_widget(%SessionState{
-      session_id: @fake_session_id,
-      env_id: @fake_app_id,
-    }, %WidgetContext{
-      id: uuid,
-      name: entrypoint
-    }) do
-      {:ok, ui} ->
-        send(self(), {:send_ui, ui})
-
-      {:error, reason} ->
-        Logger.error(inspect(reason))
+    {:ok, session_pid} = case SessionManagers.start_session(@fake_session_id, @fake_app_id, @fake_build_number, app_name) do
+      {:ok, pid} ->
+        {:ok, pid}
+      {:error, {:already_started, pid}} ->
+        {:ok, pid}
+      {:error, message} ->
+        {:error, message}
     end
+
+    SessionManager.init_data(session_pid)
+
+    socket = assign(socket, session_pid: session_pid)
+
+    # {:ok, %{"entrypoint" => entrypoint}} = EnvManager.get_manifest(env.env_id)
+
+    # uuid = UUID.uuid1(:slug)
+
+    # case SessionManager.get_widget(session, %WidgetContext{
+    #   id: uuid,
+    #   name: entrypoint
+    # }) do
+    #   {:ok, ui} ->
+    #     send(self(), {:send_ui, ui})
+
+    #   {:error, reason} ->
+    #     Logger.error(inspect(reason))
+    # end
 
     {:ok, socket}
   end
@@ -66,19 +64,9 @@ defmodule DevTool.AppChannel do
   end
 
   defp handle_run(socket, action_key, event \\ %{}) do
-    %{session_id: session_id, app_id: app_id, app_name: app_name, build_number: build_number} = socket.assigns
+    %{session_pid: session_pid} = socket.assigns
 
-    ApplicationRunner.ActionBuilder.run_listener(
-      %SessionState{
-        session_id: session_id,
-        env_id: app_id,
-      },
-      %ListenerContext{
-        listener_key: action_key,
-        event: event
-      },
-      %{}
-    )
+    SessionManager.run_listener(session_pid, action_key, event)
 
     {:noreply, socket}
   end
