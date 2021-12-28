@@ -25,22 +25,10 @@ if [[ $version =~ $regex ]]; then
         tag="${tag} --tag ${DOCKER_IMAGE}:${i}-${channel}"
       done
     else
-      tag="--tag ${DOCKER_IMAGE}:latest --tag ${DOCKER_IMAGE}:stable"
+      tag="--tag ${DOCKER_IMAGE}:latest"
       for i in "${arr_version[@]}"; do
         tag="${tag} --tag ${DOCKER_IMAGE}:${i}"
       done
-    fi
-
-    echo ${BASH_REMATCH[0]} # Entire match return 'v1.0.0-beta.1'
-    echo ${BASH_REMATCH[1]} # group 1 return '1.0.12'
-    echo ${BASH_REMATCH[2]} # group 2 return 'beta'
-    echo ${BASH_REMATCH[3]} # group 3 return '10'
-
-    tag="--tag ${DOCKER_IMAGE}:$version"
-    if [[ "$version" != *"-beta."* ]]; then # If the version is a prerelease then don't publish on the short version code
-      tag="${tag} --tag ${DOCKER_IMAGE}:${version%%.*} --tag ${DOCKER_IMAGE}:latest" # Remove all after the first dot (dot included)
-    else
-      tag="${tag} --tag ${DOCKER_IMAGE}:${version%.*}" # Add a tag without beta number for generic beta image
     fi
 
     # build the docker image
