@@ -20,7 +20,7 @@ if [[ $version =~ $regex ]]; then
     
     arr_version=( "${major}" "${major}.${minor}" "${major}.${minor}.${patch}" )
     if [[ -n "${channel}" ]]; then
-      tag="--tag ${DOCKER_IMAGE}:${channel}"
+      tag="${tag} --tag ${DOCKER_IMAGE}:${channel}"
       for i in "${arr_version[@]}"; do
         tag="${tag} --tag ${DOCKER_IMAGE}:${i}-${channel}"
       done
