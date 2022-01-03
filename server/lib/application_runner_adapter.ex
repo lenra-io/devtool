@@ -3,9 +3,12 @@ defmodule DevTool.ApplicationRunnerAdapter do
   ApplicationRunnerAdapter for DevTool
   Defining functions to communicate with the application
   """
-  alias ApplicationRunner.{Storage, EnvState, WidgetContext, SessionState, SessionManager}
+  @behaviour ApplicationRunner.AdapterBehavior
 
-  @spec get_manifest(EnvState.t()) :: {:ok, map} | {:error, map}
+  alias ApplicationRunner.{Storage, EnvState, WidgetContext, SessionState}
+  alias Phoenix.Channel.{Server}
+
+  @impl true
   def get_manifest(_env) do
 
     url = Application.fetch_env!(:dev_tools, :application_url)
@@ -20,12 +23,14 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @spec get_widget(String.t(), WidgetContext.t(), map()) :: {:ok, map} | {:error, map}
+  @impl true
   def get_widget(widget_name, data, props) do
 
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
+
+    IO.inspect({widget_name, data})
 
     body =
       Map.put(
@@ -44,7 +49,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @spec run_listener(EnvState.t(), String.t(), map(), map(), map()) :: {:ok, map()} | {:error, map}
+  @impl true
   def run_listener(_env, action, data, props, event) do
     url = Application.fetch_env!(:dev_tools, :application_url)
 
@@ -80,6 +85,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
       raise "Application error (#{status_code}) #{body}"
   end
 
+  @impl true
   def get_data(_session_state) do
     case Storage.get(:datastore, :data) do
       nil -> {:ok, nil}
@@ -87,14 +93,15 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
+  @impl true
   def save_data(_session_state, data) do
     case Storage.insert(:datastore, :data, data) do
       {:ok, _} -> :ok
     end
   end
 
-  @spec on_ui_changed(SessionState.t(), map()) :: :ok
-  def on_ui_changed(session_state, ui_update) do
-    
+  @impl true
+  def on_ui_changed(session_state, {atom, data}) do
+    send(session_state.assigns.socket_pid, {:send, atom, data})
   end
 end

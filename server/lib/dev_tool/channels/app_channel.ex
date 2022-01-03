@@ -15,7 +15,7 @@ defmodule DevTool.AppChannel do
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
-    {:ok, session_pid} = case SessionManagers.start_session(@fake_session_id, @fake_app_id, @fake_build_number, app_name) do
+    {:ok, session_pid} = case SessionManagers.start_session(@fake_session_id, @fake_app_id, @fake_build_number, app_name, %{socket_pid: self()}) do
       {:ok, pid} ->
         {:ok, pid}
       {:error, {:already_started, pid}} ->
@@ -50,8 +50,13 @@ defmodule DevTool.AppChannel do
     {:error, %{reason: "No App Name"}}
   end
 
-  def handle_info({:send_ui, ui}, socket) do
+  def handle_info({:send, :ui, ui}, socket) do
     push(socket, "ui", ui)
+    {:noreply, socket}
+  end
+
+  def handle_info({:send, :patches, patches}, socket) do
+    push(socket, "patchUi", %{"patch" => patches})
     {:noreply, socket}
   end
 
