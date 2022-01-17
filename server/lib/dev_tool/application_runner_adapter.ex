@@ -5,7 +5,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   """
   @behaviour ApplicationRunner.AdapterBehavior
 
-  alias ApplicationRunner.{SessionState}
+  alias ApplicationRunner.SessionState
 
   @application_url Application.compile_env!(:dev_tools, :application_url)
 
@@ -13,12 +13,9 @@ defmodule DevTool.ApplicationRunnerAdapter do
   def get_manifest(_env) do
     headers = [{"Content-Type", "application/json"}]
 
-    case Finch.build(:post, @application_url, headers)
-         |> Finch.request(AppHttp)
-         |> response(:decode) do
-      {:ok, manifest} -> {:ok, manifest}
-      error -> error
-    end
+    Finch.build(:post, @application_url, headers)
+    |> Finch.request(AppHttp)
+    |> response(:decode)
   end
 
   @impl true
@@ -80,7 +77,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
     :ok
   end
 
-  defp create_ets_table_if_needed() do
+  defp create_ets_table_if_needed do
     if :ets.whereis(:data) == :undefined do
       :ets.new(:data, [:named_table, :public])
     end

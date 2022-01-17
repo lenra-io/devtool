@@ -4,8 +4,8 @@ defmodule DevTool.AppChannelTest do
   """
   use DevTool.ChannelCase
 
+  alias ApplicationRunner.ListenersCache
   alias DevTool.AppStub
-  alias ApplicationRunner.{ListenersCache}
 
   setup do
     socket = socket(DevTool.UserSocket, "socket_id", %{})

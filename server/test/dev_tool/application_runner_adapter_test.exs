@@ -4,7 +4,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   """
   use ExUnit.Case
 
-  alias ApplicationRunner.{SessionState}
+  alias ApplicationRunner.SessionState
   alias DevTool.ApplicationRunnerAdapter
 
   setup do

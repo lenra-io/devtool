@@ -23,8 +23,7 @@ defmodule DevTool.AppStub do
   end
 
   defp handle_request(conn, app_name) do
-    {:ok, body, _} = Plug.Conn.read_body(conn)
-    # %{"action" => action_code} = Jason.decode!(body)
+    {:ok, _, _} = Plug.Conn.read_body(conn)
 
     result = pop(app_name)
 

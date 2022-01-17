@@ -6,7 +6,10 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
-  alias ApplicationRunner.{SessionManagers, SessionManager}
+  alias ApplicationRunner.{
+    SessionManager,
+    SessionManagers
+  }
 
   @fake_env_id 1
   @fake_session_id 1
