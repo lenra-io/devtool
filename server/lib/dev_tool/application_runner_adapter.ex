@@ -5,27 +5,24 @@ defmodule DevTool.ApplicationRunnerAdapter do
   """
   @behaviour ApplicationRunner.AdapterBehavior
 
-  alias ApplicationRunner.{Storage, EnvState, WidgetContext, SessionState}
-  alias Phoenix.Channel.{Server}
+  alias ApplicationRunner.{SessionState}
 
   @impl true
   def get_manifest(_env) do
-
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
 
-   case Finch.build(:post, url, headers)
-    |> Finch.request(AppHttp)
-    |> response(:get_apps) do
-      {:ok, %{ "ui" => ui, "stats" => _stats }} -> {:ok, ui}
+    case Finch.build(:post, url, headers)
+         |> Finch.request(AppHttp)
+         |> response(:get_apps) do
+      {:ok, %{"ui" => ui, "stats" => _stats}} -> {:ok, ui}
       error -> error
     end
   end
 
   @impl true
   def get_widget(widget_name, data, props) do
-
     url = Application.fetch_env!(:dev_tools, :application_url)
 
     headers = [{"Content-Type", "application/json"}]
@@ -42,9 +39,9 @@ defmodule DevTool.ApplicationRunnerAdapter do
     body = Jason.encode!(body)
 
     case Finch.build(:post, url, headers, body)
-    |> Finch.request(AppHttp)
-    |> response(:get_apps) do
-      {:ok, %{ "ui" => ui, "stats" => _stats }} -> {:ok, ui}
+         |> Finch.request(AppHttp)
+         |> response(:get_apps) do
+      {:ok, %{"ui" => ui, "stats" => _stats}} -> {:ok, ui}
       error -> error
     end
   end
@@ -65,9 +62,9 @@ defmodule DevTool.ApplicationRunnerAdapter do
     body = Jason.encode!(body)
 
     case Finch.build(:post, url, headers, body)
-    |> Finch.request(AppHttp)
-    |> response(:get_apps) do
-      {:ok, %{ "data" => data, "stats" => _stats }} -> {:ok, data}
+         |> Finch.request(AppHttp)
+         |> response(:get_apps) do
+      {:ok, %{"data" => data, "stats" => _stats}} -> {:ok, data}
       error -> error
     end
   end
@@ -81,22 +78,30 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
-    when status_code not in [200, 202] do
-      raise "Application error (#{status_code}) #{body}"
+       when status_code not in [200, 202] do
+    raise "Application error (#{status_code}) #{body}"
   end
 
   @impl true
-  def get_data(_session_state) do
-    case Storage.get(:datastore, :data) do
-      nil -> {:ok, nil}
-      data -> {:ok, data}
+  def get_data(%SessionState{session_id: session_id} = _session_state) do
+    create_ets_table_if_needed()
+
+    case :ets.lookup(:data, session_id) do
+      [{_, data}] -> {:ok, data}
+      [] -> {:ok, %{}}
     end
   end
 
   @impl true
-  def save_data(_session_state, data) do
-    case Storage.insert(:datastore, :data, data) do
-      {:ok, _} -> :ok
+  def save_data(%SessionState{session_id: session_id} = _session_state, data) do
+    create_ets_table_if_needed()
+    :ets.insert(:data, {session_id, data})
+    :ok
+  end
+
+  defp create_ets_table_if_needed() do
+    if :ets.whereis(:data) == :undefined do
+      :ets.new(:data, [:named_table, :public])
     end
   end
 

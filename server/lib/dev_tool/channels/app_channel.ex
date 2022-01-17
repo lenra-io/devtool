@@ -8,42 +8,37 @@ defmodule DevTool.AppChannel do
 
   alias ApplicationRunner.{SessionManagers, SessionManager}
 
-  @fake_user_id 1
-  @fake_app_id 1
-  @fake_build_number 1
+  @fake_env_id 1
   @fake_session_id 1
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
-    {:ok, session_pid} = case SessionManagers.start_session(@fake_session_id, @fake_app_id, @fake_build_number, app_name, %{socket_pid: self()}) do
+
+    case SessionManagers.start_session(
+           @fake_session_id,
+           @fake_env_id,
+           %{socket_pid: self()},
+           %{}
+         ) do
       {:ok, pid} ->
         {:ok, pid}
+
       {:error, {:already_started, pid}} ->
         {:ok, pid}
+
       {:error, message} ->
         {:error, message}
     end
+    |> case do
+      {:ok, pid} ->
+        socket = assign(socket, session_pid: pid)
+        SessionManager.init_data(pid)
 
-    SessionManager.init_data(session_pid)
+        {:ok, socket}
 
-    socket = assign(socket, session_pid: session_pid)
-
-    # {:ok, %{"entrypoint" => entrypoint}} = EnvManager.get_manifest(env.env_id)
-
-    # uuid = UUID.uuid1(:slug)
-
-    # case SessionManager.get_widget(session, %WidgetContext{
-    #   id: uuid,
-    #   name: entrypoint
-    # }) do
-    #   {:ok, ui} ->
-    #     send(self(), {:send_ui, ui})
-
-    #   {:error, reason} ->
-    #     Logger.error(inspect(reason))
-    # end
-
-    {:ok, socket}
+      {:error, message} ->
+        {:error, %{reason: message}}
+    end
   end
 
   def join("app", _any, _socket) do
@@ -60,18 +55,18 @@ defmodule DevTool.AppChannel do
     {:noreply, socket}
   end
 
-  def handle_in("run", %{"code" => action_key, "event" => event}, socket) do
-    handle_run(socket, action_key, event)
+  def handle_in("run", %{"code" => action_code, "event" => event}, socket) do
+    handle_run(socket, action_code, event)
   end
 
-  def handle_in("run", %{"code" => action_key}, socket) do
-    handle_run(socket, action_key)
+  def handle_in("run", %{"code" => action_code}, socket) do
+    handle_run(socket, action_code)
   end
 
-  defp handle_run(socket, action_key, event \\ %{}) do
+  defp handle_run(socket, action_code, event \\ %{}) do
     %{session_pid: session_pid} = socket.assigns
 
-    SessionManager.run_listener(session_pid, action_key, event)
+    SessionManager.run_listener(session_pid, action_code, event)
 
     {:noreply, socket}
   end
