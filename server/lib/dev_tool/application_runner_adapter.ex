@@ -7,69 +7,49 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   alias ApplicationRunner.{SessionState}
 
+  @application_url Application.compile_env!(:dev_tools, :application_url)
+
   @impl true
   def get_manifest(_env) do
-    url = Application.fetch_env!(:dev_tools, :application_url)
-
     headers = [{"Content-Type", "application/json"}]
 
-    case Finch.build(:post, url, headers)
+    case Finch.build(:post, @application_url, headers)
          |> Finch.request(AppHttp)
-         |> response(:get_apps) do
-      {:ok, %{"ui" => ui, "stats" => _stats}} -> {:ok, ui}
+         |> response(:decode) do
+      {:ok, manifest} -> {:ok, manifest}
       error -> error
     end
   end
 
   @impl true
   def get_widget(widget_name, data, props) do
-    url = Application.fetch_env!(:dev_tools, :application_url)
-
     headers = [{"Content-Type", "application/json"}]
 
-    IO.inspect({widget_name, data})
+    body = Jason.encode!(%{data: data, props: props, widget: widget_name})
 
-    body =
-      Map.put(
-        %{data: data, props: props},
-        :widget,
-        widget_name
-      )
-
-    body = Jason.encode!(body)
-
-    case Finch.build(:post, url, headers, body)
+    case Finch.build(:post, @application_url, headers, body)
          |> Finch.request(AppHttp)
-         |> response(:get_apps) do
-      {:ok, %{"ui" => ui, "stats" => _stats}} -> {:ok, ui}
+         |> response(:decode) do
+      {:ok, %{"widget" => widget, "stats" => _stats}} -> {:ok, widget}
       error -> error
     end
   end
 
   @impl true
   def run_listener(_env, action, data, props, event) do
-    url = Application.fetch_env!(:dev_tools, :application_url)
-
     headers = [{"Content-Type", "application/json"}]
 
-    body =
-      Map.put(
-        %{data: data, props: props, event: event},
-        :action,
-        action
-      )
+    body = Jason.encode!(%{data: data, props: props, event: event, action: action})
 
-    body = Jason.encode!(body)
-
-    case Finch.build(:post, url, headers, body)
+    case Finch.build(:post, @application_url, headers, body)
          |> Finch.request(AppHttp)
-         |> response(:get_apps) do
+         |> response(:decode) do
       {:ok, %{"data" => data, "stats" => _stats}} -> {:ok, data}
       error -> error
     end
   end
 
-  defp response({:ok, %Finch.Response{status: 200, body: body}}, :get_apps) do
+  defp response({:ok, %Finch.Response{status: 200, body: body}}, :decode) do
     {:ok, Jason.decode!(body)}
   end
 
@@ -95,6 +75,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   @impl true
   def save_data(%SessionState{session_id: session_id} = _session_state, data) do
     create_ets_table_if_needed()
+
     :ets.insert(:data, {session_id, data})
     :ok
   end
@@ -106,7 +87,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   @impl true
-  def on_ui_changed(session_state, {atom, data}) do
+  def on_ui_changed(%SessionState{} = session_state, {atom, data}) do
     send(session_state.assigns.socket_pid, {:send, atom, data})
   end
 end

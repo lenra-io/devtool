@@ -11,23 +11,22 @@ defmodule DevTool.AppStub do
   @fake_app_url "/"
 
   def stub_app(bypass, app_name) do
-    Bypass.stub(bypass, "POST", @fake_app_url, &handle_action(&1, app_name))
+    Bypass.stub(bypass, "POST", @fake_app_url, &handle_request(&1, app_name))
 
     {bypass, app_name}
   end
 
-  @spec stub_action_once(tuple(), String.t(), map() | {:error, number(), String.t()}) :: tuple()
-  def stub_action_once({_bypass, app_name} = app, action_code, result) do
-    push(app_name, {action_code, result})
+  @spec stub_request_once(tuple(), map() | {:error, number(), String.t()}) :: tuple()
+  def stub_request_once({_bypass, app_name} = app, result) do
+    push(app_name, result)
     app
   end
 
-  defp handle_action(conn, app_name) do
+  defp handle_request(conn, app_name) do
     {:ok, body, _} = Plug.Conn.read_body(conn)
-    %{"action" => action_code} = Jason.decode!(body)
+    # %{"action" => action_code} = Jason.decode!(body)
 
-    {stored_action_code, result} = pop(app_name)
-    assert stored_action_code == action_code
+    result = pop(app_name)
 
     case result do
       {:error, code, message} ->
@@ -53,7 +52,7 @@ defmodule DevTool.AppStub do
     end
   end
 
-  def push(app_name, call_result) do
-    Agent.update(__MODULE__, &Map.put(&1, app_name, Map.get(&1, app_name, []) ++ [call_result]))
+  def push(app_name, result) do
+    Agent.update(__MODULE__, &Map.put(&1, app_name, Map.get(&1, app_name, []) ++ [result]))
   end
 end
