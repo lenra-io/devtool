@@ -7,13 +7,13 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   alias ApplicationRunner.SessionState
 
-  @application_url Application.compile_env!(:dev_tools, :application_url)
+  def application_url, do: Application.fetch_env!(:dev_tools, :application_url)
 
   @impl true
   def get_manifest(_env) do
     headers = [{"Content-Type", "application/json"}]
 
-    Finch.build(:post, @application_url, headers)
+    Finch.build(:post, application_url(), headers)
     |> Finch.request(AppHttp)
     |> response(:decode)
   end
@@ -24,7 +24,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     body = Jason.encode!(%{data: data, props: props, widget: widget_name})
 
-    case Finch.build(:post, @application_url, headers, body)
+    case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)
          |> response(:decode) do
       {:ok, %{"widget" => widget, "stats" => _stats}} -> {:ok, widget}
@@ -38,7 +38,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     body = Jason.encode!(%{data: data, props: props, event: event, action: action})
 
-    case Finch.build(:post, @application_url, headers, body)
+    case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)
          |> response(:decode) do
       {:ok, %{"data" => data, "stats" => _stats}} -> {:ok, data}
