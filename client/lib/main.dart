@@ -27,14 +27,11 @@ class DevTools extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<SocketModel>(
-            create: (context) => DevToolsSocketModel()),
-        ChangeNotifierProvider<UserApplicationModel>(
-            create: (context) => UserApplicationModel()),
+        ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
+        ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
         ChangeNotifierProvider<WidgetModel>(create: (context) => WidgetModel()),
         ChangeNotifierProvider<LenraApplicationModel>(
-          create: (context) =>
-              LenraApplicationModel('http://localhost:4000', appName, ''),
+          create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
         ),
       ],
       builder: (BuildContext context, _) => LenraTheme(
@@ -42,8 +39,7 @@ class DevTools extends StatelessWidget {
         child: MaterialApp(
           title: 'Lenra - DevTools',
           theme: ThemeData(
-            textTheme:
-                TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
+            textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
           ),
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
