@@ -14,7 +14,7 @@ config :dev_tools, DevTool.Endpoint,
   watchers: []
 
 config :dev_tools,
-  application_url: System.get_env("APPLICATION_URL", "http://localhost:3000/")
+  application_url: System.get_env("APPLICATION_URL", "http://application:3000/")
 
 # ## SSL Support
 #
