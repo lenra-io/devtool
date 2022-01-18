@@ -13,10 +13,10 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   end
 
   test "get_manifest", %{bypass: bypass} do
-    manifest = %{"endpont" => "test"}
+    manifest = %{"entrypoint" => "test"}
 
     Bypass.expect_once(bypass, "POST", "/", fn conn ->
-      Plug.Conn.resp(conn, 200, Jason.encode!(manifest))
+      Plug.Conn.resp(conn, 200, Jason.encode!(%{"manifest" => manifest}))
     end)
 
     assert {:ok, ^manifest} = ApplicationRunnerAdapter.get_manifest(%{})
@@ -43,10 +43,10 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   end
 
   test "get_widget", %{bypass: bypass} do
-    widget = %{"type" => "text"}
+    widget = %{"type" => "text", "value" => "foo"}
 
     Bypass.expect_once(bypass, "POST", "/", fn conn ->
-      Plug.Conn.resp(conn, 200, Jason.encode!(widget))
+      Plug.Conn.resp(conn, 200, Jason.encode!(%{"widget" => widget}))
     end)
 
     assert {:ok, ^widget} = ApplicationRunnerAdapter.get_widget("text", %{}, %{})
@@ -76,7 +76,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
     data = %{"foo" => "bar"}
 
     Bypass.expect_once(bypass, "POST", "/", fn conn ->
-      Plug.Conn.resp(conn, 200, Jason.encode!(data))
+      Plug.Conn.resp(conn, 200, Jason.encode!(%{"data" => data}))
     end)
 
     assert {:ok, ^data} = ApplicationRunnerAdapter.run_listener(%{}, "action", %{}, %{}, %{})

@@ -13,9 +13,15 @@ defmodule DevTool.ApplicationRunnerAdapter do
   def get_manifest(_env) do
     headers = [{"Content-Type", "application/json"}]
 
-    Finch.build(:post, application_url(), headers)
-    |> Finch.request(AppHttp)
-    |> response(:decode)
+    case Finch.build(:post, application_url(), headers)
+         |> Finch.request(AppHttp)
+         |> response(:decode) do
+      {:ok, %{"manifest" => manifest}} ->
+        {:ok, manifest}
+
+      other ->
+        raise "The format of the manifest should be {:ok, %{\"manifest\" => manifest}} but was #{inspect(other)}"
+    end
   end
 
   @impl true
@@ -27,8 +33,11 @@ defmodule DevTool.ApplicationRunnerAdapter do
     case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)
          |> response(:decode) do
-      {:ok, %{"widget" => widget, "stats" => _stats}} -> {:ok, widget}
-      error -> error
+      {:ok, %{"widget" => widget}} ->
+        {:ok, widget}
+
+      error ->
+        error
     end
   end
 
@@ -41,7 +50,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
     case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)
          |> response(:decode) do
-      {:ok, %{"data" => data, "stats" => _stats}} -> {:ok, data}
+      {:ok, %{"data" => data}} -> {:ok, data}
       error -> error
     end
   end
@@ -64,8 +73,11 @@ defmodule DevTool.ApplicationRunnerAdapter do
     create_ets_table_if_needed()
 
     case :ets.lookup(:data, session_id) do
-      [{_, data}] -> {:ok, data}
-      [] -> {:ok, %{}}
+      [{_, data}] ->
+        {:ok, data}
+
+      [] ->
+        {:ok, %{}}
     end
   end
 

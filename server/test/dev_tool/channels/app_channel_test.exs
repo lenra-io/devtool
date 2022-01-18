@@ -24,10 +24,10 @@ defmodule DevTool.AppChannelTest do
   @listener_name "HiBob"
   @listener_code ListenersCache.generate_listeners_key(@listener_name, %{})
 
-  @manifest %{"entrypoint" => "test"}
+  @manifest %{"manifest" => %{"entrypoint" => "test"}}
 
-  @data %{"user" => %{"name" => "World"}}
-  @data2 %{"user" => %{"name" => "Bob"}}
+  @data %{"data" => %{"user" => %{"name" => "World"}}}
+  @data2 %{"data" => %{"user" => %{"name" => "Bob"}}}
 
   @textfield %{
     "type" => "textfield",
@@ -47,8 +47,8 @@ defmodule DevTool.AppChannelTest do
     "onChanged" => %{"code" => @listener_code}
   }
 
-  @ui %{"type" => "flex", "children" => [@textfield]}
-  @ui2 %{"type" => "flex", "children" => [@textfield2]}
+  @widget %{"widget" => %{"type" => "flex", "children" => [@textfield]}}
+  @widget2 %{"widget" => %{"type" => "flex", "children" => [@textfield2]}}
 
   @expected_ui %{"root" => %{"type" => "flex", "children" => [@transformed_textfield]}}
   @expected_patch_ui %{
@@ -59,9 +59,9 @@ defmodule DevTool.AppChannelTest do
     AppStub.stub_app(bypass, @app_name)
     |> AppStub.stub_request_once(@manifest)
     |> AppStub.stub_request_once(@data)
-    |> AppStub.stub_request_once(@ui)
+    |> AppStub.stub_request_once(@widget)
     |> AppStub.stub_request_once(@data2)
-    |> AppStub.stub_request_once(@ui2)
+    |> AppStub.stub_request_once(@widget2)
 
     {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
 
