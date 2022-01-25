@@ -49,7 +49,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
       Plug.Conn.resp(conn, 200, Jason.encode!(%{"widget" => widget}))
     end)
 
-    assert {:ok, ^widget} = ApplicationRunnerAdapter.get_widget("text", %{}, %{})
+    assert {:ok, ^widget} = ApplicationRunnerAdapter.get_widget(%{}, "text", %{}, %{})
   end
 
   test "get_widget app not started", %{bypass: bypass} do
@@ -57,7 +57,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
 
     assert_raise RuntimeError,
                  "Application could not be reached. Make sure that the application is started.",
-                 fn -> ApplicationRunnerAdapter.get_widget("test", %{}, %{}) end
+                 fn -> ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{}) end
 
     Bypass.up(bypass)
   end
@@ -68,7 +68,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
     end)
 
     assert_raise RuntimeError, "Application error (500) ", fn ->
-      ApplicationRunnerAdapter.get_widget("test", %{}, %{})
+      ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{})
     end
   end
 

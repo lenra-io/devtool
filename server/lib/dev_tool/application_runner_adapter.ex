@@ -25,7 +25,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   @impl true
-  def get_widget(widget_name, data, props) do
+  def get_widget(_env_state, widget_name, data, props) do
     headers = [{"Content-Type", "application/json"}]
 
     body = Jason.encode!(%{data: data, props: props, widget: widget_name})
