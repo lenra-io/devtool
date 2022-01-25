@@ -1,9 +1,12 @@
 import 'package:client/models/dev_tools_socket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
+import 'package:fr_lenra_client/models/channel_model.dart';
+import 'package:fr_lenra_client/models/client_widget_model.dart';
 import 'package:fr_lenra_client/models/socket_model.dart';
 import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:lenra_components/lenra_components.dart';
+import 'package:lenra_ui_runner/components/events/event.dart';
 import 'package:lenra_ui_runner/lenra_application_model.dart';
 import 'package:lenra_ui_runner/widget_model.dart';
 import 'package:provider/provider.dart';
@@ -26,28 +29,48 @@ class DevTools extends StatelessWidget {
     var themeData = LenraThemeData();
 
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
-        ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
-        ChangeNotifierProvider<WidgetModel>(create: (context) => WidgetModel()),
-        ChangeNotifierProvider<LenraApplicationModel>(
-          create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
-        ),
-      ],
-      builder: (BuildContext context, _) => LenraTheme(
-        themeData: themeData,
-        child: MaterialApp(
-          title: 'Lenra - DevTools',
-          theme: ThemeData(
-            textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
+        providers: [
+          ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
+          ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
+          ChangeNotifierProvider<LenraApplicationModel>(
+            create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
           ),
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          home: Scaffold(
-            body: LenraUiController(appName),
+          ChangeNotifierProxyProvider<SocketModel, ChannelModel>(
+            create: (context) => ChannelModel(socketModel: context.read<SocketModel>()),
+            update: (_, socketModel, channelModel) {
+              if (channelModel == null) {
+                return ChannelModel(socketModel: socketModel);
+              }
+              return channelModel.update(socketModel);
+            },
           ),
-        ),
-      ),
-    );
+          ChangeNotifierProxyProvider<ChannelModel, WidgetModel>(
+            // TODO: Create DevtoolsWidgetModel if needed
+            create: (context) => ClientWidgetModel(channelModel: context.read<ChannelModel>()),
+            update: (_, channelModel, clientWidgetModel) => clientWidgetModel!,
+          ),
+        ],
+        builder: (BuildContext context, _) {
+          context.read<UserApplicationModel>().currentApp = appName;
+          context.read<ChannelModel>().createChannel(appName);
+          (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
+          return NotificationListener<Event>(
+            onNotification: (Event event) => context.read<ChannelModel>().handleNotifications(event),
+            child: LenraTheme(
+              themeData: themeData,
+              child: MaterialApp(
+                title: 'Lenra - DevTools',
+                theme: ThemeData(
+                  textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
+                ),
+                locale: DevicePreview.locale(context),
+                builder: DevicePreview.appBuilder,
+                home: Scaffold(
+                  body: LenraUiController(),
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
