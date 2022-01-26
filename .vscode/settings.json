@@ -1,3 +1,4 @@
 {
-    "elixirLS.projectDir": "server"
+    "elixirLS.projectDir": "server",
+    "dart.lineLength": 120
 }
