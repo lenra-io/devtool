@@ -13,7 +13,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   end
 
   test "get_manifest", %{bypass: bypass} do
-    manifest = %{"entrypoint" => "test"}
+    manifest = %{"rootWidget" => "test"}
 
     Bypass.expect_once(bypass, "POST", "/", fn conn ->
       Plug.Conn.resp(conn, 200, Jason.encode!(%{"manifest" => manifest}))
