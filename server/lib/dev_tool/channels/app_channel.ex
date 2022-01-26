@@ -6,64 +6,70 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
-  alias ApplicationRunner.{Action, ActionBuilder}
+  alias ApplicationRunner.{
+    SessionManager,
+    SessionManagers
+  }
 
-  @fake_user_id 1
-  @fake_build_number 1
+  @fake_env_id 1
+  @fake_session_id 1
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
 
-    socket = assign(socket, app_name: app_name, build_number: @fake_build_number)
+    case SessionManagers.start_session(
+           @fake_session_id,
+           @fake_env_id,
+           %{socket_pid: self()},
+           %{}
+         ) do
+      {:ok, pid} ->
+        {:ok, pid}
 
-    case ActionBuilder.first_run(%Action{
-           user_id: @fake_user_id,
-           app_name: app_name,
-           build_number: @fake_build_number
-         }) do
-      {:ok, ui} ->
-        send(self(), {:send_ui, ui})
+      {:error, {:already_started, pid}} ->
+        {:ok, pid}
 
-      {:error, reason} ->
-        Logger.error(inspect(reason))
+      {:error, message} ->
+        {:error, message}
     end
+    |> case do
+      {:ok, pid} ->
+        socket = assign(socket, session_pid: pid)
+        SessionManager.init_data(pid)
 
-    {:ok, socket}
+        {:ok, socket}
+
+      {:error, message} ->
+        {:error, %{reason: message}}
+    end
   end
 
   def join("app", _any, _socket) do
     {:error, %{reason: "No App Name"}}
   end
 
-  def handle_info({:send_ui, ui}, socket) do
+  def handle_info({:send, :ui, ui}, socket) do
     push(socket, "ui", ui)
     {:noreply, socket}
   end
 
-  def handle_in("run", %{"code" => action_key, "event" => event}, socket) do
-    handle_run(socket, action_key, event)
+  def handle_info({:send, :patches, patches}, socket) do
+    push(socket, "patchUi", %{"patch" => patches})
+    {:noreply, socket}
   end
 
-  def handle_in("run", %{"code" => action_key}, socket) do
-    handle_run(socket, action_key)
+  def handle_in("run", %{"code" => action_code, "event" => event}, socket) do
+    handle_run(socket, action_code, event)
   end
 
-  defp handle_run(socket, action_key, event \\ %{}) do
-    %{app_name: app_name, build_number: build_number} = socket.assigns
+  def handle_in("run", %{"code" => action_code}, socket) do
+    handle_run(socket, action_code)
+  end
 
-    case ApplicationRunner.ActionBuilder.listener_run(%Action{
-           user_id: @fake_user_id,
-           app_name: app_name,
-           build_number: build_number,
-           action_key: action_key,
-           event: event
-         }) do
-      {:ok, patch} ->
-        push(socket, "patchUi", %{patch: patch})
+  defp handle_run(socket, action_code, event \\ %{}) do
+    %{session_pid: session_pid} = socket.assigns
 
-      {:error, reason} ->
-        Logger.error(reason)
-    end
+    SessionManager.run_listener(session_pid, action_code, event)
 
     {:noreply, socket}
   end
