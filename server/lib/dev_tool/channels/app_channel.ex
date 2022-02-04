@@ -12,13 +12,12 @@ defmodule DevTool.AppChannel do
   }
 
   @fake_env_id 1
-  @fake_session_id 1
 
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
 
     case SessionManagers.start_session(
-           @fake_session_id,
+           System.unique_integer(),
            @fake_env_id,
            %{socket_pid: self()},
            %{}
