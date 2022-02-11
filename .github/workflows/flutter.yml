@@ -1,7 +1,7 @@
 name: Flutter CI
 on: push
 env:
-  flutter_version: "2.5.3"
+  flutter_version: "2.10.0"
 jobs:
   Setup-Flutter:
     runs-on: ubuntu-latest
