@@ -57,6 +57,14 @@ defmodule DevTool.AppChannel do
     {:noreply, socket}
   end
 
+  def handle_info({:send, :error, reason}, socket) do
+    Logger.debug("send error  #{inspect(%{error: reason})}")
+
+    push(socket, "error", %{"errors" => reason})
+
+    {:noreply, socket}
+  end
+
   def handle_in("run", %{"code" => action_code, "event" => event}, socket) do
     handle_run(socket, action_code, event)
   end

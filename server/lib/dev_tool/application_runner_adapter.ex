@@ -6,6 +6,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   @behaviour ApplicationRunner.AdapterBehavior
 
   alias ApplicationRunner.SessionState
+  require Logger
 
   def application_url, do: Application.fetch_env!(:dev_tools, :application_url)
 
@@ -59,8 +60,9 @@ defmodule DevTool.ApplicationRunnerAdapter do
     {:ok, Jason.decode!(body)}
   end
 
-  defp response({:error, %Mint.TransportError{reason: _}}, _) do
-    raise "Application could not be reached. Make sure that the application is started."
+  defp response({:error, %Mint.TransportError{reason: _reason}}, _action) do
+    Logger.error("Application could not be reached. Make sure that the application is started.")
+    {:error, :openfass_not_recheable}
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
