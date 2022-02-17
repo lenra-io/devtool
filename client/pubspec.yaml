@@ -34,15 +34,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   fr_lenra_client:
-    # git:
-    #   url: git@github.com:lenra-io/client.git
-    #   ref: v1.0.0-beta.23
-    path: /home/emric/Documents/Lenra/client
+    git:
+      url: git@github.com:lenra-io/client.git
+      ref: v1.0.0-beta.23
   lenra_ui_runner:
-    # git:
-    #   url: git@github.com:lenra-io/lenra_ui_runner.git
-    #   ref: v1.0.0-beta.56
-    path: /home/emric/Documents/Lenra/lenra_ui_runner
+    git:
+      url: git@github.com:lenra-io/lenra_ui_runner.git
+      ref: v1.0.0-beta.56
   device_preview: ^1.0.0
 dev_dependencies:
   flutter_test:
