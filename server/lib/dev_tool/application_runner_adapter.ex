@@ -21,7 +21,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
         {:ok, manifest}
 
       other ->
-        raise "The format of the manifest should be {:ok, %{\"manifest\" => manifest}} but was #{inspect(other)}"
+        {:error,
+         "Application error (The format of the manifest should be {:ok, %{\"manifest\" => manifest}} but was #{inspect(other)})"}
     end
   end
 
@@ -38,7 +39,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
         {:ok, widget}
 
       error ->
-        error
+        {:error, "Application error (#{inspect(error)})"}
     end
   end
 
@@ -68,7 +69,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
        when status_code not in [200, 202] do
     Logger.error("Application error (#{status_code}) #{body}")
-    {:error, :"Application error (#{status_code}) #{body}"}
+    {:error, "Application error (#{status_code}) #{body}"}
   end
 
   @impl true
