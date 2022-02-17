@@ -60,14 +60,15 @@ defmodule DevTool.ApplicationRunnerAdapter do
     {:ok, Jason.decode!(body)}
   end
 
-  defp response({:error, %Mint.TransportError{reason: _reason}}, _action) do
-    Logger.error("Application could not be reached. Make sure that the application is started.")
-    {:error, :openfass_not_recheable}
+  defp response({:error, %Mint.TransportError{reason: reason}}, _action) do
+    Logger.error("Application could not be reached #{reason}.")
+    {:error, "Application could not be reached #{reason}."}
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
        when status_code not in [200, 202] do
-    raise "Application error (#{status_code}) #{body}"
+    Logger.error("Application error (#{status_code}) #{body}")
+    {:error, :"Application error (#{status_code}) #{body}"}
   end
 
   @impl true

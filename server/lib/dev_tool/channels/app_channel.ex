@@ -60,7 +60,7 @@ defmodule DevTool.AppChannel do
   def handle_info({:send, :error, reason}, socket) do
     Logger.debug("send error  #{inspect(%{error: reason})}")
 
-    push(socket, "error", %{"errors" => reason})
+    push(socket, "error", %{"errors" => [%{code: -1, message: reason}]})
 
     {:noreply, socket}
   end
