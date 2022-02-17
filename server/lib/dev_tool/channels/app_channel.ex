@@ -25,9 +25,6 @@ defmodule DevTool.AppChannel do
       {:ok, pid} ->
         {:ok, pid}
 
-      {:error, {:already_started, pid}} ->
-        {:ok, pid}
-
       {:error, message} ->
         {:error, message}
     end
