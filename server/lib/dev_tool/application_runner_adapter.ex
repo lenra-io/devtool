@@ -72,7 +72,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
        when status_code not in [200, 202] do
     Logger.error("Application error (#{status_code}) #{body}")
-    {:error, "(#{status_code}) #{body}"}
+    {:error, "Application error (#{status_code}) #{body}"}
   end
 
   @impl true
