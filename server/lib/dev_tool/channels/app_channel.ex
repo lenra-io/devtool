@@ -57,7 +57,33 @@ defmodule DevTool.AppChannel do
   def handle_info({:send, :error, reason}, socket) do
     Logger.debug("send error  #{inspect(%{error: reason})}")
 
-    push(socket, "error", %{"errors" => [%{code: -1, message: reason}]})
+    case is_bitstring(reason) do
+      true ->
+        push(socket, "error", %{
+          "errors" => [
+            %{
+              code: -1,
+              message: reason
+            }
+          ]
+        })
+
+      false ->
+        push(socket, "error", %{
+          "errors" => [
+            %{
+              code: -1,
+              message:
+                Enum.map(reason, fn err ->
+                  case is_tuple(err) do
+                    true -> Tuple.to_list(err) |> Enum.join(", ")
+                    false -> err
+                  end
+                end)
+            }
+          ]
+        })
+    end
 
     {:noreply, socket}
   end
