@@ -39,7 +39,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
         {:ok, widget}
 
       error ->
-        {:error, "Application error (#{inspect(error)})"}
+        error
     end
   end
 
@@ -56,7 +56,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
         {:ok, data}
 
       error ->
-        {:error, "Application error (#{inspect(error)})"}
+        error
     end
   end
 
