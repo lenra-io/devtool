@@ -65,14 +65,16 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   defp response({:error, %Mint.TransportError{reason: reason}}, _action) do
-    Logger.error("Application could not be reached #{reason}.")
-    {:error, "Application could not be reached #{reason}."}
+    err = "Application could not be reached #{reason}."
+    Logger.error(err)
+    {:error, err}
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
        when status_code not in [200, 202] do
-    Logger.error("Application error (#{status_code}) #{body}")
-    {:error, "Application error (#{status_code}) #{body}"}
+    err = "Application error (#{status_code}) #{body}"
+    Logger.error(err)
+    {:error, err}
   end
 
   @impl true
