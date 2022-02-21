@@ -6,6 +6,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
   @behaviour ApplicationRunner.AdapterBehavior
 
   alias ApplicationRunner.SessionState
+  require Logger
 
   def application_url, do: Application.fetch_env!(:dev_tools, :application_url)
 
@@ -20,7 +21,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
         {:ok, manifest}
 
       other ->
-        raise "The format of the manifest should be {:ok, %{\"manifest\" => manifest}} but was #{inspect(other)}"
+        {:error,
+         "Application error (The format of the manifest should be {:ok, %{\"manifest\" => manifest}} but was #{inspect(other)})"}
     end
   end
 
@@ -50,8 +52,11 @@ defmodule DevTool.ApplicationRunnerAdapter do
     case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)
          |> response(:decode) do
-      {:ok, %{"data" => data}} -> {:ok, data}
-      error -> error
+      {:ok, %{"data" => data}} ->
+        {:ok, data}
+
+      error ->
+        error
     end
   end
 
@@ -59,13 +64,17 @@ defmodule DevTool.ApplicationRunnerAdapter do
     {:ok, Jason.decode!(body)}
   end
 
-  defp response({:error, %Mint.TransportError{reason: _}}, _) do
-    raise "Application could not be reached. Make sure that the application is started."
+  defp response({:error, %Mint.TransportError{reason: reason}}, _action) do
+    err = "Application could not be reached #{reason}."
+    Logger.error(err)
+    {:error, err}
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
        when status_code not in [200, 202] do
-    raise "Application error (#{status_code}) #{body}"
+    err = "Application error (#{status_code}) #{body}"
+    Logger.error(err)
+    {:error, err}
   end
 
   @impl true

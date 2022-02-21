@@ -25,9 +25,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   test "get_manifest app not started", %{bypass: bypass} do
     Bypass.down(bypass)
 
-    assert_raise RuntimeError,
-                 "Application could not be reached. Make sure that the application is started.",
-                 fn -> ApplicationRunnerAdapter.get_manifest(%{}) end
+    assert {:error, _msg} = ApplicationRunnerAdapter.get_manifest(%{})
 
     Bypass.up(bypass)
   end
@@ -37,9 +35,8 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
       Plug.Conn.resp(conn, 500, "")
     end)
 
-    assert_raise RuntimeError, "Application error (500) ", fn ->
-      ApplicationRunnerAdapter.get_manifest(%{})
-    end
+    assert {:error, msg} = ApplicationRunnerAdapter.get_manifest(%{})
+    assert String.contains?(msg, "Application error (500) ")
   end
 
   test "get_widget", %{bypass: bypass} do
@@ -55,9 +52,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   test "get_widget app not started", %{bypass: bypass} do
     Bypass.down(bypass)
 
-    assert_raise RuntimeError,
-                 "Application could not be reached. Make sure that the application is started.",
-                 fn -> ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{}) end
+    assert {:error, _msg} = ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{})
 
     Bypass.up(bypass)
   end
@@ -67,9 +62,8 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
       Plug.Conn.resp(conn, 500, "")
     end)
 
-    assert_raise RuntimeError, "Application error (500) ", fn ->
-      ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{})
-    end
+    assert {:error, msg} = ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{})
+    assert String.contains?(msg, "Application error (500) ")
   end
 
   test "run_listener", %{bypass: bypass} do
@@ -85,9 +79,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   test "run_listener app not started", %{bypass: bypass} do
     Bypass.down(bypass)
 
-    assert_raise RuntimeError,
-                 "Application could not be reached. Make sure that the application is started.",
-                 fn -> ApplicationRunnerAdapter.run_listener(%{}, "action", %{}, %{}, %{}) end
+    assert {:error, _msg} = ApplicationRunnerAdapter.run_listener(%{}, "action", %{}, %{}, %{})
 
     Bypass.up(bypass)
   end
@@ -97,9 +89,8 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
       Plug.Conn.resp(conn, 500, "")
     end)
 
-    assert_raise RuntimeError, "Application error (500) ", fn ->
-      ApplicationRunnerAdapter.run_listener(%{}, "action", %{}, %{}, %{})
-    end
+    assert {:error, msg} = ApplicationRunnerAdapter.run_listener(%{}, "action", %{}, %{}, %{})
+    assert String.contains?(msg, "Application error (500) ")
   end
 
   test "get_data and save_data", %{bypass: _} do

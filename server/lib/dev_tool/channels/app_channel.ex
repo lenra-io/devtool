@@ -25,9 +25,6 @@ defmodule DevTool.AppChannel do
       {:ok, pid} ->
         {:ok, pid}
 
-      {:error, {:already_started, pid}} ->
-        {:ok, pid}
-
       {:error, message} ->
         {:error, message}
     end
@@ -54,6 +51,40 @@ defmodule DevTool.AppChannel do
 
   def handle_info({:send, :patches, patches}, socket) do
     push(socket, "patchUi", %{"patch" => patches})
+    {:noreply, socket}
+  end
+
+  def handle_info({:send, :error, reason}, socket) do
+    Logger.debug("send error  #{inspect(%{error: reason})}")
+
+    case is_bitstring(reason) do
+      true ->
+        push(socket, "error", %{
+          "errors" => [
+            %{
+              code: -1,
+              message: reason
+            }
+          ]
+        })
+
+      false ->
+        push(socket, "error", %{
+          "errors" => [
+            %{
+              code: -1,
+              message:
+                Enum.map(reason, fn err ->
+                  case is_tuple(err) do
+                    true -> Tuple.to_list(err) |> Enum.join(", ")
+                    false -> err
+                  end
+                end)
+            }
+          ]
+        })
+    end
+
     {:noreply, socket}
   end
 
