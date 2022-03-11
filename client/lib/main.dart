@@ -1,5 +1,6 @@
 import 'package:client/models/dev_tools_socket_model.dart';
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/components/stateful_wrapper.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
 import 'package:fr_lenra_client/models/channel_model.dart';
 import 'package:fr_lenra_client/models/client_widget_model.dart';
@@ -49,27 +50,33 @@ class DevTools extends StatelessWidget {
         ),
       ],
       builder: (BuildContext context, _) {
-        context.read<UserApplicationModel>().currentApp = appName;
-        if (context.read<ChannelModel>().channel == null) {
-          context.read<ChannelModel>().createChannel(appName);
-        }
-        (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
-        return NotificationListener<Event>(
-          onNotification: (Event event) => context.read<ChannelModel>().handleNotifications(event),
-          child: LenraTheme(
-            themeData: themeData,
-            child: MaterialApp(
-              title: 'Lenra - DevTools',
-              theme: ThemeData(
-                textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
+        return StatefulWrapper(
+          onInit: () {
+            context.read<UserApplicationModel>().currentApp = appName;
+            if (context.read<ChannelModel>().channel == null) {
+              context.read<ChannelModel>().createChannel(appName);
+            }
+            (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
+          },
+          builder: (context) {
+            return NotificationListener<Event>(
+              onNotification: (Event event) => context.read<ChannelModel>().handleNotifications(event),
+              child: LenraTheme(
+                themeData: themeData,
+                child: MaterialApp(
+                  title: 'Lenra - DevTools',
+                  theme: ThemeData(
+                    textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
+                  ),
+                  locale: DevicePreview.locale(context),
+                  builder: DevicePreview.appBuilder,
+                  home: Scaffold(
+                    body: LenraUiController(),
+                  ),
+                ),
               ),
-              locale: DevicePreview.locale(context),
-              builder: DevicePreview.appBuilder,
-              home: Scaffold(
-                body: LenraUiController(),
-              ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
