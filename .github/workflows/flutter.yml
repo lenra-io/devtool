@@ -15,7 +15,7 @@ jobs:
   Setup-Flutter:
     needs: 
      - prIsWip
-    if: ${{ needs.prIsWip.outputs.isWip }}
+    if: ${{ ! needs.prIsWip.outputs.isWip }}
     runs-on: ubuntu-latest
     defaults:
       run:
