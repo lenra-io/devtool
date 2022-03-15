@@ -25,7 +25,7 @@ jobs:
         id: setup-yq
         uses: shiipou/setup-yq-action@v2.0.2
       - name: create_pr
-        uses: lenra-io/create-or-update-pr-action@beta
+        uses: lenra-io/create-or-update-pr-action@v1.1.0
         with:
           name: 'Update dependecies'
           token: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
