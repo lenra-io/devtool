@@ -1,7 +1,10 @@
 name: Flutter CI
 on:
   pull_request:
-  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
   
 env:
   flutter_version: "2.10.0"
