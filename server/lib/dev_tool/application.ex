@@ -13,8 +13,13 @@ defmodule DevTool.Application do
       {Phoenix.PubSub, name: DevTool.PubSub},
       # Start the Endpoint (http/https)
       DevTool.Endpoint,
-      # Start a worker by calling: DevTool.Worker.start_link(arg)
-      # {DevTool.Worker, arg}
+      # Start the watchdog handler server
+      {DevTool.Watchdog,
+       of_watchdog: "/Users/louis/Documents/lenra/dev-tools/server/node12/of-watchdog",
+       upstream_url: "http://127.0.0.1:3000",
+       fprocess: "node node12/index.js",
+       port: "3333",
+       mode: "http"},
       {Finch, name: AppHttp}
     ]
 
