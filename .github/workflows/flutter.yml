@@ -23,6 +23,7 @@ jobs:
      - prIsWip
     if: ${{ ! needs.prIsWip.outputs.isWip }}
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     defaults:
       run:
         working-directory: ./client
