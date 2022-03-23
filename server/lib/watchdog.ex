@@ -48,7 +48,7 @@ defmodule DevTool.Watchdog do
           |> Keyword.get(:opts)
           |> start_process()
 
-        TerminalView.send_log("Application Started !")
+        TerminalView.send_log("Application Started ! Press 'r' to reload the App.")
         {:reply, :ok, Keyword.put(state, :pid, pid)}
 
       _ ->
