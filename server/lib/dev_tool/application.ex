@@ -13,13 +13,16 @@ defmodule DevTool.Application do
       {Phoenix.PubSub, name: DevTool.PubSub},
       # Start the Endpoint (http/https)
       DevTool.Endpoint,
+      {Ratatouille.Runtime.Supervisor, runtime: [app: DevTool.TerminalView, shutdown: :system]},
       # Start the watchdog handler server
-      {DevTool.Watchdog,
-       of_watchdog: "/Users/louis/Documents/lenra/dev-tools/server/node12/of-watchdog",
-       upstream_url: "http://127.0.0.1:3000",
-       fprocess: "node node12/index.js",
-       port: "3333",
-       mode: "http"},
+      {
+        DevTool.Watchdog,
+        of_watchdog: "/Users/louis/Documents/lenra/dev-tools/server/node12/of-watchdog-m1",
+        upstream_url: "http://127.0.0.1:3000",
+        fprocess: "node node12/index.js",
+        port: "3333",
+        mode: "http"
+      },
       {Finch, name: AppHttp}
     ]
 
@@ -27,7 +30,9 @@ defmodule DevTool.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: DevTool.Supervisor]
 
-    Supervisor.start_link(children, opts)
+    res = Supervisor.start_link(children, opts)
+    DevTool.Watchdog.start()
+    res
   end
 
   # Tell Phoenix to update the endpoint configuration

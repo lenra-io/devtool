@@ -1,11 +1,7 @@
 defmodule DevTool.Watchdog do
   use GenServer
 
-  # @of_watchdog "/Users/louis/Documents/lenra/dev-tools/server/node12/of-watchdog"
-  # @upstream_url_erl 'http://127.0.0.1:3000'
-  # @fprocess_erl 'node node12/index.js'
-  # @port_erl '3333'
-  # @mode_erl 'http'
+  alias DevTool.{TerminalView, Watchdog}
 
   ##################
   ## Watchdog API ##
@@ -20,8 +16,9 @@ defmodule DevTool.Watchdog do
   end
 
   def restart() do
-    DevTool.Watchdog.stop()
-    DevTool.Watchdog.start()
+    Watchdog.stop()
+    TerminalView.clear()
+    Watchdog.start()
   end
 
   def start_link(opts) do
@@ -35,46 +32,56 @@ defmodule DevTool.Watchdog do
   def init(raw_opts) do
     Process.flag(:trap_exit, true)
 
-    opts = format_opts(raw_opts)
-    {:ok, [port: nil, opts: opts]}
+    {:ok, [pid: nil, opts: check_opts(raw_opts)]}
   end
 
   @impl true
   def handle_call(:start, _from, state) do
+    TerminalView.send_log("Starting the application...")
+
     state
-    |> Keyword.get(:port)
-    |> Port.info()
+    |> Keyword.get(:pid)
     |> case do
       nil ->
-        port =
+        {:ok, pid, _os_pid} =
           state
           |> Keyword.get(:opts)
-          |> start_port()
+          |> start_process()
 
-        {:reply, :ok, Keyword.put(state, :port, port)}
+        TerminalView.send_log("Application Started !")
+        {:reply, :ok, Keyword.put(state, :pid, pid)}
 
       _ ->
+        TerminalView.send_log("The application was already started")
         {:reply, {:error, :already_started}, state}
     end
   end
 
   @impl true
   def handle_call(:stop, _from, state) do
+    TerminalView.send_log("Stopping the application...")
+
     state
-    |> Keyword.get(:port)
-    |> stop_and_kill()
+    |> Keyword.get(:pid)
+    |> kill()
     |> case do
       :ok ->
-        {:reply, :ok, Keyword.put(state, :port, nil)}
+        TerminalView.send_log("Application stopped.")
+        {:reply, :ok, Keyword.put(state, :pid, nil)}
 
       err ->
+        TerminalView.send_log("An error occured when stopping the application.")
         {:reply, err, state}
     end
   end
 
   @impl true
-  def handle_info({_port, {:data, _log}}, state) do
-    # IO.inspect(log)
+  def handle_info({:stderr, _os_pid, _msg}, state) do
+    {:noreply, state}
+  end
+
+  def handle_info({:stdout, _os_pid, msg}, state) do
+    TerminalView.send_log(msg)
     {:noreply, state}
   end
 
@@ -85,63 +92,51 @@ defmodule DevTool.Watchdog do
   @impl true
   def terminate(_reason, state) do
     state
-    |> Keyword.get(:port)
-    |> stop_and_kill()
+    |> Keyword.get(:pid)
+    |> kill()
   end
 
-  defp stop_and_kill(port) do
-    port
-    |> Port.info(:os_pid)
+  defp kill(pid) when is_nil(pid), do: {:error, :not_started}
+
+  defp kill(pid) do
+    pid
+    |> :exec.kill(15)
     |> case do
-      nil ->
+      {:error, _} ->
         {:error, :not_started}
 
-      {:os_pid, os_pid} ->
-        Port.close(port)
-
-        case System.cmd("kill", ["-15", "#{os_pid}"]) do
-          {_, 0} -> :ok
-          {_, _} -> {:error, :no_watchdog_process}
-        end
+      :ok ->
+        :ok
     end
   end
 
-  defp format_opts(opts) do
-    of_watchdog = Keyword.get(opts, :of_watchdog)
-    if not is_bitstring(of_watchdog), do: raise("#{inspect(of_watchdog)} should be a string")
+  defp check_opts(opts) do
+    Keyword.get(opts, :of_watchdog) |> check_required(:of_watchdog)
+    Keyword.get(opts, :upstream_url) |> check_required(:upstream_url)
+    Keyword.get(opts, :fprocess) |> check_required(:fprocess)
+    Keyword.get(opts, :port) |> check_required(:port)
+    Keyword.get(opts, :mode) |> check_required(:mode)
 
-    upstream_url_erl = Keyword.get(opts, :upstream_url) |> to_erl(:upstream_url)
-    fprocess_erl = Keyword.get(opts, :fprocess) |> to_erl(:fprocess)
-    port_erl = Keyword.get(opts, :port) |> to_erl(:port)
-    mode_erl = Keyword.get(opts, :mode) |> to_erl(:mode)
-
-    %{
-      of_watchdog: of_watchdog,
-      upstream_url_erl: upstream_url_erl,
-      fprocess_erl: fprocess_erl,
-      port_erl: port_erl,
-      mode_erl: mode_erl
-    }
+    opts
   end
 
-  defp to_erl(str, _atom) when is_bitstring(str), do: Kernel.to_charlist(str)
-  defp to_erl(str, atom) when is_nil(str), do: raise("#{inspect(atom)} is required")
-  defp to_erl(_str, atom), do: raise("opts #{inspect(atom)} should be a string")
+  defp check_required(str, atom) when is_nil(str), do: raise("#{inspect(atom)} is required")
+  defp check_required(str, _atom), do: str
 
-  defp start_port(opts) do
-    Port.open(
-      {:spawn_executable, opts.of_watchdog},
+  defp start_process(opts) do
+    :exec.run_link(
+      Keyword.get(opts, :of_watchdog),
       [
-        :hide,
-        :nouse_stdio,
+        :stdout,
+        :stderr,
         env: [
           {
-            'upstream_url',
-            opts.upstream_url_erl
+            "upstream_url",
+            Keyword.get(opts, :upstream_url)
           },
-          {'fprocess', opts.fprocess_erl},
-          {'port', opts.port_erl},
-          {'mode', opts.mode_erl}
+          {"fprocess", Keyword.get(opts, :fprocess)},
+          {"port", Keyword.get(opts, :port)},
+          {"mode", Keyword.get(opts, :mode)}
         ]
       ]
     )
