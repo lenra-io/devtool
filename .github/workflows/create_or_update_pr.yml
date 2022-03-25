@@ -30,8 +30,11 @@ jobs:
           name: 'Update dependecies'
           token: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
           script: |
-            if [[ "${{ github.event.inputs.origin }}" == "client" ||  "${{ github.event.inputs.origin }}" == "lenra_ui_runner" ]]; then
+            if [[ "${{ github.event.inputs.origin }}" == "client" ]]; then
               yq eval ".dependencies.fr_lenra_client.git.ref = \"${{  github.event.inputs.version }}\"" -i client/pubspec.yaml
+              git add client/pubspec.yaml
+            elif [[ "${{ github.event.inputs.origin }}" == "lenra_ui_runner" ]]; then
+              yq eval ".dependencies.lenra_ui_runner.git.ref = \"${{  github.event.inputs.version }}\"" -i client/pubspec.yaml
               git add client/pubspec.yaml
             else
               # Regex in bash is not powerful enough but thanks to python regex that work 
