@@ -51,6 +51,17 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+  fonts:
+    - family: Source Sans Pro
+      fonts:
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf
+    - family: Roboto
+      fonts: 
+        - asset: fonts/Roboto/Roboto-Regular.ttf
+        - asset: fonts/Roboto/Roboto-Medium.ttf
+        - asset: fonts/Roboto/Roboto-Bold.ttf
   # The following line ensures that the Material Icons font is
 
   # included with your application, so that you can use the icons in
