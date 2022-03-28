@@ -1,22 +1,29 @@
 defmodule DevTool.Watchdog do
+  @moduledoc """
+    This module handle the of-watchdog command.
+    Start the watchdog with `DevTool.Watchdog.start/0``
+    Stop the watchdog with `DevTool.Watchdog.stop/0`
+    Restart the watchdog with `DevTool.Watchdog.restart/0`
+  """
+
   use GenServer
 
-  alias DevTool.{Watchdog}
+  alias DevTool.Watchdog
   require Logger
 
   ##################
   ## Watchdog API ##
   ##################
 
-  def start() do
+  def start do
     GenServer.call(__MODULE__, :start)
   end
 
-  def stop() do
+  def stop do
     GenServer.call(__MODULE__, :stop)
   end
 
-  def restart() do
+  def restart do
     Watchdog.stop()
     Watchdog.start()
   end
@@ -116,7 +123,7 @@ defmodule DevTool.Watchdog do
           |> Keyword.get(:opts)
           |> start_process()
 
-        # TODO: add "Press 'r' to reload the App."
+        # add "Press 'r' to reload the App."
         Logger.info("Application Started !")
         {:ok, Keyword.put(state, :pid, pid)}
 
