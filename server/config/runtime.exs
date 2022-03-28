@@ -12,4 +12,4 @@ config :dev_tools,
   upstream_url: System.fetch_env!("OF_WATCHDOG_UPSTREAM_URL"),
   fprocess: System.fetch_env!("OF_WATCHDOG_F_PROCESS"),
   port: System.get_env("OF_WATCHDOG_PORT", "3333"),
-  mode: System.get_env("OF_WATCHDOG_mode", "http")
+  mode: System.get_env("OF_WATCHDOG_MODE", "http")
