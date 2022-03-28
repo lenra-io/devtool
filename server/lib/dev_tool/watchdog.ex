@@ -64,7 +64,8 @@ defmodule DevTool.Watchdog do
     end
   end
 
-  def handle_info({:stderr, _os_pid, _msg}, state) do
+  def handle_info({:stderr, _os_pid, msg}, state) do
+    Logger.info(msg)
     {:noreply, state}
   end
 
