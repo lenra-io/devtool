@@ -1,7 +1,8 @@
 defmodule DevTool.Watchdog do
   use GenServer
 
-  alias DevTool.{TerminalView, Watchdog}
+  alias DevTool.{Watchdog}
+  require Logger
 
   ##################
   ## Watchdog API ##
@@ -17,7 +18,6 @@ defmodule DevTool.Watchdog do
 
   def restart() do
     Watchdog.stop()
-    TerminalView.clear()
     Watchdog.start()
   end
 
@@ -32,56 +32,37 @@ defmodule DevTool.Watchdog do
   def init(raw_opts) do
     Process.flag(:trap_exit, true)
 
+    send(self(), :after_init)
     {:ok, [pid: nil, opts: check_opts(raw_opts)]}
   end
 
   @impl true
   def handle_call(:start, _from, state) do
-    TerminalView.send_log("Starting the application...")
-
-    state
-    |> Keyword.get(:pid)
-    |> case do
-      nil ->
-        {:ok, pid, _os_pid} =
-          state
-          |> Keyword.get(:opts)
-          |> start_process()
-
-        TerminalView.send_log("Application Started ! Press 'r' to reload the App.")
-        {:reply, :ok, Keyword.put(state, :pid, pid)}
-
-      _ ->
-        TerminalView.send_log("The application was already started")
-        {:reply, {:error, :already_started}, state}
+    case do_start_watchdog(state) do
+      {:ok, new_state} -> {:reply, :ok, new_state}
+      {:error, reason, new_state} -> {:reply, {:error, reason}, new_state}
     end
   end
 
   @impl true
   def handle_call(:stop, _from, state) do
-    TerminalView.send_log("Stopping the application...")
-
-    state
-    |> Keyword.get(:pid)
-    |> kill()
-    |> case do
-      :ok ->
-        TerminalView.send_log("Application stopped.")
-        {:reply, :ok, Keyword.put(state, :pid, nil)}
-
-      err ->
-        TerminalView.send_log("An error occured when stopping the application.")
-        {:reply, err, state}
-    end
+    do_stop_watchdog(state)
   end
 
   @impl true
+  def handle_info(:after_init, state) do
+    case do_start_watchdog(state) do
+      {:ok, new_state} -> {:noreply, new_state}
+      {:error, reason, new_state} -> {:stop, {:error, reason}, new_state}
+    end
+  end
+
   def handle_info({:stderr, _os_pid, _msg}, state) do
     {:noreply, state}
   end
 
   def handle_info({:stdout, _os_pid, msg}, state) do
-    TerminalView.send_log(msg)
+    Logger.info(msg)
     {:noreply, state}
   end
 
@@ -122,6 +103,45 @@ defmodule DevTool.Watchdog do
 
   defp check_required(str, atom) when is_nil(str), do: raise("#{inspect(atom)} is required")
   defp check_required(str, _atom), do: str
+
+  defp do_start_watchdog(state) do
+    Logger.info("Starting the application...")
+
+    state
+    |> Keyword.get(:pid)
+    |> case do
+      nil ->
+        {:ok, pid, _os_pid} =
+          state
+          |> Keyword.get(:opts)
+          |> start_process()
+
+        # TODO: add "Press 'r' to reload the App."
+        Logger.info("Application Started !")
+        {:ok, Keyword.put(state, :pid, pid)}
+
+      _ ->
+        Logger.info("The application was already started")
+        {:error, :already_started, state}
+    end
+  end
+
+  defp do_stop_watchdog(state) do
+    Logger.info("Stopping the application...")
+
+    state
+    |> Keyword.get(:pid)
+    |> kill()
+    |> case do
+      :ok ->
+        Logger.info("Application stopped.")
+        {:reply, :ok, Keyword.put(state, :pid, nil)}
+
+      err ->
+        Logger.error("An error occured when stopping the application.")
+        {:reply, err, state}
+    end
+  end
 
   defp start_process(opts) do
     :exec.run_link(

@@ -11,28 +11,26 @@ defmodule DevTool.Application do
       DevTool.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: DevTool.PubSub},
-      # Start the Endpoint (http/https)
-      DevTool.Endpoint,
-      {Ratatouille.Runtime.Supervisor, runtime: [app: DevTool.TerminalView, shutdown: :system]},
       # Start the watchdog handler server
       {
         DevTool.Watchdog,
-        of_watchdog: "/Users/louis/Documents/lenra/dev-tools/server/node12/of-watchdog-m1",
-        upstream_url: "http://127.0.0.1:3000",
-        fprocess: "node node12/index.js",
-        port: "3333",
-        mode: "http"
+        of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
+        upstream_url: Application.fetch_env!(:dev_tools, :upstream_url),
+        fprocess: Application.fetch_env!(:dev_tools, :fprocess),
+        port: Application.fetch_env!(:dev_tools, :port),
+        mode: Application.fetch_env!(:dev_tools, :mode)
       },
-      {Finch, name: AppHttp}
+      # Start the Finch http client
+      {Finch, name: AppHttp},
+      # Start the Endpoint (http/https)
+      DevTool.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: DevTool.Supervisor]
 
-    res = Supervisor.start_link(children, opts)
-    DevTool.Watchdog.start()
-    res
+    Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration

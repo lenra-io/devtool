@@ -61,7 +61,6 @@ defmodule DevTool.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
       {:erlexec, "~> 1.0"},
-      {:ratatouille, "~> 0.5.0"},
       private_git(
         name: :application_runner,
         host: "github.com",
