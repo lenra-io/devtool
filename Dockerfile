@@ -33,7 +33,7 @@ RUN mix phx.digest
 RUN mix do compile, release dev_tools
 
 # prepare release image
-FROM postgres:13
+FROM postgres:13-alpine
 
 WORKDIR /lenra/devtools
 COPY --from=build /app/_build/prod/ .
