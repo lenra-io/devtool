@@ -15,13 +15,13 @@ jobs:
     timeout-minutes: 2
     steps:
       - id: pr-is-wip
-        uses: shiipou/pr-is-wip-action@v1.0.0-beta.5
+        uses: shiipou/pr-is-wip-action@v2.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Setup-Flutter:
     needs: 
      - prIsWip
-    if: ${{ needs.prIsWip.outputs.isWip == 'false' }}
+    if: ${{ ! needs.prIsWip.outputs.isWip }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
     defaults:
