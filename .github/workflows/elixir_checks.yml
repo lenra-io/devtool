@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - id: pr-is-wip
-        uses: shiipou/pr-is-wip-action@v1.0.0
+        uses: shiipou/pr-is-wip-action@v2.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   checks:
@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 10
     needs: 
      - prIsWip
-    if: ${{ needs.prIsWip.outputs.isWip == 'false' }}
+    if: ${{ ! needs.prIsWip.outputs.isWip }}
     env:
       GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
     defaults:
