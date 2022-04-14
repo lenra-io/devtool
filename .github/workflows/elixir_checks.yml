@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 10
     needs: 
      - prIsWip
-    if: true == true
+    if: needs.prIsWip.outputs.isWip == 'false'
     env:
       GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
     defaults:

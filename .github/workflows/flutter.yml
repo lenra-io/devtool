@@ -23,7 +23,7 @@ jobs:
   Setup-Flutter:
     needs: 
      - prIsWip
-    if: true == true
+    if: needs.prIsWip.outputs.isWip == 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     defaults:
