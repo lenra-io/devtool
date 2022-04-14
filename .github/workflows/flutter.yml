@@ -16,7 +16,7 @@ jobs:
     outputs:
       isWip: ${{ steps.prIsWip.outputs.isWip }}
     steps:
-      - id: pr-is-wip
+      - id: prIsWip
         uses: shiipou/pr-is-wip-action@v1.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
