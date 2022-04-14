@@ -4,6 +4,8 @@ branches:
   - main
   - name: beta
     prerelease: true
+  - name: data
+    prerelease: true
 plugins:
   - - "@semantic-release/commit-analyzer"
     - preset: conventionalcommits
@@ -12,4 +14,3 @@ plugins:
   - "@semantic-release/github"
   - - "@semantic-release/exec"
     - publishCmd: /bin/bash -c ".github/release.sh ${nextRelease.version}"
-
