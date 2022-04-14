@@ -27,6 +27,7 @@ jobs:
     if: needs.prIsWip.outputs.isWip == 'false'
     env:
       GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
+      SHELL: /bin/bash
     defaults:
       run:
         working-directory: ./server

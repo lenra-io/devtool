@@ -51,7 +51,7 @@ defmodule DevTool.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:bypass, "~> 2.0", only: :test},
       {:phoenix, "~> 1.5.6"},
@@ -60,6 +60,7 @@ defmodule DevTool.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
+      {:erlexec, "~> 1.0"},
       private_git(
         name: :application_runner,
         host: "github.com",
