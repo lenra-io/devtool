@@ -23,7 +23,8 @@ defmodule DevTool.Application do
       # Start the Finch http client
       {Finch, name: AppHttp},
       # Start the Endpoint (http/https)
-      DevTool.Endpoint
+      DevTool.Endpoint,
+      DevTool.Terminal
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
