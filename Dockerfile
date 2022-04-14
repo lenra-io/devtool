@@ -37,7 +37,6 @@ FROM alpine:latest
 
 WORKDIR /lenra/devtools
 COPY --from=build /app/_build/prod/ .
-COPY ./entrypoint.sh .
 
 # Install elixir dependencies
 RUN apk add --no-cache ncurses-libs libstdc++
@@ -46,4 +45,5 @@ USER root
 RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
     chmod -R ugo+rw /lenra/devtools/rel/dev_tools/tmp
 
-ENTRYPOINT [ "/lenra/devtools/entrypoint.sh" ]
+ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
+CMD ["start"]

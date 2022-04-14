@@ -11,11 +11,19 @@ defmodule DevTool.Application do
       DevTool.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: DevTool.PubSub},
+      # Start the watchdog handler server
+      {
+        DevTool.Watchdog,
+        of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
+        upstream_url: Application.fetch_env!(:dev_tools, :upstream_url),
+        fprocess: Application.fetch_env!(:dev_tools, :fprocess),
+        port: Application.fetch_env!(:dev_tools, :port),
+        mode: Application.fetch_env!(:dev_tools, :mode)
+      },
+      # Start the Finch http client
+      {Finch, name: AppHttp},
       # Start the Endpoint (http/https)
-      DevTool.Endpoint,
-      # Start a worker by calling: DevTool.Worker.start_link(arg)
-      # {DevTool.Worker, arg}
-      {Finch, name: AppHttp}
+      DevTool.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
