@@ -55,7 +55,6 @@ defmodule DevTool.AppChannelTest do
     "patch" => [%{"op" => "replace", "path" => "/root/children/0/value", "value" => "Hello Bob"}]
   }
 
-  # TODO: this test need to implement new application runner adapter
   # test "test base app", %{socket: socket, bypass: bypass} do
   #   AppStub.stub_app(bypass, @app_name)
   #   |> AppStub.stub_request_once(@manifest)
