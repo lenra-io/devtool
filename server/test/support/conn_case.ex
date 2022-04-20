@@ -24,6 +24,9 @@ defmodule DevTool.ConnCase do
       import Phoenix.ConnTest
       import DevTool.ConnCase
 
+      import Ecto
+      import Ecto.Query
+
       alias DevTool.Router.Helpers, as: Routes
 
       # The default endpoint for testing
