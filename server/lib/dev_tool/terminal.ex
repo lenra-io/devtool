@@ -39,7 +39,7 @@ defmodule DevTool.Terminal do
     end
   end
 
-  defp get_line() do
+  defp get_line do
     case IO.gets("") do
       # Reload watchdog
       "R\n" ->
