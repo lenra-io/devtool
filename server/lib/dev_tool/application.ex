@@ -15,10 +15,7 @@ defmodule DevTool.Application do
       {
         DevTool.Watchdog,
         of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
-        upstream_url: Application.fetch_env!(:dev_tools, :upstream_url),
-        fprocess: Application.fetch_env!(:dev_tools, :fprocess),
-        port: Application.fetch_env!(:dev_tools, :port),
-        mode: Application.fetch_env!(:dev_tools, :mode)
+        port: Application.fetch_env!(:dev_tools, :port)
       },
       # Start the Finch http client
       {Finch, name: AppHttp},

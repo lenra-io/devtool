@@ -110,10 +110,7 @@ defmodule DevTool.Watchdog do
 
   defp check_opts(opts) do
     Keyword.get(opts, :of_watchdog) |> check_required(:of_watchdog)
-    Keyword.get(opts, :upstream_url) |> check_required(:upstream_url)
-    Keyword.get(opts, :fprocess) |> check_required(:fprocess)
     Keyword.get(opts, :port) |> check_required(:port)
-    Keyword.get(opts, :mode) |> check_required(:mode)
 
     opts
   end
@@ -168,13 +165,7 @@ defmodule DevTool.Watchdog do
         :stdout,
         :stderr,
         env: [
-          {
-            "upstream_url",
-            Keyword.get(opts, :upstream_url)
-          },
-          {"fprocess", Keyword.get(opts, :fprocess)},
-          {"port", Keyword.get(opts, :port)},
-          {"mode", Keyword.get(opts, :mode)}
+          {"port", Keyword.get(opts, :port)}
         ]
       ]
     )
