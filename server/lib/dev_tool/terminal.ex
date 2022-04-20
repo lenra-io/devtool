@@ -5,6 +5,8 @@ defmodule DevTool.Terminal do
 
   use GenServer
 
+  require Logger
+
   def start_link(state) do
     GenServer.start_link(__MODULE__, state, name: __MODULE__)
   end
@@ -41,7 +43,7 @@ defmodule DevTool.Terminal do
     case IO.gets("") do
       # Reload watchdog
       "R\n" ->
-        IO.puts("Reloading watchdog")
+        Logger.info("Reloading watchdog")
         DevTool.Watchdog.restart()
 
       _ ->
