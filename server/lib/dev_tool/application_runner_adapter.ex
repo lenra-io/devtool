@@ -5,7 +5,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
   """
   @behaviour ApplicationRunner.AdapterBehavior
 
-  alias ApplicationRunner.SessionState
+  alias ApplicationRunner.{EnvState, SessionState}
+  alias DevTool.Environment
   require Logger
 
   def application_url, do: Application.fetch_env!(:dev_tools, :application_url)
@@ -44,20 +45,101 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   @impl true
-  def run_listener(_env, action, data, props, event) do
-    headers = [{"Content-Type", "application/json"}]
+  def run_listener(
+        %EnvState{
+          env_id: _env_id,
+          assigns: %{
+            environment: environment
+          }
+        },
+        action,
+        props,
+        event
+      ) do
+    Logger.info("Run env listener for action #{action}")
 
-    body = Jason.encode!(%{data: data, props: props, event: event, action: action})
+    # TODO generate token
+    token = ""
 
-    case Finch.build(:post, application_url(), headers, body)
-         |> Finch.request(AppHttp)
-         |> response(:decode) do
-      {:ok, %{"data" => data}} ->
-        {:ok, data}
+    run_listener(
+      environment,
+      action,
+      props,
+      event,
+      token
+    )
+  end
 
-      error ->
-        error
+  @impl true
+  def run_listener(
+        %SessionState{
+          session_id: _session_id,
+          assigns: %{
+            environment: environment
+          }
+        },
+        action,
+        props,
+        event
+      ) do
+    Logger.info("Run session listener for action #{action}")
+
+    # TODO generate token
+    token = ""
+
+    run_listener(
+      environment,
+      action,
+      props,
+      event,
+      token
+    )
+  end
+
+  defp run_listener(
+         %Environment{} = _environment,
+         action,
+         props,
+         event,
+         token
+       ) do
+    [host: host] = Application.get_env(:lenra_web, LenraWeb.Endpoint)[:url]
+    [port: port] = Application.get_env(:lenra_web, LenraWeb.Endpoint)[:http]
+
+    headers = [
+      {"Content-Type", "application/json"}
+    ]
+
+    body =
+      Jason.encode!(%{
+        action: action,
+        props: props,
+        event: event,
+        api_options: %{host: host, port: port, token: token}
+      })
+
+    Finch.build(:post, application_url(), headers, body)
+    |> Finch.request(FaasHttp, receive_timeout: 1000)
+    |> response(:decode)
+    |> case do
+      {:ok, _res} ->
+        :ok
+
+      err ->
+        err
     end
+  end
+
+  @impl true
+  def exec_query(_session_state, _query) do
+    # WAIT FOR SERVICE TO IMLEMENT
+    %{}
+  end
+
+  @impl true
+  def ensure_user_data_created(_session_state) do
+    # WAIT FOR SERVICE TO IMLEMENT
+    :ok
   end
 
   defp response({:ok, %Finch.Response{status: 200, body: body}}, :decode) do
@@ -75,33 +157,6 @@ defmodule DevTool.ApplicationRunnerAdapter do
     err = "Application error (#{status_code}) #{body}"
     Logger.error(err)
     {:error, err}
-  end
-
-  @impl true
-  def get_data(%SessionState{session_id: session_id} = _session_state) do
-    create_ets_table_if_needed()
-
-    case :ets.lookup(:data, session_id) do
-      [{_, data}] ->
-        {:ok, data}
-
-      [] ->
-        {:ok, %{}}
-    end
-  end
-
-  @impl true
-  def save_data(%SessionState{session_id: session_id} = _session_state, data) do
-    create_ets_table_if_needed()
-
-    :ets.insert(:data, {session_id, data})
-    :ok
-  end
-
-  defp create_ets_table_if_needed do
-    if :ets.whereis(:data) == :undefined do
-      :ets.new(:data, [:named_table, :public])
-    end
   end
 
   @impl true

@@ -31,7 +31,6 @@ defmodule DevTool.AppChannel do
     |> case do
       {:ok, pid} ->
         socket = assign(socket, session_pid: pid)
-        SessionManager.init_data(pid)
 
         {:ok, socket}
 
@@ -99,7 +98,7 @@ defmodule DevTool.AppChannel do
   defp handle_run(socket, action_code, event \\ %{}) do
     %{session_pid: session_pid} = socket.assigns
 
-    SessionManager.run_listener(session_pid, action_code, event)
+    SessionManager.send_client_event(session_pid, action_code, event)
 
     {:noreply, socket}
   end
