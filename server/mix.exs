@@ -60,6 +60,8 @@ defmodule DevTool.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
+      {:ecto_sql, "~> 3.4"},
+      {:postgrex, "~> 0.15.8"},
       private_git(
         name: :application_runner,
         host: "github.com",
@@ -94,7 +96,9 @@ defmodule DevTool.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"]
     ]
   end
 end
