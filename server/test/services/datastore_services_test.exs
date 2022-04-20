@@ -2,7 +2,7 @@ defmodule DevTool.DatastoreServicesTest do
   @moduledoc """
     Test the datastore services
   """
-  use DevTool.ConnCase
+  use DevTool.ConnCase, async: true
 
   alias ApplicationRunner.{Data, Datastore}
   alias DevTool.{DatastoreServices, Environment, Repo, User}

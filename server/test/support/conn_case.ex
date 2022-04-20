@@ -16,9 +16,11 @@ defmodule DevTool.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
+      alias DevTool.Repo
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
@@ -34,7 +36,13 @@ defmodule DevTool.ConnCase do
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Sandbox.checkout(DevTool.Repo)
+
+    unless tags[:async] do
+      Sandbox.mode(DevTool.Repo, {:shared, self()})
+    end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end
