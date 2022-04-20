@@ -1,5 +1,5 @@
 name: Elixir CI
-on: 
+on:
   pull_request:
     types:
       - opened
@@ -19,11 +19,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   checks:
+    services:
+      postgres:
+        image: postgres:12.2-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Start in localhost
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     name: Checks
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: 
-     - prIsWip
+    needs:
+      - prIsWip
     if: needs.prIsWip.outputs.isWip == 'false'
     env:
       GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
