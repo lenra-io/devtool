@@ -25,6 +25,9 @@ defmodule DevTool.Watchdog do
 
   def restart do
     Watchdog.stop()
+    Process.sleep(100)
+    {:ok, pid} = ApplicationRunner.EnvManagers.fetch_env_manager_pid(1)
+    GenServer.cast(pid, :stop)
     Watchdog.start()
   end
 
@@ -89,9 +92,10 @@ defmodule DevTool.Watchdog do
 
   defp kill(pid) do
     pid
-    |> :exec.kill(15)
+    |> :exec.stop()
     |> case do
-      {:error, _} ->
+      {:error, err} ->
+        Logger.error("Error while stopping watchdog: #{err}")
         {:error, :not_started}
 
       :ok ->
@@ -147,6 +151,7 @@ defmodule DevTool.Watchdog do
 
       err ->
         Logger.error("An error occured when stopping the application.")
+        Logger.error(inspect(err))
         {:reply, err, state}
     end
   end
