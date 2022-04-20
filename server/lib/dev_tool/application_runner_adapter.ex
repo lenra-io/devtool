@@ -58,7 +58,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
       ) do
     Logger.info("Run env listener for action #{action}")
 
-    # TODO generate token
+    # generate token
     token = ""
 
     run_listener(
@@ -84,7 +84,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
       ) do
     Logger.info("Run session listener for action #{action}")
 
-    # TODO generate token
+    # generate token
     token = ""
 
     run_listener(
