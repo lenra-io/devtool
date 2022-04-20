@@ -129,23 +129,4 @@ defmodule DevTool.DatastoreServicesTest do
       assert Enum.empty?(deleted_datas)
     end
   end
-
-  # describe "DatastoreServices.update_1/1" do
-  #   test "should update datastore if params valid", %{env_id: env_id, user_id: _user_id} do
-  #     {:ok, %{inserted_datastore: inserted_datastore}} = DatastoreServices.create(env_id, %{"name" => "users"})
-
-  #     datastore = Repo.get(Datastore, inserted_datastore.id)
-
-  #     DatastoreServices.update(datastore.id, %{"name" => "test"})
-
-  #     updated_data = Repo.get(Datastore, inserted_datastore.id)
-
-  #     assert updated_data.name == "test"
-  #   end
-
-  #   test "should return error id invalid", %{env_id: _env_id} do
-  #     assert {:error, :datastore, :datastore_not_found, _changes_so_far} =
-  #              DatastoreServices.update(-1, %{"name" => "test"})
-  #   end
-  # end
 end
