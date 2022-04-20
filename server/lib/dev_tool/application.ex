@@ -7,6 +7,7 @@ defmodule DevTool.Application do
 
   def start(_type, _args) do
     children = [
+      DevTool.Repo,
       # Start the Telemetry supervisor
       DevTool.Telemetry,
       # Start the PubSub system
