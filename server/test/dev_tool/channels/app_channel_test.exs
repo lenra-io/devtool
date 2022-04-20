@@ -55,30 +55,30 @@ defmodule DevTool.AppChannelTest do
     "patch" => [%{"op" => "replace", "path" => "/root/children/0/value", "value" => "Hello Bob"}]
   }
 
-  # test "test base app", %{socket: socket, bypass: bypass} do
-  #   AppStub.stub_app(bypass, @app_name)
-  #   |> AppStub.stub_request_once(@manifest)
-  #   |> AppStub.stub_request_once(@data)
-  #   |> AppStub.stub_request_once(@widget)
-  #   |> AppStub.stub_request_once(@data2)
-  #   |> AppStub.stub_request_once(@widget2)
+  test "test base app", %{socket: socket, bypass: bypass} do
+    AppStub.stub_app(bypass, @app_name)
+    |> AppStub.stub_request_once(@manifest)
+    |> AppStub.stub_request_once(@data)
+    |> AppStub.stub_request_once(@widget)
+    |> AppStub.stub_request_once(@data2)
+    |> AppStub.stub_request_once(@widget2)
 
-  #   {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
+    {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
 
-  #   assert %{session_pid: pid} = socket.assigns
-  #   assert is_pid(pid)
+    assert %{session_pid: pid} = socket.assigns
+    assert is_pid(pid)
 
-  #   assert_push("ui", @expected_ui)
+    assert_push("ui", @expected_ui)
 
-  #   push(socket, "run", %{"code" => @listener_code})
+    push(socket, "run", %{"code" => @listener_code})
 
-  #   assert_push("patchUi", @expected_patch_ui)
+    assert_push("patchUi", @expected_patch_ui)
 
-  #   Process.unlink(socket.channel_pid)
-  #   ref = leave(socket)
+    Process.unlink(socket.channel_pid)
+    ref = leave(socket)
 
-  #   assert_reply(ref, :ok)
-  # end
+    assert_reply(ref, :ok)
+  end
 
   defp my_subscribe_and_join(socket, params \\ %{}) do
     subscribe_and_join(socket, DevTool.AppChannel, "app", params)
