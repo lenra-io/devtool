@@ -19,10 +19,8 @@ defmodule DevTool.Terminal do
   end
 
   @impl true
-  def handle_info(:listen, state) do
+  def handle_info(:listen, _state) do
     get_line()
-
-    {:noreply, state}
   end
 
   @impl true
