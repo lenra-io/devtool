@@ -511,7 +511,7 @@ defmodule DevTool.DataServicesTest do
     end
   end
 
-  describe "Lenra.DataServices.create_and_link_1/1" do
+  describe "DevTool.DataServices.create_and_link_1/1" do
     test "should create data and user_data", %{env_id: env_id, user_id: user_id} do
       env_id
       |> DatastoreServices.create(%{"name" => "UserDatas"})
