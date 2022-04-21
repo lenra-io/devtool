@@ -195,7 +195,7 @@ defmodule DevTool.DataServicesTest do
     end
   end
 
-  describe "Lenra.DataServices.get_old_data_1/1" do
+  describe "DevTool.DataServices.get_old_data_1/1" do
     test "should return last data", %{env_id: env_id, user_id: user_id} do
       env_id
       |> DatastoreServices.create(%{"name" => "UserDatas"})
