@@ -78,7 +78,7 @@ defmodule DevTool.DatastoreControllerTest do
   #   |> Repo.transaction()
   # end
 
-  # # TODO make tests when route are defined
+  # # TO DO make tests when route are defined
   # describe "DevTool.DatastoreController.create_2/1" do
   #   test "should create datastore if params valid", %{
   #     conn: conn,

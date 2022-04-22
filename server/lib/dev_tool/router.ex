@@ -8,4 +8,9 @@ defmodule DevTool.Router do
   scope "/api", DevTool do
     get("/apps/test/resources/:resource", ResourcesController, :get_app_resource)
   end
+
+  scope "/app", DevTool do
+    post("/datastore", DatastoreController, :create)
+    delete("/datastore/:datastore", DatastoreController, :delete)
+  end
 end
