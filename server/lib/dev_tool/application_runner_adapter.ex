@@ -6,7 +6,8 @@ defmodule DevTool.ApplicationRunnerAdapter do
   @behaviour ApplicationRunner.AdapterBehavior
 
   alias ApplicationRunner.{EnvState, SessionState}
-  alias DevTool.Environment
+  alias DevTool.{Environment, DataServices, UserDataServices}
+
   require Logger
 
   def application_url, do: Application.fetch_env!(:dev_tools, :application_url)
@@ -130,18 +131,6 @@ defmodule DevTool.ApplicationRunnerAdapter do
     end
   end
 
-  @impl true
-  def exec_query(_session_state, _query) do
-    # WAIT FOR SERVICE TO IMLEMENT
-    %{}
-  end
-
-  @impl true
-  def ensure_user_data_created(_session_state) do
-    # WAIT FOR SERVICE TO IMLEMENT
-    :ok
-  end
-
   defp response({:ok, %Finch.Response{status: 200, body: body}}, :decode) do
     {:ok, Jason.decode!(body)}
   end
@@ -157,6 +146,21 @@ defmodule DevTool.ApplicationRunnerAdapter do
     err = "Application error (#{status_code}) #{body}"
     Logger.error(err)
     {:error, err}
+  end
+
+  @impl true
+  def exec_query(%SessionState{assigns: %{environment: env, user: user}}, query) do
+    DataServices.query(env.id, user.id, query)
+  end
+
+  @impl true
+  def first_time_user?(%SessionState{assigns: %{user: user, environment: env}}) do
+    UserDataServices.has_user_data?(env.id, user.id)
+  end
+
+  @impl true
+  def create_user_data(%SessionState{assigns: %{user: user, environment: env}}) do
+    UserDataServices.create_user_data(env.id, user.id)
   end
 
   @impl true

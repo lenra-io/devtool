@@ -198,11 +198,11 @@ defmodule DevTool.DataServicesTest do
   describe "DevTool.DataServices.get_old_data_1/1" do
     test "should return last data", %{env_id: env_id, user_id: user_id} do
       env_id
-      |> DatastoreServices.create(%{"name" => "UserDatas"})
+      |> DatastoreServices.create(%{"name" => "UserData"})
       |> Repo.transaction()
 
       DataServices.create_and_link(user_id, env_id, %{
-        "datastore" => "UserDatas",
+        "datastore" => "UserData",
         "data" => %{"test" => "test"}
       })
 
@@ -478,47 +478,14 @@ defmodule DevTool.DataServicesTest do
     end
   end
 
-  describe "DevTool.DataServices.upsert_data_1/1" do
-    test "should update last data if data exist", %{env_id: env_id, user_id: user_id} do
-      env_id
-      |> DatastoreServices.create(%{"name" => "UserDatas"})
-      |> Repo.transaction()
-
-      DataServices.create_and_link(user_id, env_id, %{
-        "datastore" => "UserDatas",
-        "data" => %{"test" => "test"}
-      })
-
-      DataServices.upsert_data(user_id, env_id, %{
-        "datastore" => "UserDatas",
-        "data" => %{"test" => "test2"}
-      })
-
-      assert %{"test" => "test2"} = DataServices.get_old_data(user_id, env_id).data
-    end
-
-    test "should create data if data not exist", %{env_id: env_id, user_id: user_id} do
-      env_id
-      |> DatastoreServices.create(%{"name" => "UserDatas"})
-      |> Repo.transaction()
-
-      DataServices.upsert_data(user_id, env_id, %{
-        "datastore" => "UserDatas",
-        "data" => %{"test" => "test"}
-      })
-
-      assert %{"test" => "test"} = DataServices.get_old_data(user_id, env_id).data
-    end
-  end
-
   describe "DevTool.DataServices.create_and_link_1/1" do
     test "should create data and user_data", %{env_id: env_id, user_id: user_id} do
       env_id
-      |> DatastoreServices.create(%{"name" => "UserDatas"})
+      |> DatastoreServices.create(%{"name" => "UserData"})
       |> Repo.transaction()
 
       DataServices.create_and_link(user_id, env_id, %{
-        "datastore" => "UserDatas",
+        "datastore" => "UserData",
         "data" => %{"test" => "test"}
       })
 
@@ -530,7 +497,7 @@ defmodule DevTool.DataServicesTest do
             join: ds in Datastore,
             on: ds.id == d.datastore_id,
             where:
-              u.user_id == ^user_id and ds.environment_id == ^env_id and ds.name == "UserDatas",
+              u.user_id == ^user_id and ds.environment_id == ^env_id and ds.name == "UserData",
             select: u
           )
         )

@@ -5,7 +5,14 @@ defmodule DevTool.DataServices do
   import Ecto.Query, only: [from: 2]
 
   alias DevTool.Repo
-  alias ApplicationRunner.{AST.EctoParser, AST.Parser, Data, DataServices, Datastore, UserData}
+
+  alias ApplicationRunner.{
+    AST,
+    Data,
+    DataServices,
+    Datastore,
+    UserData
+  }
 
   def get(ds_name, id) do
     select =
@@ -20,7 +27,7 @@ defmodule DevTool.DataServices do
     |> Repo.one()
   end
 
-  def query(env_id, user_id, query) do
+  def query(env_id, user_id, %AST.Query{} = query) do
     select =
       from(d in Data,
         join: ud in UserData,
@@ -36,8 +43,7 @@ defmodule DevTool.DataServices do
       |> Repo.one()
 
     query
-    |> Parser.from_json()
-    |> EctoParser.to_ecto(env_id, user_data_id)
+    |> AST.EctoParser.to_ecto(env_id, user_data_id)
     |> Repo.all()
   end
 
@@ -66,30 +72,5 @@ defmodule DevTool.DataServices do
     data_id
     |> DataServices.delete()
     |> Repo.transaction()
-  end
-
-  def get_old_data(user_id, environment_id) do
-    Repo.one(
-      from(d in Data,
-        join: u in UserData,
-        on: d.id == u.data_id,
-        join: ds in Datastore,
-        on: ds.id == d.datastore_id,
-        where:
-          u.user_id == ^user_id and ds.environment_id == ^environment_id and
-            ds.name == "UserDatas",
-        select: d
-      )
-    )
-  end
-
-  def upsert_data(user_id, environment_id, data) do
-    case get_old_data(user_id, environment_id) do
-      nil ->
-        create_and_link(user_id, environment_id, data)
-
-      old_data_id ->
-        update(old_data_id.id, data)
-    end
   end
 end
