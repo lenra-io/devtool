@@ -21,6 +21,7 @@ defmodule DevTool do
     quote do
       use Phoenix.Controller, namespace: DevTool
 
+      import DevTool.ControllerHelpers
       import Plug.Conn
       alias DevTool.Router.Helpers, as: Routes
     end
