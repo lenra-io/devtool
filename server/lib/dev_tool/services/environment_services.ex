@@ -4,15 +4,19 @@ defmodule DevTool.EnvironmentServices do
   """
 
   import Ecto.Query, only: [from: 2]
-  alias DevTool.{Repo, Environment}
   alias ApplicationRunner.Datastore
 
-  def get_first_env!() do
+  alias DevTool.{
+    Environment,
+    Repo
+  }
+
+  def get_first_env! do
     first_env_query()
     |> Repo.one!()
   end
 
-  def create_first_env_if_not_exists() do
+  def create_first_env_if_not_exists do
     if not (first_env_query() |> Repo.exists?()) do
       Ecto.Multi.new()
       |> Ecto.Multi.insert(:inserted_environment, Environment.new())
@@ -23,5 +27,5 @@ defmodule DevTool.EnvironmentServices do
     end
   end
 
-  defp first_env_query(), do: from(Environment, limit: 1)
+  defp first_env_query, do: from(Environment, limit: 1)
 end

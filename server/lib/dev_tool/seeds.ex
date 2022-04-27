@@ -2,7 +2,11 @@ defmodule DevTool.Seeds do
   @moduledoc """
   Module to populate the database. The "run" function must be idempotent.
   """
-  alias DevTool.{Repo, EnvironmentServices, UserServices}
+  alias DevTool.{
+    EnvironmentServices,
+    Repo,
+    UserServices
+  }
 
   def run do
     Ecto.Migrator.with_repo(Repo, fn _ ->

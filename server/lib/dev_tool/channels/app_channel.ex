@@ -8,8 +8,8 @@ defmodule DevTool.AppChannel do
 
   alias DevTool.{
     EnvironmentServices,
-    UserServices,
-    ErrorHelpers
+    ErrorHelpers,
+    UserServices
   }
 
   alias ApplicationRunner.{

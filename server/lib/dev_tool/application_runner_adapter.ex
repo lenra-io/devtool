@@ -5,8 +5,16 @@ defmodule DevTool.ApplicationRunnerAdapter do
   """
   @behaviour ApplicationRunner.AdapterBehavior
 
-  alias ApplicationRunner.{EnvState, SessionState}
-  alias DevTool.{Environment, DataServices, UserDataServices}
+  alias ApplicationRunner.{
+    EnvState,
+    SessionState
+  }
+
+  alias DevTool.{
+    DataServices,
+    Environment,
+    UserDataServices
+  }
 
   require Logger
 
@@ -161,7 +169,6 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   @impl true
   def create_user_data(%SessionState{assigns: %{user: user, environment: env}}) do
-    Logger.error("Creating user data")
     UserDataServices.create_user_data(env.id, user.id)
   end
 

@@ -3,8 +3,8 @@ defmodule DevTool.UserDataServices do
     The service that manages application data.
   """
 
-  alias DevTool.Repo
   alias ApplicationRunner.UserDataServices
+  alias DevTool.Repo
 
   def has_user_data?(env_id, user_id) do
     UserDataServices.current_user_data_query(env_id, user_id)
