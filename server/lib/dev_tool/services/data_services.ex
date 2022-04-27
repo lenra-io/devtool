@@ -14,6 +14,8 @@ defmodule DevTool.DataServices do
     UserData
   }
 
+  require Logger
+
   def get(ds_name, id) do
     select =
       from(d in Data,
@@ -27,23 +29,19 @@ defmodule DevTool.DataServices do
     |> Repo.one()
   end
 
-  def query(env_id, user_id, %AST.Query{} = query) do
-    select =
-      from(d in Data,
-        join: ud in UserData,
-        on: ud.data_id == d.id,
-        join: ds in Datastore,
-        on: d.datastore_id == ds.id,
-        where: ud.user_id == ^user_id and ds.environment_id == ^env_id,
-        select: d.id
-      )
+  def query(_env_id, _user_id, nil) do
+    []
+  end
 
-    user_data_id =
-      select
+  def query(env_id, user_id, %AST.Query{} = query) do
+    Logger.debug(query)
+
+    user_data =
+      ApplicationRunner.UserDataServices.current_user_data_query(env_id, user_id)
       |> Repo.one()
 
     query
-    |> AST.EctoParser.to_ecto(env_id, user_data_id)
+    |> AST.EctoParser.to_ecto(env_id, user_data.id)
     |> Repo.all()
   end
 
@@ -62,9 +60,8 @@ defmodule DevTool.DataServices do
     |> Repo.transaction()
   end
 
-  def update(data_id, params) do
-    data_id
-    |> DataServices.update(params)
+  def update(params) do
+    DataServices.update(params)
     |> Repo.transaction()
   end
 

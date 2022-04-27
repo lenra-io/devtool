@@ -8,7 +8,8 @@
 import Config
 
 config :dev_tools,
-  ecto_repos: [DevTool.Repo]
+  ecto_repos: [DevTool.Repo],
+  application_url: System.get_env("APPLICATION_URL", "http://localhost:3000/")
 
 config :dev_tools, DevTool.Repo,
   migration_timestamps: [type: :utc_datetime],

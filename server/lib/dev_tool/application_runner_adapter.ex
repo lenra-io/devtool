@@ -18,7 +18,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     case Finch.build(:post, application_url(), headers)
          |> Finch.request(AppHttp)
-         |> response(:decode) do
+         |> response(:manifest) do
       {:ok, %{"manifest" => manifest}} ->
         {:ok, manifest}
 
@@ -36,7 +36,7 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
     case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)
-         |> response(:decode) do
+         |> response(:widget) do
       {:ok, %{"widget" => widget}} ->
         {:ok, widget}
 
@@ -104,9 +104,6 @@ defmodule DevTool.ApplicationRunnerAdapter do
          event,
          token
        ) do
-    [host: host] = Application.get_env(:lenra_web, LenraWeb.Endpoint)[:url]
-    [port: port] = Application.get_env(:lenra_web, LenraWeb.Endpoint)[:http]
-
     headers = [
       {"Content-Type", "application/json"}
     ]
@@ -116,32 +113,36 @@ defmodule DevTool.ApplicationRunnerAdapter do
         action: action,
         props: props,
         event: event,
-        api_options: %{host: host, port: port, token: token}
+        api: %{url: "http://localhost:4000", token: token}
       })
 
     Finch.build(:post, application_url(), headers, body)
-    |> Finch.request(FaasHttp, receive_timeout: 1000)
-    |> response(:decode)
-    |> case do
-      {:ok, _res} ->
-        :ok
-
-      err ->
-        err
-    end
+    |> Finch.request(AppHttp, receive_timeout: 1000)
+    |> response(:listener)
   end
 
-  defp response({:ok, %Finch.Response{status: 200, body: body}}, :decode) do
+  defp response({:ok, %Finch.Response{status: 200, body: body}}, key)
+       when key in [:manifest, :widget] do
     {:ok, Jason.decode!(body)}
   end
 
-  defp response({:error, %Mint.TransportError{reason: reason}}, _action) do
+  defp response({:ok, %Finch.Response{status: 200}}, :listener) do
+    :ok
+  end
+
+  defp response({:error, %Mint.TransportError{reason: reason}}, _key) do
     err = "Application could not be reached #{reason}."
     Logger.error(err)
     {:error, err}
   end
 
-  defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
+  defp response({:ok, %Finch.Response{status: 404, body: body}}, :listener) do
+    err = "Application error (404) #{inspect(body)}"
+    Logger.error(err)
+    :error404
+  end
+
+  defp response({:ok, %Finch.Response{status: status_code, body: body}}, _key)
        when status_code not in [200, 202] do
     err = "Application error (#{status_code}) #{body}"
     Logger.error(err)
@@ -155,16 +156,28 @@ defmodule DevTool.ApplicationRunnerAdapter do
 
   @impl true
   def first_time_user?(%SessionState{assigns: %{user: user, environment: env}}) do
-    UserDataServices.has_user_data?(env.id, user.id)
+    not UserDataServices.has_user_data?(env.id, user.id)
   end
 
   @impl true
   def create_user_data(%SessionState{assigns: %{user: user, environment: env}}) do
+    Logger.error("Creating user data")
     UserDataServices.create_user_data(env.id, user.id)
   end
 
   @impl true
-  def on_ui_changed(%SessionState{} = session_state, {atom, data}) do
-    send(session_state.assigns.socket_pid, {:send, atom, data})
+  def on_ui_changed(
+        %SessionState{
+          assigns: %{
+            socket_pid: socket_pid
+          }
+        },
+        {atom, ui_or_patches}
+      ) do
+    send(socket_pid, {:send, atom, ui_or_patches})
+  end
+
+  def on_ui_changed(session_state, message) do
+    raise "Error, not maching on_ui_changed/2 #{inspect(session_state)}, #{inspect(message)}"
   end
 end
