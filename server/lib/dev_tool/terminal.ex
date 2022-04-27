@@ -19,27 +19,14 @@ defmodule DevTool.Terminal do
   end
 
   @impl true
-  def handle_info(:listen, _state) do
-    get_line()
+  def handle_info(:listen, state) do
+    spawn(DevTool.Terminal, :listen, [self()])
+
+    {:noreply, state}
   end
 
-  @impl true
-  def handle_call(:stop, _from, state) do
-    state
-    |> Keyword.get(:pid)
-    |> :exec.kill(15)
-    |> case do
-      :ok ->
-        {:reply, :ok, Keyword.put(state, :pid, nil)}
-
-      err ->
-        {:reply, err, state}
-    end
-  end
-
-  defp get_line do
+  def listen(parent_pid) do
     case IO.gets("") do
-      # Reload watchdog
       "R\n" ->
         Logger.info("Reloading watchdog")
         DevTool.Watchdog.restart()
@@ -48,6 +35,6 @@ defmodule DevTool.Terminal do
         nil
     end
 
-    get_line()
+    send(parent_pid, :listen)
   end
 end
