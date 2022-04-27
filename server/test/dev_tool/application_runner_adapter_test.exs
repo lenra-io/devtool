@@ -8,7 +8,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
   alias DevTool.ApplicationRunnerAdapter
 
   setup do
-    bypass = Bypass.open(port: 6789)
+    bypass = Bypass.open(port: 3333)
     {:ok, bypass: bypass}
   end
 
