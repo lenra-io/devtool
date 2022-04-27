@@ -6,21 +6,22 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
-  alias DevTool.{Repo, Environment, User, ErrorHelpers}
+  alias DevTool.{
+    EnvironmentServices,
+    UserServices,
+    ErrorHelpers
+  }
 
   alias ApplicationRunner.{
     SessionManager,
     SessionManagers
   }
 
-  @fake_env_id 1
-  @fake_user_id 1
-
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
 
-    with env <- Repo.get!(Environment, @fake_env_id),
-         user <- Repo.get!(User, @fake_user_id) do
+    with env <- EnvironmentServices.get_first_env!(),
+         user <- UserServices.get_first_user!() do
       session_assigns = %{
         user: user,
         environment: env,
@@ -33,7 +34,7 @@ defmodule DevTool.AppChannel do
 
       case SessionManagers.start_session(
              Ecto.UUID.generate(),
-             @fake_env_id,
+             env.id,
              session_assigns,
              env_assigns
            ) do
