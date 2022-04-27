@@ -63,14 +63,13 @@ defmodule DevTool.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
       {:erlexec, "~> 1.0"},
-      {:application_runner, path: "../../application-runner"}
-      # private_git(
-      #   name: :application_runner,
-      #   host: "github.com",
-      #   project: "lenra-io/application-runner.git",
-      #   credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-      #   tag: "v1.0.0-data.13"
-      # )
+      private_git(
+        name: :application_runner,
+        host: "github.com",
+        project: "lenra-io/application-runner.git",
+        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
+        tag: "last-push-data"
+      )
     ]
   end
 
@@ -83,10 +82,10 @@ defmodule DevTool.MixProject do
 
     case System.get_env("CI") do
       "true" ->
-        {name, git: "https://#{credentials}@#{host}/#{project}", tag: tag, submodules: true}
+        {name, git: "https://#{credentials}@#{host}/#{project}", ref: tag, submodules: true}
 
       _ ->
-        {name, git: "git@#{host}:#{project}", tag: tag, submodules: true}
+        {name, git: "git@#{host}:#{project}", ref: tag, submodules: true}
     end
   end
 
