@@ -25,12 +25,12 @@ COPY ./client/build/web/ ./priv/static/
 ENV SECRET_KEY_BASE=Lhk7igVi9p3jnV9gMqi7+pSFFfo7R3V9PnXXt1FnvyHSqjYFThwDecnS1TmR2hUE
 
 # install mix dependencies
-RUN mix do deps.get, deps.compile
-
+RUN mix deps.get
 RUN mix phx.digest
 
 # compile and build release
-RUN mix do compile, release dev_tools
+RUN mix compile
+RUN mix release dev_tools
 
 # prepare release image
 FROM alpine:latest
