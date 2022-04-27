@@ -68,7 +68,7 @@ defmodule DevTool.MixProject do
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "last-push-data"
+        tag: "v1.0.0-data.14"
       )
     ]
   end
@@ -82,10 +82,10 @@ defmodule DevTool.MixProject do
 
     case System.get_env("CI") do
       "true" ->
-        {name, git: "https://#{credentials}@#{host}/#{project}", ref: tag, submodules: true}
+        {name, git: "https://#{credentials}@#{host}/#{project}", tag: tag, submodules: true}
 
       _ ->
-        {name, git: "git@#{host}:#{project}", ref: tag, submodules: true}
+        {name, git: "git@#{host}:#{project}", tag: tag, submodules: true}
     end
   end
 
