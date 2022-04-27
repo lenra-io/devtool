@@ -29,9 +29,7 @@ defmodule DevTool.Watchdog do
     # TO DO :Ensure that the watchdog is stopped before restarting it (the ports are not directly given back to the OS)
     Process.sleep(100)
 
-    with {:ok, pid} <- ApplicationRunner.EnvManagers.fetch_env_manager_pid(1) do
-      GenServer.cast(pid, :stop)
-    end
+    ApplicationRunner.EnvManagers.stop_env(1)
 
     Watchdog.start()
   end
