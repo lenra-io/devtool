@@ -6,36 +6,46 @@ defmodule DevTool.AppChannel do
 
   require Logger
 
+  alias DevTool.{
+    EnvironmentServices,
+    ErrorHelpers,
+    UserServices
+  }
+
   alias ApplicationRunner.{
     SessionManager,
     SessionManagers
   }
 
-  @fake_env_id 1
-
   def join("app", %{"app" => app_name}, socket) do
     Logger.info("Join channel for app : #{app_name}")
 
-    case SessionManagers.start_session(
-           System.unique_integer(),
-           @fake_env_id,
-           %{socket_pid: self()},
-           %{}
-         ) do
-      {:ok, pid} ->
-        {:ok, pid}
+    with env <- EnvironmentServices.get_first_env!(),
+         user <- UserServices.get_first_user!() do
+      session_assigns = %{
+        user: user,
+        environment: env,
+        socket_pid: self()
+      }
 
-      {:error, message} ->
-        {:error, message}
-    end
-    |> case do
-      {:ok, pid} ->
-        socket = assign(socket, session_pid: pid)
+      env_assigns = %{
+        environment: env
+      }
 
-        {:ok, socket}
+      case SessionManagers.start_session(
+             Ecto.UUID.generate(),
+             env.id,
+             session_assigns,
+             env_assigns
+           ) do
+        {:ok, pid} ->
+          socket = assign(socket, session_pid: pid)
 
-      {:error, message} ->
-        {:error, %{reason: message}}
+          {:ok, socket}
+
+        {:error, message} ->
+          {:error, message}
+      end
     end
   end
 
@@ -44,46 +54,43 @@ defmodule DevTool.AppChannel do
   end
 
   def handle_info({:send, :ui, ui}, socket) do
+    Logger.debug("send ui #{inspect(ui)}")
     push(socket, "ui", ui)
     {:noreply, socket}
   end
 
   def handle_info({:send, :patches, patches}, socket) do
+    Logger.debug("send patchUi  #{inspect(%{patch: patches})}")
+
     push(socket, "patchUi", %{"patch" => patches})
     {:noreply, socket}
   end
 
-  def handle_info({:send, :error, reason}, socket) do
-    Logger.debug("send error  #{inspect(%{error: reason})}")
+  def handle_info({:send, :error, {:error, reason}}, socket) when is_atom(reason) do
+    Logger.error("Send error #{inspect(reason)}")
 
-    case is_bitstring(reason) do
-      true ->
-        push(socket, "error", %{
-          "errors" => [
-            %{
-              code: -1,
-              message: reason
-            }
-          ]
-        })
+    push(socket, "error", %{"errors" => ErrorHelpers.translate_error(reason)})
+    {:noreply, socket}
+  end
 
-      false ->
-        push(socket, "error", %{
-          "errors" => [
-            %{
-              code: -1,
-              message:
-                Enum.map(reason, fn err ->
-                  case is_tuple(err) do
-                    true -> Tuple.to_list(err) |> Enum.join(", ")
-                    false -> err
-                  end
-                end)
-            }
-          ]
-        })
-    end
+  def handle_info({:send, :error, {:error, :invalid_ui, errors}}, socket) when is_list(errors) do
+    formatted_errors =
+      errors
+      |> Enum.map(fn {message, path} -> %{code: 0, message: "#{message} at path #{path}"} end)
 
+    push(socket, "error", %{"errors" => formatted_errors})
+    {:noreply, socket}
+  end
+
+  def handle_info({:send, :error, reason}, socket) when is_atom(reason) do
+    Logger.error("Send error atom #{inspect(reason)}")
+    push(socket, "error", %{"errors" => ErrorHelpers.translate_error(reason)})
+    {:noreply, socket}
+  end
+
+  def handle_info({:send, :error, malformatted_error}, socket) do
+    Logger.error("Malformatted error #{inspect(malformatted_error)}")
+    push(socket, "error", %{"errors" => ErrorHelpers.translate_error(:unknow_error)})
     {:noreply, socket}
   end
 

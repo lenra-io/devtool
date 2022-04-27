@@ -24,6 +24,8 @@ defmodule DevTool do
       import DevTool.ControllerHelpers
       import Plug.Conn
       alias DevTool.Router.Helpers, as: Routes
+      plug(:put_view, DevTool.BaseView)
+      action_fallback(DevTool.FallbackController)
     end
   end
 

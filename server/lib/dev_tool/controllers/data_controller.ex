@@ -7,7 +7,7 @@ defmodule DevTool.DataController do
   @fake_user_id 1
 
   def get(conn, params) do
-    with data <- DataServices.get(params["datastore"], params["id"]) do
+    with data <- DataServices.get(params["_datastore"], params["_id"]) do
       conn
       |> assign_data(:data, data)
       |> reply
@@ -23,7 +23,7 @@ defmodule DevTool.DataController do
   end
 
   def update(conn, params) do
-    with {:ok, %{updated_data: data}} <- DataServices.update(params["id"], params) do
+    with {:ok, %{updated_data: data}} <- DataServices.update(params) do
       conn
       |> assign_data(:updated_data, data)
       |> reply
@@ -31,7 +31,7 @@ defmodule DevTool.DataController do
   end
 
   def delete(conn, params) do
-    with {:ok, %{deleted_data: data}} <- DataServices.delete(params["id"]) do
+    with {:ok, %{deleted_data: data}} <- DataServices.delete(params["_id"]) do
       conn
       |> assign_data(:deleted_data, data)
       |> reply

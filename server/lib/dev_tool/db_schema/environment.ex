@@ -10,7 +10,7 @@ defmodule DevTool.Environment do
   alias DevTool.Environment
 
   schema "environments" do
-    has_one(:datastore, Datastore, foreign_key: :environment_id)
+    has_many(:datastore, Datastore, foreign_key: :environment_id)
     timestamps()
   end
 
