@@ -20,12 +20,12 @@ defmodule DevTool.Terminal do
 
   @impl true
   def handle_info(:listen, state) do
-    spawn(DevTool.Terminal, :listen, [self()])
+    spawn_link(DevTool.Terminal, :listen, [])
 
     {:noreply, state}
   end
 
-  def listen(parent_pid) do
+  def listen() do
     case IO.gets("") do
       "R\n" ->
         Logger.info("Reloading watchdog")
@@ -35,6 +35,6 @@ defmodule DevTool.Terminal do
         nil
     end
 
-    send(parent_pid, :listen)
+    listen()
   end
 end
