@@ -25,7 +25,7 @@ defmodule DevTool.Terminal do
     {:noreply, state}
   end
 
-  def listen() do
+  def listen do
     case IO.gets("") do
       "R\n" ->
         Logger.info("Reloading watchdog")
