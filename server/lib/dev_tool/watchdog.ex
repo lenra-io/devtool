@@ -25,6 +25,12 @@ defmodule DevTool.Watchdog do
 
   def restart do
     Watchdog.stop()
+
+    # TO DO :Ensure that the watchdog is stopped before restarting it (the ports are not directly given back to the OS)
+    Process.sleep(100)
+
+    ApplicationRunner.EnvManagers.stop_env(1)
+
     Watchdog.start()
   end
 
@@ -89,9 +95,10 @@ defmodule DevTool.Watchdog do
 
   defp kill(pid) do
     pid
-    |> :exec.kill(15)
+    |> :exec.stop()
     |> case do
-      {:error, _} ->
+      {:error, err} ->
+        Logger.error("Error while stopping watchdog: #{err}")
         {:error, :not_started}
 
       :ok ->
@@ -101,10 +108,7 @@ defmodule DevTool.Watchdog do
 
   defp check_opts(opts) do
     Keyword.get(opts, :of_watchdog) |> check_required(:of_watchdog)
-    Keyword.get(opts, :upstream_url) |> check_required(:upstream_url)
-    Keyword.get(opts, :fprocess) |> check_required(:fprocess)
     Keyword.get(opts, :port) |> check_required(:port)
-    Keyword.get(opts, :mode) |> check_required(:mode)
 
     opts
   end
@@ -147,6 +151,7 @@ defmodule DevTool.Watchdog do
 
       err ->
         Logger.error("An error occured when stopping the application.")
+        Logger.error(inspect(err))
         {:reply, err, state}
     end
   end
@@ -158,13 +163,7 @@ defmodule DevTool.Watchdog do
         :stdout,
         :stderr,
         env: [
-          {
-            "upstream_url",
-            Keyword.get(opts, :upstream_url)
-          },
-          {"fprocess", Keyword.get(opts, :fprocess)},
-          {"port", Keyword.get(opts, :port)},
-          {"mode", Keyword.get(opts, :mode)}
+          {"port", Keyword.get(opts, :port)}
         ]
       ]
     )
