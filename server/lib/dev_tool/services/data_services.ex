@@ -9,11 +9,10 @@ defmodule DevTool.DataServices do
   alias ApplicationRunner.{
     AST,
     Data,
+    DataQueryViewServices,
     DataServices,
     Datastore,
-    UserData,
-    Data,
-    DataQueryViewServices
+    UserData
   }
 
   require Logger
