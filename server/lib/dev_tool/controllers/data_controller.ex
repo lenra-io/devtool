@@ -47,8 +47,6 @@ defmodule DevTool.DataController do
   end
 
   def query(conn, params) do
-    IO.inspect(conn.body_params)
-
     data =
       DataServices.parse_and_exec_query(
         params,
