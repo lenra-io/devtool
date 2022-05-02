@@ -7,9 +7,17 @@ defmodule DevTool.DataController do
   @fake_user_id 1
 
   def get(conn, params) do
-    with data <- DataServices.get(params["_datastore"], params["_id"]) do
+    with result <- DataServices.get(@fake_env_id, params["_datastore"], params["_id"]) do
       conn
-      |> assign_data(:data, data)
+      |> assign_all(result.data)
+      |> reply
+    end
+  end
+
+  def get_all(conn, params) do
+    with result <- DataServices.get_all(@fake_env_id, params["_datastore"]) do
+      conn
+      |> assign_all(Enum.map(result, fn r -> r.data end))
       |> reply
     end
   end
@@ -39,15 +47,17 @@ defmodule DevTool.DataController do
   end
 
   def query(conn, params) do
-    with data <-
-           DataServices.query(
-             @fake_env_id,
-             @fake_user_id,
-             params["query"]
-           ) do
-      conn
-      |> assign_data(:result, data)
-      |> reply
-    end
+    IO.inspect(conn.body_params)
+
+    data =
+      DataServices.parse_and_exec_query(
+        params,
+        @fake_env_id,
+        @fake_user_id
+      )
+
+    conn
+    |> assign_all(data)
+    |> reply
   end
 end
