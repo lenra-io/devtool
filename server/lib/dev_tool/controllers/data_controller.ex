@@ -39,14 +39,14 @@ defmodule DevTool.DataController do
   end
 
   def query(conn, params) do
-    with requested <-
+    with data <-
            DataServices.query(
              @fake_env_id,
              @fake_user_id,
              params["query"]
            ) do
       conn
-      |> assign_data(:requested, requested)
+      |> assign_data(:result, data)
       |> reply
     end
   end

@@ -16,5 +16,6 @@ defmodule DevTool.Router do
     post("/datastore/:_datastore/data", DataController, :create)
     delete("/datastore/:_datastore/data/:_id", DataController, :delete)
     put("/datastore/:_datastore/data/:_id", DataController, :update)
+    get("/query", DataController, :query)
   end
 end
