@@ -9,6 +9,7 @@ defmodule DevTool.DataServices do
   alias ApplicationRunner.{
     AST,
     Data,
+    DataQueryViewServices,
     DataServices,
     Datastore,
     UserData
@@ -16,24 +17,21 @@ defmodule DevTool.DataServices do
 
   require Logger
 
-  def get(ds_name, id) do
-    select =
-      from(d in Data,
-        join: ds in Datastore,
-        on: d.datastore_id == ds.id,
-        where: d.id == ^id and ds.name == ^ds_name,
-        select: d
-      )
-
-    select
+  def get(env_id, ds_name, data_id) do
+    DataQueryViewServices.get_one(env_id, ds_name, data_id)
     |> Repo.one()
   end
 
-  def query(_env_id, _user_id, nil) do
+  def get_all(env_id, ds_name) do
+    DataQueryViewServices.get_all(env_id, ds_name)
+    |> Repo.all()
+  end
+
+  def exec_query(_env_id, _user_id, nil) do
     []
   end
 
-  def query(env_id, user_id, %AST.Query{} = query) do
+  def exec_query(%AST.Query{} = query, env_id, user_id) do
     Logger.debug(query)
 
     user_data =
@@ -43,6 +41,12 @@ defmodule DevTool.DataServices do
     query
     |> AST.EctoParser.to_ecto(env_id, user_data.id)
     |> Repo.all()
+  end
+
+  def parse_and_exec_query(query, env_id, user_id) do
+    query
+    |> AST.Parser.from_json()
+    |> exec_query(env_id, user_id)
   end
 
   def create(environment_id, params) do

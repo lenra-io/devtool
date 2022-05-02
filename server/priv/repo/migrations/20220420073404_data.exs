@@ -50,10 +50,10 @@ defmodule DevTool.Repo.Migrations.Data do
     # 3 fields:
     # id -> id of the data
     # environment_id -> Self explainatory
-    # data -> the json object that represent the data with refs/datastore/userData...
+    # data -> the json object that represent the data with refs/datastore/_users...
     # This allow to query every field exactly like classic user data.
     # This migration will be copy on server/devtools to create the same view.
-    # "_user" field will only be added if we are on "userData" datastore
+    # "_user" field will only be added if we are on "_users" datastore
     # "_refs" and "_refBy" field will be empty array if there is no references (instead of null)
     execute("
     CREATE VIEW data_query_view AS
@@ -67,8 +67,8 @@ defmodule DevTool.Repo.Migrations.Data do
       '_refs', (SELECT COALESCE((SELECT jsonb_agg(dr.refs_id) FROM data_references as dr where ref_by_id = d.id GROUP BY dr.ref_by_id), '[]'::jsonb)),
       '_refBy', (SELECT COALESCE((SELECT jsonb_agg(dr.ref_by_id) FROM data_references as dr where refs_id = d.id GROUP BY dr.refs_id), '[]'::jsonb))
     ) ||
-    CASE  WHEN ds.name != 'userData' THEN '{}'::jsonb
-          WHEN ds.name = 'userData' THEN jsonb_build_object(
+    CASE  WHEN ds.name != '_users' THEN '{}'::jsonb
+          WHEN ds.name = '_users' THEN jsonb_build_object(
             '_user', (SELECT to_jsonb(_) FROM (SELECT u.email, u.id) AS _)
           )
     END
