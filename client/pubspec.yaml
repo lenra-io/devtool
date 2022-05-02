@@ -40,7 +40,7 @@ dependencies:
   lenra_ui_runner:
     git:
       url: git@github.com:lenra-io/lenra_ui_runner.git
-      ref: v1.0.0-beta.63
+      ref: v1.0.0-beta.64
   device_preview: ^1.0.0
 dev_dependencies:
   flutter_test:
@@ -58,7 +58,7 @@ flutter:
         - asset: fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf
         - asset: fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf
     - family: Roboto
-      fonts: 
+      fonts:
         - asset: fonts/Roboto/Roboto-Regular.ttf
         - asset: fonts/Roboto/Roboto-Medium.ttf
         - asset: fonts/Roboto/Roboto-Bold.ttf
