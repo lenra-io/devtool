@@ -15,8 +15,8 @@ config :dev_tools, DevTool.Endpoint,
 
 config :dev_tools,
   of_watchdog: System.get_env("OF_WATCHDOG_BIN", "/usr/bin/fwatchdog"),
-  port: System.get_env("OF_WATCHDOG_PORT", "3333"),
-  application_url: "http://localhost:#{System.get_env("OF_WATCHDOG_PORT", "3333")}"
+  port: System.get_env("OF_WATCHDOG_PORT", "8080"),
+  application_url: "http://localhost:#{System.get_env("OF_WATCHDOG_PORT", "8080")}"
 
 # ## SSL Support
 #
