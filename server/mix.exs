@@ -68,7 +68,11 @@ defmodule DevTool.MixProject do
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
+<<<<<<< HEAD
         tag: "v1.0.0-data.17"
+=======
+        tag: "v1.0.0-beta.29"
+>>>>>>> beta
       )
     ]
   end
