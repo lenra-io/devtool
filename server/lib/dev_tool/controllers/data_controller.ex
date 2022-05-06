@@ -22,6 +22,15 @@ defmodule DevTool.DataController do
     end
   end
 
+  def get_me(conn, _params) do
+    with result <-
+           DataServices.get_me(@fake_env_id, @fake_user_id) do
+      conn
+      |> assign_data(:user_data, result)
+      |> reply
+    end
+  end
+
   def create(conn, params) do
     with {:ok, %{inserted_data: data}} <- DataServices.create(@fake_env_id, params) do
       conn
