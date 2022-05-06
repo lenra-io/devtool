@@ -40,7 +40,7 @@ dependencies:
   lenra_ui_runner:
     git:
       url: git@github.com:lenra-io/lenra_ui_runner.git
-      ref: v1.0.0-beta.68
+      ref: v1.0.0-beta.69
   device_preview: ^1.0.0
 dev_dependencies:
   flutter_test:
