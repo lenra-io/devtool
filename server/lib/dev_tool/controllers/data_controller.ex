@@ -22,9 +22,9 @@ defmodule DevTool.DataController do
     end
   end
 
-  def get_me(conn, params) do
-    with session_assings <- Plug.current_resource(conn),
-         result <- DataServices.get_me(session_assings.environment.id, session_assings.user.id) do
+  def get_me(conn, _params) do
+    with result <-
+           DataServices.get_me(@fake_env_id, @fake_user_id) do
       conn
       |> assign_data(:user_data, result)
       |> reply
