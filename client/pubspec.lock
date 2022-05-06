@@ -221,8 +221,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-beta.57"
-      resolved-ref: f60f7dd02b68ff846deeaa52612e9ce7594487fd
+      ref: "v1.0.0-beta.58"
+      resolved-ref: fbdfec1f477b7dce669cb26a73eb0ac90e3c63bf
       url: "git@github.com:lenra-io/client.git"
     source: git
     version: "0.1.0+alpha.0"
