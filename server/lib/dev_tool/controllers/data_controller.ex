@@ -22,6 +22,15 @@ defmodule DevTool.DataController do
     end
   end
 
+  def get_me(conn, params) do
+    with session_assings <- Plug.current_resource(conn),
+         result <- DataServices.get_me(session_assings.environment.id, session_assings.user.id) do
+      conn
+      |> assign_data(:user_data, result)
+      |> reply
+    end
+  end
+
   def create(conn, params) do
     with {:ok, %{inserted_data: data}} <- DataServices.create(@fake_env_id, params) do
       conn
