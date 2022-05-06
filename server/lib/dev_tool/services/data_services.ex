@@ -72,6 +72,21 @@ defmodule DevTool.DataServices do
     |> Repo.transaction()
   end
 
+  defp get_user_data_id(env_id, user_id) do
+    select =
+      from(d in Data,
+        join: ud in UserData,
+        on: ud.data_id == d.id,
+        join: ds in Datastore,
+        on: d.datastore_id == ds.id,
+        where: ud.user_id == ^user_id and ds.environment_id == ^env_id,
+        select: d.id
+      )
+
+    select
+    |> Repo.one()
+  end
+
   def update(params) do
     DataServices.update(params)
     |> Repo.transaction()
