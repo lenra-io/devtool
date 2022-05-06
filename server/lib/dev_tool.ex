@@ -21,8 +21,11 @@ defmodule DevTool do
     quote do
       use Phoenix.Controller, namespace: DevTool
 
+      import DevTool.ControllerHelpers
       import Plug.Conn
       alias DevTool.Router.Helpers, as: Routes
+      plug(:put_view, DevTool.BaseView)
+      action_fallback(DevTool.FallbackController)
     end
   end
 

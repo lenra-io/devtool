@@ -61,12 +61,14 @@ defmodule DevTool.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
       {:erlexec, "~> 1.0"},
+      {:ecto_sql, "~> 3.4"},
+      {:postgrex, "~> 0.15.8"},
       private_git(
         name: :application_runner,
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0-beta.29"
+        tag: "v1.0.0-beta.31"
       )
     ]
   end
@@ -95,7 +97,14 @@ defmodule DevTool.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: [
+        "ecto.create --quiet",
+        "ecto.migrate",
+        "test"
+      ]
     ]
   end
 end
