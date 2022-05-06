@@ -6,7 +6,11 @@ defmodule DevTool.Application do
   use Application
 
   def start(_type, _args) do
+    DevTool.MigrationHelper.migrate()
+    DevTool.Seeds.run()
+
     children = [
+      DevTool.Repo,
       # Start the Telemetry supervisor
       DevTool.Telemetry,
       # Start the PubSub system
