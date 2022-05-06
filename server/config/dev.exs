@@ -1,5 +1,14 @@
 import Config
 
+# Configure your database
+config :dev_tools, DevTool.Repo,
+  username: System.get_env("POSTGRES_USER", "postgres"),
+  password: System.get_env("POSTGRES_PASSWORD", "postgres"),
+  database: System.get_env("POSTGRES_DB", "devtools_dev"),
+  hostname: System.get_env("POSTGRES_HOST", "localhost"),
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
