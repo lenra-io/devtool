@@ -20,40 +20,40 @@ defmodule DevTool.AppChannelTest do
     refute_push("ui", _)
   end
 
-  @app_name "Counter"
-  @listener_name "HiBob"
-  @listener_code ListenersCache.generate_listeners_key(@listener_name, %{})
+  # @app_name "Counter"
+  # @listener_name "HiBob"
+  # @listener_code ListenersCache.generate_listeners_key(@listener_name, %{})
 
-  @manifest %{"manifest" => %{"rootWidget" => "test"}}
+  # @manifest %{"manifest" => %{"rootWidget" => "test"}}
 
-  @data %{"data" => %{"user" => %{"name" => "World"}}}
-  @data2 %{"data" => %{"user" => %{"name" => "Bob"}}}
+  # @data %{"data" => %{"user" => %{"name" => "World"}}}
+  # @data2 %{"data" => %{"user" => %{"name" => "Bob"}}}
 
-  @textfield %{
-    "type" => "textfield",
-    "value" => "Hello World",
-    "onChanged" => %{"action" => @listener_name}
-  }
+  # @textfield %{
+  #   "type" => "textfield",
+  #   "value" => "Hello World",
+  #   "onChanged" => %{"action" => @listener_name}
+  # }
 
-  @textfield2 %{
-    "type" => "textfield",
-    "value" => "Hello Bob",
-    "onChanged" => %{"action" => @listener_name}
-  }
+  # @textfield2 %{
+  #   "type" => "textfield",
+  #   "value" => "Hello Bob",
+  #   "onChanged" => %{"action" => @listener_name}
+  # }
 
-  @transformed_textfield %{
-    "type" => "textfield",
-    "value" => "Hello World",
-    "onChanged" => %{"code" => @listener_code}
-  }
+  # @transformed_textfield %{
+  #   "type" => "textfield",
+  #   "value" => "Hello World",
+  #   "onChanged" => %{"code" => @listener_code}
+  # }
 
-  @widget %{"widget" => %{"type" => "flex", "children" => [@textfield]}}
-  @widget2 %{"widget" => %{"type" => "flex", "children" => [@textfield2]}}
+  # @widget %{"widget" => %{"type" => "flex", "children" => [@textfield]}}
+  # @widget2 %{"widget" => %{"type" => "flex", "children" => [@textfield2]}}
 
-  @expected_ui %{"root" => %{"type" => "flex", "children" => [@transformed_textfield]}}
-  @expected_patch_ui %{
-    "patch" => [%{"op" => "replace", "path" => "/root/children/0/value", "value" => "Hello Bob"}]
-  }
+  # @expected_ui %{"root" => %{"type" => "flex", "children" => [@transformed_textfield]}}
+  # @expected_patch_ui %{
+  #   "patch" => [%{"op" => "replace", "path" => "/root/children/0/value", "value" => "Hello Bob"}]
+  # }
 
   # test "test base app", %{socket: socket, bypass: bypass} do
   #   AppStub.stub_app(bypass, @app_name)
