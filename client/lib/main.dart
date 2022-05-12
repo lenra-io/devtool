@@ -15,9 +15,10 @@ import 'package:device_preview/device_preview.dart';
 
 void main() async {
   runApp(
-    DevicePreview(
-      builder: (context) => DevTools(),
-    ),
+    // DevicePreview(
+    //   builder: (context) => DevTools(),
+    // ),
+    DevTools(),
   );
 }
 
