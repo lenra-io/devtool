@@ -33,7 +33,7 @@ defmodule DevTool.DataController do
 
   def create(conn, params) do
     with {:ok, %{inserted_data: data}} <- DataServices.create(@fake_env_id, params),
-         result <- DataServices.get(session_assigns.environment.id, params["_datastore"], data.id) do
+         result <- DataServices.get(@fake_env_id, params["_datastore"], data.id) do
       conn
       |> assign_data(:inserted_data, result)
       |> reply
@@ -42,7 +42,7 @@ defmodule DevTool.DataController do
 
   def update(conn, params) do
     with {:ok, %{updated_data: data}} <- DataServices.update(params),
-         result <- DataServices.get(session_assigns.environment.id, params["_datastore"], data.id) do
+         result <- DataServices.get(@fake_env_id, params["_datastore"], data.id) do
       conn
       |> assign_data(:updated_data, result)
       |> reply
