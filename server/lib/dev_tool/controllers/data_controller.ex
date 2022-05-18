@@ -26,23 +26,25 @@ defmodule DevTool.DataController do
     with result <-
            DataServices.get_me(@fake_env_id, @fake_user_id) do
       conn
-      |> assign_data(:user_data, result)
+      |> assign_all(result.data)
       |> reply
     end
   end
 
   def create(conn, params) do
-    with {:ok, %{inserted_data: data}} <- DataServices.create(@fake_env_id, params) do
+    with {:ok, %{inserted_data: data}} <- DataServices.create(@fake_env_id, params),
+         result <- DataServices.get(@fake_env_id, params["_datastore"], data.id) do
       conn
-      |> assign_data(:inserted_data, data)
+      |> assign_all(result.data)
       |> reply
     end
   end
 
   def update(conn, params) do
-    with {:ok, %{updated_data: data}} <- DataServices.update(params) do
+    with {:ok, %{updated_data: data}} <- DataServices.update(params),
+         result <- DataServices.get(@fake_env_id, params["_datastore"], data.id) do
       conn
-      |> assign_data(:updated_data, data)
+      |> assign_all(result.data)
       |> reply
     end
   end
