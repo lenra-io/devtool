@@ -26,7 +26,7 @@ defmodule DevTool.DataController do
     with result <-
            DataServices.get_me(@fake_env_id, @fake_user_id) do
       conn
-      |> assign_data(:user_data, result)
+      |> assign_all(result.data)
       |> reply
     end
   end
