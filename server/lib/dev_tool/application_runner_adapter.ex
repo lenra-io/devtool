@@ -37,10 +37,10 @@ defmodule DevTool.ApplicationRunnerAdapter do
   end
 
   @impl true
-  def get_widget(_env_state, widget_name, data, props) do
+  def get_widget(%SessionState{}, widget_name, data, props, context) do
     headers = [{"Content-Type", "application/json"}]
 
-    body = Jason.encode!(%{data: data, props: props, widget: widget_name})
+    body = Jason.encode!(%{data: data, props: props, widget: widget_name, context: context})
 
     case Finch.build(:post, application_url(), headers, body)
          |> Finch.request(AppHttp)

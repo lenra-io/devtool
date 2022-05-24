@@ -17,7 +17,7 @@ defmodule DevTool.AppChannel do
     SessionManagers
   }
 
-  def join("app", %{"app" => app_name}, socket) do
+  def join("app", %{"app" => app_name, "context" => context}, socket) do
     Logger.info("Join channel for app : #{app_name}")
 
     with env <- EnvironmentServices.get_first_env!(),
@@ -36,7 +36,8 @@ defmodule DevTool.AppChannel do
              Ecto.UUID.generate(),
              env.id,
              session_assigns,
-             env_assigns
+             env_assigns,
+             context
            ) do
         {:ok, pid} ->
           socket = assign(socket, session_pid: pid)

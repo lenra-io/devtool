@@ -4,6 +4,7 @@ import 'package:fr_lenra_client/components/stateful_wrapper.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
 import 'package:fr_lenra_client/models/channel_model.dart';
 import 'package:fr_lenra_client/models/client_widget_model.dart';
+import 'package:fr_lenra_client/models/context_model.dart';
 import 'package:fr_lenra_client/models/socket_model.dart';
 import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:lenra_components/lenra_components.dart';
@@ -22,27 +23,37 @@ void main() async {
   );
 }
 
-class DevTools extends StatelessWidget {
-  static const String appName = "test";
+class DevTools extends StatefulWidget {
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return DevToolsState();
+  }
+}
 
+class DevToolsState extends State<DevTools> {
+  static const String appName = "test";
+  bool isInitialized = false;
   @override
   Widget build(BuildContext context) {
     var themeData = LenraThemeData();
 
-    return MultiProvider(
+    return MaterialApp(
+        home: MultiProvider(
       providers: [
         ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
+        ChangeNotifierProvider<ContextModel>(create: (context) => ContextModel()),
         ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
         ChangeNotifierProvider<LenraApplicationModel>(
           create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
         ),
-        ChangeNotifierProxyProvider<SocketModel, ChannelModel>(
-          create: (context) => ChannelModel(socketModel: context.read<SocketModel>()),
-          update: (_, socketModel, channelModel) {
+        ChangeNotifierProxyProvider2<SocketModel, ContextModel, ChannelModel>(
+          create: (context) =>
+              ChannelModel(socketModel: context.read<SocketModel>(), contextModel: context.read<ContextModel>()),
+          update: (_, socketModel, contextModel, channelModel) {
             if (channelModel == null) {
-              return ChannelModel(socketModel: socketModel);
+              return ChannelModel(socketModel: socketModel, contextModel: contextModel);
             }
-            return channelModel.update(socketModel);
+            return channelModel.update(socketModel, contextModel);
           },
         ),
         ChangeNotifierProxyProvider<ChannelModel, WidgetModel>(
@@ -52,12 +63,8 @@ class DevTools extends StatelessWidget {
       ],
       builder: (BuildContext context, _) {
         return StatefulWrapper(
-          onInit: () {
-            context.read<UserApplicationModel>().currentApp = appName;
-            if (context.read<ChannelModel>().channel == null) {
-              context.read<ChannelModel>().createChannel(appName);
-            }
-            (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
+          onInit: (){
+
           },
           builder: (context) {
             return NotificationListener<Event>(
@@ -72,7 +79,21 @@ class DevTools extends StatelessWidget {
                   locale: DevicePreview.locale(context),
                   builder: DevicePreview.appBuilder,
                   home: Scaffold(
-                    body: LenraUiController(),
+                    body: FutureBuilder(
+                      builder: (context, _) {
+                        WidgetsBinding.instance?.addPostFrameCallback((_){
+                        context.read<UserApplicationModel>().currentApp = appName;
+                        context.read<ContextModel>().mediaQueryData = MediaQuery.of(context);
+                        if (context.read<ChannelModel>().channel == null) {
+                            context.read<ChannelModel>().createChannel(appName);
+                        }
+                        (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
+                         setState(() {
+                            isInitialized = true;
+                          });
+                        });
+                      return isInitialized ? LenraUiController() : CircularProgressIndicator();
+                    }),
                   ),
                 ),
               ),
@@ -80,6 +101,6 @@ class DevTools extends StatelessWidget {
           },
         );
       },
-    );
+    ));
   }
 }
