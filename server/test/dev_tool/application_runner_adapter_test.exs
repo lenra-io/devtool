@@ -46,13 +46,13 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
       Plug.Conn.resp(conn, 200, Jason.encode!(%{"widget" => widget}))
     end)
 
-    assert {:ok, ^widget} = ApplicationRunnerAdapter.get_widget(%{}, "text", %{}, %{})
+    assert {:ok, ^widget} = ApplicationRunnerAdapter.get_widget(%{}, "text", %{}, %{}, %{})
   end
 
   test "get_widget app not started", %{bypass: bypass} do
     Bypass.down(bypass)
 
-    assert {:error, _msg} = ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{})
+    assert {:error, _msg} = ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{}, %{})
 
     Bypass.up(bypass)
   end
@@ -62,7 +62,7 @@ defmodule DevTool.ApplicationRunnerAdapterTest do
       Plug.Conn.resp(conn, 500, "")
     end)
 
-    assert {:error, msg} = ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{})
+    assert {:error, msg} = ApplicationRunnerAdapter.get_widget(%{}, "test", %{}, %{}, %{})
     assert String.contains?(msg, "Application error (500) ")
   end
 
