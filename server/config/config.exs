@@ -7,6 +7,14 @@
 # General application configuration
 import Config
 
+config :dev_tools,
+  ecto_repos: [DevTool.Repo],
+  application_url: System.get_env("APPLICATION_URL", "http://localhost:3000/")
+
+config :dev_tools, DevTool.Repo,
+  migration_timestamps: [type: :utc_datetime],
+  pool_size: 10
+
 # Configures the endpoint
 config :dev_tools, DevTool.Endpoint,
   url: [host: "localhost"],
@@ -27,7 +35,9 @@ config :ex_component_schema,
 config :phoenix, :json_library, Jason
 
 config :application_runner,
-  adapter: DevTool.ApplicationRunnerAdapter
+  adapter: DevTool.ApplicationRunnerAdapter,
+  lenra_environment_schema: DevTool.Environment,
+  lenra_user_schema: DevTool.User
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

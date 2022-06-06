@@ -6,16 +6,26 @@ defmodule DevTool.Application do
   use Application
 
   def start(_type, _args) do
+    DevTool.MigrationHelper.migrate()
+    DevTool.Seeds.run()
+
     children = [
+      DevTool.Repo,
       # Start the Telemetry supervisor
       DevTool.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: DevTool.PubSub},
+      # Start the watchdog handler server
+      {
+        DevTool.Watchdog,
+        of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
+        port: Application.fetch_env!(:dev_tools, :port)
+      },
+      # Start the Finch http client
+      {Finch, name: AppHttp},
       # Start the Endpoint (http/https)
       DevTool.Endpoint,
-      # Start a worker by calling: DevTool.Worker.start_link(arg)
-      # {DevTool.Worker, arg}
-      {Finch, name: AppHttp}
+      DevTool.Terminal
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

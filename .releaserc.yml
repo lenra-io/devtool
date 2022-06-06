@@ -12,4 +12,3 @@ plugins:
   - "@semantic-release/github"
   - - "@semantic-release/exec"
     - publishCmd: /bin/bash -c ".github/release.sh ${nextRelease.version}"
-

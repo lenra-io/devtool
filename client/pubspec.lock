@@ -200,6 +200,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_markdown:
+    dependency: transitive
+    description:
+      name: flutter_markdown
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.10"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -214,8 +221,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-beta.39"
-      resolved-ref: "1efba4be1ae85b1286abb798df277ae12ef39828"
+      ref: "v1.0.0-beta.58"
+      resolved-ref: fbdfec1f477b7dce669cb26a73eb0ac90e3c63bf
       url: "git@github.com:lenra-io/client.git"
     source: git
     version: "0.1.0+alpha.0"
@@ -293,8 +300,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "v1.0.0-beta.36"
-      resolved-ref: "5ec2d9e42d74f8827766547abbef7d6e09ee0051"
+      ref: "v1.0.0-beta.40"
+      resolved-ref: "4dba424ed65718d63d50a229d71b610d08c8a822"
       url: "git@github.com:lenra-io/lenra_components.git"
     source: git
     version: "0.0.0"
@@ -302,8 +309,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-beta.60"
-      resolved-ref: "1efd41353f75ece1b61f3b45df4b39337379ca26"
+      ref: "v1.0.0-beta.68"
+      resolved-ref: "52d77ee9cc946837f67c150f4da6bb377dff51db"
       url: "git@github.com:lenra-io/lenra_ui_runner.git"
     source: git
     version: "0.0.0"
@@ -314,6 +321,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   matcher:
     dependency: transitive
     description:

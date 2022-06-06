@@ -36,11 +36,11 @@ dependencies:
   fr_lenra_client:
     git:
       url: git@github.com:lenra-io/client.git
-      ref: v1.0.0-beta.39
+      ref: v1.0.0-beta.76
   lenra_ui_runner:
     git:
       url: git@github.com:lenra-io/lenra_ui_runner.git
-      ref: v1.0.0-beta.60
+      ref: v1.0.0-beta.75
   device_preview: ^1.0.0
 dev_dependencies:
   flutter_test:
@@ -51,6 +51,17 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+  fonts:
+    - family: Source Sans Pro
+      fonts:
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto/Roboto-Regular.ttf
+        - asset: fonts/Roboto/Roboto-Medium.ttf
+        - asset: fonts/Roboto/Roboto-Bold.ttf
   # The following line ensures that the Material Icons font is
 
   # included with your application, so that you can use the icons in

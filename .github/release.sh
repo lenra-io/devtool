@@ -55,7 +55,7 @@ fi
 # build the docker image
 docker buildx build \
   --output type=image,push=true \
-  --platform "amd64,arm64,arm" \
+  --platform "linux/amd64,linux/arm64" \
   ${tag} \
   --build-arg CI=true \
   --build-arg GH_PERSONNAL_TOKEN="${GITHUB_TOKEN}" \

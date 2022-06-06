@@ -5,7 +5,7 @@ defmodule DevTool.AppStub do
   use ExUnit.CaseTemplate
 
   def create_app_stub do
-    Bypass.open(port: 6789)
+    Bypass.open(port: 8080)
   end
 
   @fake_app_url "/"

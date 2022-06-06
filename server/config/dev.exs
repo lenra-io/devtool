@@ -1,5 +1,14 @@
 import Config
 
+# Configure your database
+config :dev_tools, DevTool.Repo,
+  username: System.get_env("POSTGRES_USER", "postgres"),
+  password: System.get_env("POSTGRES_PASSWORD", "postgres"),
+  database: System.get_env("POSTGRES_DB", "devtools_dev"),
+  hostname: System.get_env("POSTGRES_HOST", "localhost"),
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -14,7 +23,9 @@ config :dev_tools, DevTool.Endpoint,
   watchers: []
 
 config :dev_tools,
-  application_url: System.get_env("APPLICATION_URL", "http://application:3000/")
+  of_watchdog: System.get_env("OF_WATCHDOG_BIN", "/usr/bin/fwatchdog"),
+  port: System.get_env("OF_WATCHDOG_PORT", "8080"),
+  application_url: "http://localhost:#{System.get_env("OF_WATCHDOG_PORT", "8080")}"
 
 # ## SSL Support
 #

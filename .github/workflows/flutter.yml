@@ -13,15 +13,17 @@ jobs:
     name: PR is WIP?
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    outputs:
+      isWip: ${{ steps.prIsWip.outputs.isWip }}
     steps:
-      - id: pr-is-wip
-        uses: shiipou/pr-is-wip-action@v1.0.0-beta.5
+      - id: prIsWip
+        uses: shiipou/pr-is-wip-action@v1.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Setup-Flutter:
     needs: 
      - prIsWip
-    if: ${{ ! needs.prIsWip.outputs.isWip }}
+    if: needs.prIsWip.outputs.isWip == 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     defaults:
