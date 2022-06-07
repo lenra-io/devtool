@@ -45,7 +45,7 @@ jobs:
       - name: Build Flutter Web
         run: |
           cd client
-          flutter build web --dart-define=FLUTTER_WEB_CANVASKIT_URL=/
+          flutter build web
           cd ..
       - name: Deps + compile elixir
         run: |
