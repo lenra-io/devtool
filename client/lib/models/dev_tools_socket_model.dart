@@ -1,5 +1,5 @@
 import 'package:client_app/models/socket_model.dart';
-import 'package:client_common/socket/lenra_channel.dart';
+import 'package:client_app/socket/lenra_channel.dart';
 import 'package:client_common/utils/connexion_utils_stub.dart'
     if (dart.library.io) 'package:client_common/utils/connexion_utils_io.dart'
     if (dart.library.js) 'package:client_common/utils/connexion_utils_web.dart';
