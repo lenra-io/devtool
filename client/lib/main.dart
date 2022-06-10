@@ -72,7 +72,7 @@ class DevTools extends StatelessWidget {
                   locale: DevicePreview.locale(context),
                   builder: DevicePreview.appBuilder,
                   home: Scaffold(
-                    body: LenraUiController(appName: appName, accessToken: "",),
+                    body: LenraUiController(),
                   ),
                 ),
               ),
