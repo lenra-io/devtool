@@ -54,10 +54,6 @@ class DevTools extends StatelessWidget {
         return StatefulWrapper(
           onInit: () {
             context.read<UserApplicationModel>().currentApp = appName;
-            if (context.read<ChannelModel>().channel == null) {
-              context.read<ChannelModel>().createChannel(appName);
-            }
-            (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
           },
           builder: (context) {
             return NotificationListener<Event>(
