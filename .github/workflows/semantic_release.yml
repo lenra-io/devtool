@@ -35,7 +35,7 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: ${{ env.flutter_version }}
-      - uses: webfactory/ssh-agent@v0.5.3
+      - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: |
             ${{ secrets.LENRA_CLIENT_SSH }}
