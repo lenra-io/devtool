@@ -38,10 +38,9 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: |
-            ${{ secrets.LENRA_CLIENT_SSH }}
             ${{ secrets.LENRA_UI_RUNNER_SSH }}
-            ${{ secrets.LENRA_COMPONENTS_SSH }}
-            ${{ secrets.COMPONENTS_API_SSH }}
+            ${{ secrets.CLIENT_APP_SSH }}
+            ${{ secrets.CLIENT_COMMON_SSH }}
       - name: Build Flutter Web
         run: |
           cd client

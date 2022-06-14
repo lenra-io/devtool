@@ -5,7 +5,7 @@ on:
       - opened
       - edited
       - synchronize
-  
+
 env:
   flutter_version: "2.10.x"
 jobs:
@@ -21,8 +21,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Setup-Flutter:
-    needs: 
-     - prIsWip
+    needs:
+      - prIsWip
     if: needs.prIsWip.outputs.isWip == 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 3
@@ -42,9 +42,9 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: |
-                ${{ secrets.LENRA_CLIENT_SSH }}
-                ${{ secrets.LENRA_UI_RUNNER_SSH }}
-                ${{ secrets.LENRA_COMPONENTS_SSH }}
+            ${{ secrets.LENRA_UI_RUNNER_SSH }}
+            ${{ secrets.CLIENT_APP_SSH }}
+            ${{ secrets.CLIENT_COMMON_SSH }}
       - name: Restore packages
         run: flutter pub get
 
