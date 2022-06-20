@@ -24,7 +24,9 @@ cd client
 flutter build web
 # Go to the root of the repository 
 cd ..
-# Build docker image
+# Build docker image 
+# There is an issue with this build command, please follow the instructions on this issue as a workaround :
+# https://github.com/lenra-io/dev-tools/issues/121#issuecomment-1160379764
 docker build -t lenra/devtools .
 ```
 
