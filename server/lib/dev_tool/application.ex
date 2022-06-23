@@ -22,7 +22,22 @@ defmodule DevTool.Application do
         port: Application.fetch_env!(:dev_tools, :port)
       },
       # Start the Finch http client
-      {Finch, name: AppHttp},
+      Supervisor.child_spec(
+        {Finch,
+         name: FaasHttp,
+         pools: %{
+           Application.fetch_env!(:dev_tools, :application_url) => [size: 32, count: 8]
+         }},
+        id: :finch_faas_http
+      ),
+      # Supervisor.child_spec(
+      #   {Finch,
+      #    name: GitlabHttp,
+      #    pools: %{
+      #      Application.fetch_env!(:dev_tools, :gitlab_api_url) => [size: 10, count: 3]
+      #    }},
+      #   id: :finch_gitlab_http
+      # ),
       # Start the Endpoint (http/https)
       DevTool.Endpoint,
       DevTool.Terminal

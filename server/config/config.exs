@@ -36,8 +36,16 @@ config :phoenix, :json_library, Jason
 
 config :application_runner,
   adapter: DevTool.ApplicationRunnerAdapter,
-  lenra_environment_schema: DevTool.Environment,
-  lenra_user_schema: DevTool.User
+  lenra_environment_table: "environments",
+  lenra_user_table: "users",
+  repo: DevTool.Repo,
+  url: "http://localhost:3000",
+  faas_url: "http://localhost:3000",
+  faas_auth: ""
+
+config :application_runner, ApplicationRunner.Guardian.AppGuardian,
+  issuer: "lenra",
+  secret_key: "5oIBVh2Hauo3LT4knNFu29lX9DYu74SWZfjZzYn+gfr0aryxuYIdpjm8xd0qGGqK"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
