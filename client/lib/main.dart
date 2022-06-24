@@ -32,9 +32,11 @@ class DevTools extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
-        ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
         ChangeNotifierProvider<LenraApplicationModel>(
           create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
+        ),
+        ChangeNotifierProvider<SocketModel>(
+          create: (context) => DevToolsSocketModel(),
         ),
         ChangeNotifierProxyProvider<SocketModel, ChannelModel>(
           create: (context) => ChannelModel(socketModel: context.read<SocketModel>()),
@@ -54,6 +56,9 @@ class DevTools extends StatelessWidget {
         return StatefulWrapper(
           onInit: () {
             context.read<UserApplicationModel>().currentApp = appName;
+
+            context.read<ChannelModel>().createChannel(appName);
+            (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
           },
           builder: (context) {
             return NotificationListener<Event>(
