@@ -39,7 +39,7 @@ config :application_runner,
   lenra_environment_table: "environments",
   lenra_user_table: "users",
   repo: DevTool.Repo,
-  url: "http://localhost:3000",
+  url: "http://localhost:4000",
   faas_url: "http://localhost:3000",
   faas_auth: ""
 
