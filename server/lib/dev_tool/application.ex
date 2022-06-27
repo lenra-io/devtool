@@ -30,15 +30,6 @@ defmodule DevTool.Application do
          }},
         id: :finch_faas_http
       ),
-      # Supervisor.child_spec(
-      #   {Finch,
-      #    name: GitlabHttp,
-      #    pools: %{
-      #      Application.fetch_env!(:dev_tools, :gitlab_api_url) => [size: 10, count: 3]
-      #    }},
-      #   id: :finch_gitlab_http
-      # ),
-      # Start the Endpoint (http/https)
       DevTool.Endpoint,
       DevTool.Terminal
     ]
