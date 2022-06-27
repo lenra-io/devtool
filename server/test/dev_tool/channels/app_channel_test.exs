@@ -16,7 +16,11 @@ defmodule DevTool.AppChannelTest do
 
   test "No app called, should return an error", %{socket: socket, bypass: _bypass} do
     res = my_subscribe_and_join(socket)
-    assert {:error, %{reason: [%{code: 21, message: "No application found for the current link."}]}} == res
+
+    assert {:error,
+            %{reason: [%{code: 21, message: "No application found for the current link."}]}} ==
+             res
+
     refute_push("ui", _)
   end
 
