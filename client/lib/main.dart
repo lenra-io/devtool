@@ -23,7 +23,7 @@ void main() async {
 }
 
 class DevTools extends StatelessWidget {
-  static const String appName = "test";
+  static const String appName = "00000000-0000-0000-0000-000000000000";
 
   @override
   Widget build(BuildContext context) {
