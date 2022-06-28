@@ -22,8 +22,14 @@ defmodule DevTool.Application do
         port: Application.fetch_env!(:dev_tools, :port)
       },
       # Start the Finch http client
-      {Finch, name: AppHttp},
-      # Start the Endpoint (http/https)
+      Supervisor.child_spec(
+        {Finch,
+         name: FaasHttp,
+         pools: %{
+           Application.fetch_env!(:dev_tools, :application_url) => [size: 32, count: 8]
+         }},
+        id: :finch_faas_http
+      ),
       DevTool.Endpoint,
       DevTool.Terminal
     ]

@@ -11,7 +11,7 @@ class DevToolsSocketModel extends SocketModel {
   DevToolsSocketModel()
       : this._socket = createPhoenixSocket(
           "ws://localhost:4000/socket/websocket",
-          {},
+          {"token": "token"},
         ) {
     this._socket.connect();
   }
