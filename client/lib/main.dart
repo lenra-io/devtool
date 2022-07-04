@@ -1,11 +1,11 @@
 import 'package:client/models/dev_tools_socket_model.dart';
+import 'package:client_app/lenra_ui_controller.dart';
+import 'package:client_app/models/channel_model.dart';
+import 'package:client_app/models/client_widget_model.dart';
+import 'package:client_app/models/socket_model.dart';
+import 'package:client_common/models/user_application_model.dart';
+import 'package:client_common/views/stateful_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/components/stateful_wrapper.dart';
-import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
-import 'package:fr_lenra_client/models/channel_model.dart';
-import 'package:fr_lenra_client/models/client_widget_model.dart';
-import 'package:fr_lenra_client/models/socket_model.dart';
-import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_ui_runner/components/events/event.dart';
 import 'package:lenra_ui_runner/lenra_application_model.dart';
@@ -23,7 +23,7 @@ void main() async {
 }
 
 class DevTools extends StatelessWidget {
-  static const String appName = "test";
+  static const String appName = "00000000-0000-0000-0000-000000000000";
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,11 @@ class DevTools extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
-        ChangeNotifierProvider<SocketModel>(create: (context) => DevToolsSocketModel()),
         ChangeNotifierProvider<LenraApplicationModel>(
           create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
+        ),
+        ChangeNotifierProvider<SocketModel>(
+          create: (context) => DevToolsSocketModel(),
         ),
         ChangeNotifierProxyProvider<SocketModel, ChannelModel>(
           create: (context) => ChannelModel(socketModel: context.read<SocketModel>()),
@@ -54,9 +56,8 @@ class DevTools extends StatelessWidget {
         return StatefulWrapper(
           onInit: () {
             context.read<UserApplicationModel>().currentApp = appName;
-            if (context.read<ChannelModel>().channel == null) {
-              context.read<ChannelModel>().createChannel(appName);
-            }
+
+            context.read<ChannelModel>().createChannel(appName);
             (context.read<WidgetModel>() as ClientWidgetModel).setupListeners();
           },
           builder: (context) {

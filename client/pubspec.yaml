@@ -33,10 +33,14 @@ dependencies:
 
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  fr_lenra_client:
+  client_common:
     git:
-      url: git@github.com:lenra-io/client.git
-      ref: v1.0.0-beta.76
+      url: git@github.com:lenra-io/client-common.git
+      ref: v1.0.0-beta.2
+  client_app:
+    git:
+      url: git@github.com:lenra-io/client-app.git
+      ref: v1.0.0-beta.3
   lenra_ui_runner:
     git:
       url: git@github.com:lenra-io/lenra_ui_runner.git
