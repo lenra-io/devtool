@@ -59,7 +59,7 @@ defmodule DevTool.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:finch, "~> 0.3"},
+      {:finch, "~> 0.12.0"},
       {:erlexec, "~> 1.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
@@ -68,7 +68,7 @@ defmodule DevTool.MixProject do
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0-beta.36"
+        tag: "v1.0.0-beta.41"
       )
     ]
   end
