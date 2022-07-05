@@ -32,7 +32,7 @@ class DevTools extends StatelessWidget {
           create: (context) => LenraApplicationModel('http://localhost:4000', appName, ''),
         ),
         ChangeNotifierProvider<SocketModel>(
-          create: (context) => DevToolsSocketModel(),
+          create: (context) => DevToolsSocketModel(FakeUser(1)),
         ),
       ],
       builder: (BuildContext context, _) {

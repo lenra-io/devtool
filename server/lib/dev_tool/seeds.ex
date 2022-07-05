@@ -11,7 +11,7 @@ defmodule DevTool.Seeds do
   def run do
     Ecto.Migrator.with_repo(Repo, fn _ ->
       EnvironmentServices.create_first_env_if_not_exists()
-      UserServices.create_first_user_if_not_exists()
+      # UserServices.create_first_user_if_not_exists()
     end)
   end
 end

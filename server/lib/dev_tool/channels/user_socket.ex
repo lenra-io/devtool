@@ -3,7 +3,7 @@ defmodule DevTool.UserSocket do
 
   alias DevTool.{Repo, User}
 
-  defp resource_from_token(_token) do
+  defp resource_from_params(%{"fakeUser" => fake_user}) do
     case Repo.get(User, 1) do
       %User{} -> {:ok, 1}
       _err -> :error

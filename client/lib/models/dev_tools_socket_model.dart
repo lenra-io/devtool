@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:client/models/fake_user.dart';
 import 'package:client_app/models/socket_model.dart';
 import 'package:client_app/socket/lenra_channel.dart';
 import 'package:client_common/utils/connexion_utils_stub.dart'
@@ -8,10 +11,10 @@ import 'package:phoenix_wings/phoenix_wings.dart';
 class DevToolsSocketModel extends SocketModel {
   PhoenixSocket _socket;
 
-  DevToolsSocketModel()
+  DevToolsSocketModel(FakeUser fakeUser)
       : this._socket = createPhoenixSocket(
           "ws://localhost:4000/socket/websocket",
-          {"token": "token"},
+          {"fakeUser": fakeUser},
         ) {
     this._socket.connect();
   }
