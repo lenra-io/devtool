@@ -6,7 +6,7 @@ defmodule DevTool.Environment do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ApplicationRunner.Datastore
+  alias ApplicationRunner.JsonStorage.Datastore
   alias DevTool.Environment
 
   schema "environments" do

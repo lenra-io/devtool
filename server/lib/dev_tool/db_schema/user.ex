@@ -6,7 +6,7 @@ defmodule DevTool.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ApplicationRunner.UserData
+  alias ApplicationRunner.JsonStorage.UserData
   alias DevTool.User
 
   schema "users" do
@@ -17,7 +17,7 @@ defmodule DevTool.User do
 
   def changeset(application, params \\ %{}) do
     application
-    |> cast(params, [:email])
+    |> cast(params, [:id, :email])
   end
 
   def new(params \\ %{}) do

@@ -9,10 +9,14 @@ defmodule DevTool.Repo.Migrations.NoAutoIncrementUserId do
     drop_if_exists table(:users), mode: :cascade
     # Recreate the table without the auto incremen tprimary key
     create table(:users,  primary_key: false) do
-      add(:id, :bigint, primary_key: true, null: false)
+      add(:id, :id, primary_key: true, null: false)
       add(:email, :string, null: false)
       timestamps()
     end
+
+    create(unique_index(:users, [:email], name: :unique_user_email))
+    create(unique_index(:users, [:id], name: :unique_user_id))
+
     # Recreate the foreigh key/views/constraints
     alter table(:user_datas) do
       modify(:user_id, references(:users), null: false)
