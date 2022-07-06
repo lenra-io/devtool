@@ -4,7 +4,6 @@ defmodule DevTool.AppChannelTest do
   """
   use DevTool.ChannelCase
 
-  alias ApplicationRunner.ListenersCache
   alias DevTool.AppStub
 
   setup do

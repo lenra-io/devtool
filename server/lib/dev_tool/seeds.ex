@@ -4,8 +4,7 @@ defmodule DevTool.Seeds do
   """
   alias DevTool.{
     EnvironmentServices,
-    Repo,
-    UserServices
+    Repo
   }
 
   def run do
