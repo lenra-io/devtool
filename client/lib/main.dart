@@ -39,9 +39,8 @@ class DevTools extends StatelessWidget {
                 break;
             }
           }
-          if (pageView != null) {
-            return MaterialPageRoute(builder: (BuildContext context) => pageView!);
-          }
+          if (pageView == null) return null;
+          return MaterialPageRoute(builder: (BuildContext context) => pageView!);
         },
       ),
     );
