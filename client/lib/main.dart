@@ -1,10 +1,10 @@
 import 'package:client/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
-  setUrlStrategy(PathUrlStrategy());
+  setPathUrlStrategy();
   runApp(
     // DevicePreview(
     //   builder: (context) => DevTools(),
