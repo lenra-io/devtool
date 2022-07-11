@@ -2,9 +2,6 @@ defmodule DevTool.Repo.Migrations.NoAutoIncrementUserId do
   use Ecto.Migration
 
   def change do
-    # alter table(:users) do
-    #   modify(:id, :bigint)
-    # end
     # Drop the old user table and all foreign key/view/constraints associated with it
     drop_if_exists table(:users), mode: :cascade
     # Recreate the table without the auto incremen tprimary key

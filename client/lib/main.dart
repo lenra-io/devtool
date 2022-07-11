@@ -1,4 +1,9 @@
-import 'package:client/HomePage.dart';
+import 'package:client/error404Page.dart';
+import 'package:client/homePage.dart';
+import 'package:client_common/api/response_models/api_error.dart';
+import 'package:client_common/api/response_models/api_errors.dart';
+import 'package:client_common/lenra_application/error_page.dart';
+import 'package:client_common/views/error.dart';
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -39,9 +44,11 @@ class DevTools extends StatelessWidget {
                 break;
             }
           }
-          if (pageView != null) {
-            return MaterialPageRoute(builder: (BuildContext context) => pageView!);
+          if (pageView == null) {
+            return MaterialPageRoute(builder: (BuildContext context) => Error404Page());
           }
+
+          return MaterialPageRoute(builder: (BuildContext context) => pageView!);
         },
       ),
     );
