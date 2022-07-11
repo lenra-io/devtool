@@ -12,12 +12,14 @@ defmodule DevTool.User do
   schema "users" do
     has_many(:user_datas, UserData, foreign_key: :user_id)
     field(:email, :string)
+    field(:manual_id, :id)
     timestamps()
   end
 
   def changeset(application, params \\ %{}) do
     application
-    |> cast(params, [:id, :email])
+    |> cast(params, [:id, :manual_id, :email])
+    |> validate_required([:email, :manual_id])
   end
 
   def new(params \\ %{}) do
