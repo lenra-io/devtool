@@ -4,7 +4,7 @@ defmodule DevTool.Repo.Migrations.NoAutoIncrementUserId do
   def change do
     # Drop the old user table and all foreign key/view/constraints associated with it
     drop_if_exists table(:users), mode: :cascade
-    # Recreate the table without the auto incremen tprimary key
+    # Recreate the table without the auto increment primary key
     create table(:users,  primary_key: false) do
       add(:id, :id, primary_key: true, null: false)
       add(:email, :string, null: false)

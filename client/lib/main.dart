@@ -6,10 +6,10 @@ import 'package:client_common/lenra_application/error_page.dart';
 import 'package:client_common/views/error.dart';
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
-  setUrlStrategy(PathUrlStrategy());
+  setPathUrlStrategy();
   runApp(
     // DevicePreview(
     //   builder: (context) => DevTools(),
@@ -44,9 +44,8 @@ class DevTools extends StatelessWidget {
                 break;
             }
           }
-          if (pageView == null) {
-            return MaterialPageRoute(builder: (BuildContext context) => Error404Page());
-          }
+
+          if (pageView == null) return null;
 
           return MaterialPageRoute(builder: (BuildContext context) => pageView!);
         },
