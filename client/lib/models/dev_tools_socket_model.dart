@@ -8,10 +8,10 @@ import 'package:phoenix_wings/phoenix_wings.dart';
 class DevToolsSocketModel extends SocketModel {
   PhoenixSocket _socket;
 
-  DevToolsSocketModel()
+  DevToolsSocketModel(int userId)
       : this._socket = createPhoenixSocket(
           "ws://localhost:4000/socket/websocket",
-          {"token": "token"},
+          {"userId": userId.toString()},
         ) {
     this._socket.connect();
   }

@@ -3,19 +3,15 @@ defmodule DevTool.UserServices do
     The service that manages the environment
   """
 
-  import Ecto.Query, only: [from: 2]
   alias DevTool.{Repo, User}
 
-  def get_first_user! do
-    first_user_query()
-    |> Repo.one!()
+  def upsert_fake_user(userId) do
+    %{manual_id: userId, email: "user#{userId}@devtools.lenra.io"}
+    |> User.new()
+    |> Repo.insert(
+      on_conflict: {:replace_all_except, [:id]},
+      returning: true,
+      conflict_target: [:manual_id]
+    )
   end
-
-  def create_first_user_if_not_exists do
-    if not (first_user_query() |> Repo.exists?()) do
-      Repo.insert(User.new(%{email: "devtool@lenra.io"}))
-    end
-  end
-
-  defp first_user_query, do: from(User, limit: 1)
 end
