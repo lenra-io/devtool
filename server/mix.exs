@@ -63,12 +63,20 @@ defmodule DevTool.MixProject do
       {:erlexec, "~> 1.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
+      # private_git(
+      #   name: :application_runner,
+      #   host: "github.com",
+      #   project: "lenra-io/application-runner.git",
+      #   credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
+      #   tag: "v1.0.0-beta.49"
+      # ),
+      {:application_runner, path: "/home/emric/Documents/Lenra/application-runner"},
       private_git(
-        name: :application_runner,
+        name: :lenra_common,
         host: "github.com",
-        project: "lenra-io/application-runner.git",
-        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0-beta.44"
+        project: "lenra-io/lenra-common.git",
+        tag: "v2.0.4",
+        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}"
       )
     ]
   end

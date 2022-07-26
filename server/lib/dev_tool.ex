@@ -19,25 +19,15 @@ defmodule DevTool do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: DevTool
+      use LenraCommonWeb, :controller
 
-      import DevTool.ControllerHelpers
-      import Plug.Conn
       alias DevTool.Router.Helpers, as: Routes
-      plug(:put_view, DevTool.BaseView)
-      action_fallback(DevTool.FallbackController)
     end
   end
 
   def view do
     quote do
-      use Phoenix.View,
-        root: "lib/dev_tool/templates",
-        namespace: DevTool
-
-      # Import convenience functions from controllers
-      import Phoenix.Controller,
-        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+      use LenraCommonWeb, :view
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
@@ -61,10 +51,8 @@ defmodule DevTool do
 
   defp view_helpers do
     quote do
-      # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
+      use LenraCommonWeb, :view_helpers
 
-      import DevTool.ErrorHelpers
       alias DevTool.Router.Helpers, as: Routes
     end
   end
