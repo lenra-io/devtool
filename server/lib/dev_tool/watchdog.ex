@@ -8,7 +8,9 @@ defmodule DevTool.Watchdog do
 
   use GenServer
 
+  alias ApplicationRunner.Environments.Managers
   alias DevTool.Watchdog
+
   require Logger
 
   ##################
@@ -29,7 +31,7 @@ defmodule DevTool.Watchdog do
     # TO DO :Ensure that the watchdog is stopped before restarting it (the ports are not directly given back to the OS)
     Process.sleep(100)
 
-    ApplicationRunner.EnvManagers.stop_env(1)
+    Managers.stop_env(1)
 
     Watchdog.start()
   end
