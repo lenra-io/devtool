@@ -35,15 +35,15 @@ RUN mix release dev_tools
 # prepare release image
 FROM alpine:latest
 
+RUN adduser -D lenra
+
+USER lenra
+
 WORKDIR /lenra/devtools
 COPY --from=build /app/_build/prod/ .
 
 # Install elixir dependencies
 RUN apk add --no-cache ncurses-libs libstdc++
-
-USER root
-RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
-    chmod -R ugo+rw /lenra/devtools/rel/dev_tools/tmp
 
 ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
 CMD ["start"]
