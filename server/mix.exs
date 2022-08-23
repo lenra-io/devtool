@@ -67,7 +67,7 @@ defmodule DevTool.MixProject do
         name: :application_runner,
         host: "github.com",
         project: "lenra-io/application-runner.git",
-        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
+        credentials: "#{System.get_env("GITHUB_AUTH", "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}")}",
         tag: "v1.0.0-beta.50"
       ),
       private_git(
@@ -75,7 +75,7 @@ defmodule DevTool.MixProject do
         host: "github.com",
         project: "lenra-io/lenra-common.git",
         tag: "v2.0.4",
-        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}"
+        credentials: "#{System.get_env("GITHUB_AUTH", "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}")}"
       )
     ]
   end
