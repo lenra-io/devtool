@@ -14,13 +14,12 @@ defmodule DevTool.Application do
       # Start the Telemetry supervisor
       DevTool.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: DevTool.PubSub},
-      # Start the watchdog handler server
-      {
-        DevTool.Watchdog,
-        of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
-        port: Application.fetch_env!(:dev_tools, :port)
-      },
+      {Phoenix.PubSub, name: DevTool.PubSub}
+    ]
+    ++
+    configure_watchdog()
+    ++
+    [
       # Start the Finch http client
       Supervisor.child_spec(
         {Finch,
@@ -46,5 +45,20 @@ defmodule DevTool.Application do
   def config_change(changed, _new, removed) do
     DevTool.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  def configure_watchdog() do
+    if Application.get_env(:dev_tools, :of_watchdog) do
+      [
+        # Start the watchdog handler server
+        {
+          DevTool.Watchdog,
+          of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
+          port: Application.fetch_env!(:dev_tools, :port)
+        }
+      ]
+    else
+      []
+    end
   end
 end

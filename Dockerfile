@@ -2,7 +2,6 @@ FROM elixir:1.12.2-alpine AS build
 
 ARG CI
 ARG GH_PERSONNAL_TOKEN
-# ARG COMPONENTS_API_SSH
 
 # prepare build dir
 WORKDIR /app
@@ -33,17 +32,15 @@ RUN mix compile
 RUN mix release dev_tools
 
 # prepare release image
-FROM alpine:latest
+FROM erlang:24-alpine
 
 RUN adduser -D lenra
+ENV SHELL=sh
 
 USER lenra
 
 WORKDIR /lenra/devtools
-COPY --from=build /app/_build/prod/ .
+COPY --from=build --chown=lenra /app/_build/prod/rel/dev_tools .
 
-# Install elixir dependencies
-RUN apk add --no-cache ncurses-libs libstdc++
-
-ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
+ENTRYPOINT [ "/lenra/devtools/bin/dev_tools" ]
 CMD ["start"]
