@@ -69,7 +69,7 @@ defmodule DevTool.MixProject do
         project: "lenra-io/application-runner.git",
         credentials:
           "#{System.get_env("GITHUB_AUTH", "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}")}",
-        tag: "v1.0.0-beta.50"
+        tag: "v1.0.0-beta.54"
       ),
       private_git(
         name: :lenra_common,
