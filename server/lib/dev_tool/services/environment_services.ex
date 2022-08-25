@@ -4,7 +4,7 @@ defmodule DevTool.EnvironmentServices do
   """
 
   import Ecto.Query, only: [from: 2]
-  alias ApplicationRunner.Datastore
+  alias ApplicationRunner.JsonStorage.Datastore
 
   alias DevTool.{
     Environment,

@@ -6,18 +6,20 @@ defmodule DevTool.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ApplicationRunner.UserData
+  alias ApplicationRunner.JsonStorage.UserData
   alias DevTool.User
 
   schema "users" do
     has_many(:user_datas, UserData, foreign_key: :user_id)
     field(:email, :string)
+    field(:manual_id, :id)
     timestamps()
   end
 
   def changeset(application, params \\ %{}) do
     application
-    |> cast(params, [:email])
+    |> cast(params, [:id, :manual_id, :email])
+    |> validate_required([:email, :manual_id])
   end
 
   def new(params \\ %{}) do
