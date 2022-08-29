@@ -9,6 +9,6 @@ defmodule DevTool.AppChannel do
   end
 
   defp get_function_name(_app_name) do
-    %{function_name: "test"}
+    "test"
   end
 end

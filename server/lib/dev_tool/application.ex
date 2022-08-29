@@ -9,6 +9,7 @@ defmodule DevTool.Application do
     DevTool.MigrationHelper.migrate()
     DevTool.Seeds.run()
 
+    # configure_watchdog() ++
     children =
       [
         DevTool.Repo,
@@ -17,7 +18,6 @@ defmodule DevTool.Application do
         # Start the PubSub system
         {Phoenix.PubSub, name: DevTool.PubSub}
       ] ++
-        configure_watchdog() ++
         [
           # Start the Finch http client
           Supervisor.child_spec(

@@ -25,4 +25,5 @@ config :application_runner,
     System.get_env(
       "OF_WATCHDOG_URL",
       "http://localhost:#{System.get_env("OF_WATCHDOG_PORT", "8080")}"
-    )
+    ),
+  mongo_url: System.get_env("MONGO_URL")

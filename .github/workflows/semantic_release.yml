@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - beta
+      - mongo
       - "*.x"
 env:
   flutter_version: "3.0.x"

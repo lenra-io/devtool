@@ -54,13 +54,13 @@ defmodule DevTool.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:bypass, "~> 2.0", only: :test},
-      {:phoenix, "~> 1.5.6"},
+      {:phoenix, "~> 1.5.9"},
+      {:telemetry, "~> 0.4", override: true},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.12.0"},
-      {:erlexec, "~> 1.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
       private_git(
@@ -68,7 +68,7 @@ defmodule DevTool.MixProject do
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0-beta.55"
+        tag: "mongo"
       ),
       private_git(
         name: :lenra_common,
@@ -105,7 +105,16 @@ defmodule DevTool.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.setup": [
+        "ecto.create",
+        "ecto.migrate"
+      ],
+      "ecto.migrations": [
+        "ecto.migrations --migrations-path priv/repo/migrations --migrations-path deps/application_runner/priv/repo/migrations"
+      ],
+      "ecto.migrate": [
+        "ecto.migrate --migrations-path priv/repo/migrations --migrations-path deps/application_runner/priv/repo/migrations"
+      ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: [
         "ecto.create --quiet",
