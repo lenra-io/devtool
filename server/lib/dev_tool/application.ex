@@ -46,7 +46,7 @@ defmodule DevTool.Application do
     :ok
   end
 
-  def configure_watchdog() do
+  def configure_watchdog do
     if Application.get_env(:dev_tools, :of_watchdog) do
       [
         # Start the watchdog handler server
