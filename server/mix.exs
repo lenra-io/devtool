@@ -25,8 +25,7 @@ defmodule DevTool.MixProject do
             dev_tools: :permanent,
             runtime_tools: :permanent
           ],
-          include_executables_for: [:unix],
-          validate_compile_env: false
+          include_executables_for: [:unix]
         ]
       ]
     ]
