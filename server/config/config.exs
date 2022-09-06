@@ -40,7 +40,7 @@ config :application_runner,
   lenra_user_table: "users",
   repo: DevTool.Repo,
   url: "http://localhost:4000",
-  faas_url: "http://localhost:3000",
+  faas_url: "http://localhost:8080",
   faas_auth: ""
 
 config :application_runner, ApplicationRunner.Guardian.AppGuardian,

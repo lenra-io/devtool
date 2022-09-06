@@ -17,11 +17,9 @@ defmodule DevTool.AppChannelTest do
     res = my_subscribe_and_join(socket)
 
     assert {:error,
-            %LenraCommon.Errors.BusinessError{
-              reason: :no_app_found,
-              __exception__: true,
-              message: "No application found for the current link",
-              metadata: %{}
+            %{
+              "message" => "No application found for the current link",
+              "reason" => :no_app_found
             }} ==
              res
 
