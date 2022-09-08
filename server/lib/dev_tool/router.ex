@@ -14,10 +14,6 @@ defmodule DevTool.Router do
   end
 
   scope "/api", DevTool do
-    get(
-      "/apps/00000000-0000-0000-0000-000000000000/resources/:resource",
-      ResourcesController,
-      :get_app_resource
-    )
+    ApplicationRunner.Router.resource_route(ResourcesController)
   end
 end

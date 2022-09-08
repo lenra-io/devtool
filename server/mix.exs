@@ -63,6 +63,7 @@ defmodule DevTool.MixProject do
       {:finch, "~> 0.12.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
+      # {:application_runner, path: "../../application-runner"},
       private_git(
         name: :application_runner,
         host: "github.com",
@@ -74,7 +75,7 @@ defmodule DevTool.MixProject do
         name: :lenra_common,
         host: "github.com",
         project: "lenra-io/lenra-common.git",
-        tag: "v2.0.4",
+        tag: "v2.2.0",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}"
       )
     ]
