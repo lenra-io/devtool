@@ -84,5 +84,6 @@ jobs:
         id: release
         if: steps.get-version.outputs.WILL_RELEASE == 'true'
         env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
           DOCKER_IMAGE: lenra/devtools
         run: .github/release.sh ${{ steps.get-version.outputs.VERSION }}
