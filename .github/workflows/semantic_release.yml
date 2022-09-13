@@ -54,8 +54,6 @@ jobs:
           mix deps.get
           mix compile
           cd ..
-      - name: Setup node deps
-        run: npm i conventional-changelog-conventionalcommits@4 @semantic-release/exec @semantic-release/git @semantic-release-plus/docker@2 -D
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -66,9 +64,29 @@ jobs:
         with:
           path: ~/.docker-cache
           key: ${{ runner.os }}-docker
+      - name: Get Version
+        id: get-version
+        uses: shiipou/sem-release@stable
+        with: 
+          RELEASE_BRANCHES_REGEX: '^(main)$'
+          PRERELEASE_BRANCHES_REGEX: '^(beta|mongo)$'
+          ALLOW_FAILURE: false
+
       - name: Release
-        id: release
         env:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
+        if: steps.get-version.outputs.WILL_RELEASE == 'true'
+        uses: actions/create-release@v1
+        with:
+          tag_name: v${{ steps.get-version.outputs.VERSION }}
+          release_name: v${{ steps.get-version.outputs.VERSION }}
+          body: |
+            v${{ steps.get-version.outputs.VERSION }}
+          draft: false
+          prerelease: ${{ steps.get-version.outputs.IS_PRE_RELEASE }}
+      - name: Release
+        id: release
+        if: steps.get-version.outputs.WILL_RELEASE == 'true'
+        env:
           DOCKER_IMAGE: lenra/devtools
-        run: npx semantic-release@18
+        run: .github/release.sh ${{ steps.get-version.outputs.VERSION }}
