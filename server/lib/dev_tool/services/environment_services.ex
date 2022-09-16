@@ -4,7 +4,6 @@ defmodule DevTool.EnvironmentServices do
   """
 
   import Ecto.Query, only: [from: 2]
-  alias ApplicationRunner.JsonStorage.Datastore
 
   alias DevTool.{
     Environment,
@@ -20,9 +19,6 @@ defmodule DevTool.EnvironmentServices do
     if not (first_env_query() |> Repo.exists?()) do
       Ecto.Multi.new()
       |> Ecto.Multi.insert(:inserted_environment, Environment.new())
-      |> Ecto.Multi.insert(:inserted_user_data_datastore, fn %{inserted_environment: env} ->
-        Datastore.new(env.id, %{name: "_users"})
-      end)
       |> Repo.transaction()
     end
   end

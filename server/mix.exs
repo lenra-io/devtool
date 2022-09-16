@@ -54,46 +54,20 @@ defmodule DevTool.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:bypass, "~> 2.0", only: :test},
-      {:phoenix, "~> 1.5.6"},
+      {:phoenix, "~> 1.5.9"},
+      {:erlexec, "~> 1.0"},
+      {:telemetry, "~> 0.4", override: true},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.12.0"},
-      {:erlexec, "~> 1.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
-      private_git(
-        name: :application_runner,
-        host: "github.com",
-        project: "lenra-io/application-runner.git",
-        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "v1.0.0-beta.55"
-      ),
-      private_git(
-        name: :lenra_common,
-        host: "github.com",
-        project: "lenra-io/lenra-common.git",
-        tag: "v2.0.4",
-        credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}"
-      )
+      {:application_runner,
+       git: "https://github.com/lenra-io/application-runner.git", tag: "v1.0.0-beta.60"},
+      {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.2.0"}
     ]
-  end
-
-  defp private_git(opts) do
-    name = Keyword.fetch!(opts, :name)
-    host = Keyword.fetch!(opts, :host)
-    project = Keyword.fetch!(opts, :project)
-    tag = Keyword.fetch!(opts, :tag)
-    credentials = Keyword.get(opts, :credentials)
-
-    case System.get_env("CI") do
-      "true" ->
-        {name, git: "https://#{credentials}@#{host}/#{project}", tag: tag, submodules: true}
-
-      _ ->
-        {name, git: "git@#{host}:#{project}", tag: tag, submodules: true}
-    end
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -105,7 +79,16 @@ defmodule DevTool.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.setup": [
+        "ecto.create",
+        "ecto.migrate"
+      ],
+      "ecto.migrations": [
+        "ecto.migrations --migrations-path priv/repo/migrations --migrations-path deps/application_runner/priv/repo/migrations"
+      ],
+      "ecto.migrate": [
+        "ecto.migrate --migrations-path priv/repo/migrations --migrations-path deps/application_runner/priv/repo/migrations"
+      ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: [
         "ecto.create --quiet",

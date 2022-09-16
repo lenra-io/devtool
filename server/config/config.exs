@@ -35,13 +35,14 @@ config :ex_component_schema,
 config :phoenix, :json_library, Jason
 
 config :application_runner,
-  adapter: DevTool.ApplicationRunnerAdapter,
   lenra_environment_table: "environments",
   lenra_user_table: "users",
   repo: DevTool.Repo,
   url: "http://localhost:4000",
   faas_url: "http://localhost:8080",
-  faas_auth: ""
+  faas_auth: "",
+  env: Mix.env() |> Atom.to_string(),
+  mongo_url: System.get_env("MONGO_URL", "mongodb://localhost:27017")
 
 config :application_runner, ApplicationRunner.Guardian.AppGuardian,
   issuer: "lenra",

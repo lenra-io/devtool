@@ -6,11 +6,9 @@ defmodule DevTool.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ApplicationRunner.JsonStorage.UserData
   alias DevTool.User
 
   schema "users" do
-    has_many(:user_datas, UserData, foreign_key: :user_id)
     field(:email, :string)
     field(:manual_id, :id)
     timestamps()
