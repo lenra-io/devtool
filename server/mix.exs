@@ -55,6 +55,7 @@ defmodule DevTool.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:bypass, "~> 2.0", only: :test},
       {:phoenix, "~> 1.5.9"},
+      {:erlexec, "~> 1.0"},
       {:telemetry, "~> 0.4", override: true},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
@@ -63,13 +64,12 @@ defmodule DevTool.MixProject do
       {:finch, "~> 0.12.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
-      # {:application_runner, path: "../../application-runner"},
       private_git(
         name: :application_runner,
         host: "github.com",
         project: "lenra-io/application-runner.git",
         credentials: "shiipou:#{System.get_env("GH_PERSONNAL_TOKEN")}",
-        tag: "mongo"
+        tag: "a3036b0cd4469bf53036f370956aa55feb4557d1"
       ),
       private_git(
         name: :lenra_common,
