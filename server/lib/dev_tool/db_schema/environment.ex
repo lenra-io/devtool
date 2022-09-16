@@ -6,11 +6,9 @@ defmodule DevTool.Environment do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ApplicationRunner.JsonStorage.Datastore
   alias DevTool.Environment
 
   schema "environments" do
-    has_many(:datastore, Datastore, foreign_key: :environment_id)
     timestamps()
   end
 

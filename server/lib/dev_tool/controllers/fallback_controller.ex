@@ -1,13 +1,13 @@
 defmodule DevTool.FallbackController do
   use DevTool, :controller
 
-  def call(conn, {:error, reason}) do
+  def call(%Plug.Conn{} = conn, {:error, reason}) do
     conn
     |> assign_error(reason)
     |> reply
   end
 
-  def call(conn, {:error, _error, reason, _reason}) do
+  def call(%Plug.Conn{} = conn, {:error, _error, reason, _reason}) do
     conn
     |> assign_error(reason)
     |> reply
