@@ -4,8 +4,6 @@ branches:
   - main
   - name: beta
     prerelease: true
-  - name: mongo
-    prerelease: true
 plugins:
   - - "@semantic-release/commit-analyzer"
     - preset: conventionalcommits
