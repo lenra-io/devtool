@@ -10,7 +10,6 @@ defmodule DevTool.User do
   alias DevTool.User
 
   schema "users" do
-    #     has_many(:user_datas, UserData, foreign_key: :user_id)
     field(:email, :string)
     field(:manual_id, :id)
     timestamps()
