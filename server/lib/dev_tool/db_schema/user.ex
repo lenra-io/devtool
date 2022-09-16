@@ -6,7 +6,6 @@ defmodule DevTool.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  #   alias ApplicationRunner.JsonStorage.UserData
   alias DevTool.User
 
   schema "users" do
