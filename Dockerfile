@@ -37,10 +37,15 @@ FROM erlang:24-alpine
 RUN adduser -D lenra
 ENV SHELL=sh
 
+RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
+    chmod -R ugo+rw /lenra/devtools/rel/dev_tools/tmp
+
 USER lenra
 
 WORKDIR /lenra/devtools
-COPY --from=build --chown=lenra /app/_build/prod/rel/dev_tools .
+COPY --from=build --chown=lenra /app/_build/prod/ .
 
-ENTRYPOINT [ "/lenra/devtools/bin/dev_tools" ]
+WORKDIR /lenra/devtools/rel/dev_tools
+
+ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
 CMD ["start"]
