@@ -9,28 +9,24 @@ defmodule DevTool.Application do
     DevTool.MigrationHelper.migrate()
     DevTool.Seeds.run()
 
-    # configure_watchdog() ++
-    children =
-      [
-        DevTool.Repo,
-        # Start the Telemetry supervisor
-        DevTool.Telemetry,
-        # Start the PubSub system
-        {Phoenix.PubSub, name: DevTool.PubSub}
-      ] ++
-        [
-          # Start the Finch http client
-          Supervisor.child_spec(
-            {Finch,
-             name: FaasHttp,
-             pools: %{
-               Application.fetch_env!(:dev_tools, :application_url) => [size: 32, count: 8]
-             }},
-            id: :finch_faas_http
-          ),
-          DevTool.Endpoint,
-          DevTool.Terminal
-        ]
+    children = [
+      DevTool.Repo,
+      # Start the Telemetry supervisor
+      DevTool.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: DevTool.PubSub},
+      # Start the Finch http client
+      Supervisor.child_spec(
+        {Finch,
+         name: FaasHttp,
+         pools: %{
+           Application.fetch_env!(:dev_tools, :application_url) => [size: 32, count: 8]
+         }},
+        id: :finch_faas_http
+      ),
+      DevTool.Endpoint,
+      DevTool.Terminal
+    ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
