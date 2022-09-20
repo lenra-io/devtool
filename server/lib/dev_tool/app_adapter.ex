@@ -4,8 +4,8 @@ defmodule DevTool.AppAdapter do
   """
   @behaviour ApplicationRunner.Adapter
 
-  alias DevTool.UserServices
   alias DevTool.User
+  alias DevTool.UserServices
 
   @impl ApplicationRunner.Adapter
   def allow(_user_id, _app_name) do
