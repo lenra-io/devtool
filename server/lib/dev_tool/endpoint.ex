@@ -10,7 +10,7 @@ defmodule DevTool.Endpoint do
     signing_salt: "ehlojLyn"
   ]
 
-  socket("/socket", DevTool.UserSocket,
+  socket("/socket", DevTool.AppSocket,
     websocket: true,
     longpoll: false
   )

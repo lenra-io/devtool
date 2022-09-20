@@ -38,11 +38,11 @@ dependencies:
   client_common:
     git:
       url: git@github.com:lenra-io/client-common.git
-      ref: v1.0.0-beta.8
+      ref: v1.0.0-beta.9
   lenra_ui_runner:
     git:
       url: git@github.com:lenra-io/lenra_ui_runner.git
-      ref: v1.0.0-beta.83
+      ref: v1.0.0-beta.85
 dev_dependencies:
   flutter_test:
     sdk: flutter
