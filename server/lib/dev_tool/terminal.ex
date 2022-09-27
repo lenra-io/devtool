@@ -29,7 +29,6 @@ defmodule DevTool.Terminal do
     case IO.gets("") do
       "R\n" ->
         Logger.info("Reloading watchdog")
-        DevTool.Watchdog.restart()
 
       _ ->
         nil
