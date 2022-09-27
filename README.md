@@ -51,7 +51,7 @@
 
 ### Using Docker Hub
 
-We provide a [docker image](https://hub.docker.com/r/lenra/devtools) on Docker Hub that you can use, it contains everything you need to unlock the full potential of the DevTools. We advise you to not use directly this image but to prefer using an image of the [Templates](https://github.com/lenra-io/templates) repository according to your programming language of choice.
+We provide a [docker image](https://hub.docker.com/r/lenra/devtools) on Docker Hub that you can use, it contains everything you need to unlock the full potential of the DevTools. We advise you to not use directly this image but to prefer using the [Lenra CLI](https://github.com/lenra-io/lenra_cli) which can launch the devtools from the command line.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -69,10 +69,15 @@ cd ..
 # Build docker image
 # There is an issue with this build command, please follow the instructions on this issue as a workaround :
 # https://github.com/lenra-io/dev-tools/issues/121#issuecomment-1160379764
-docker build -t lenra/devtools .
+docker build -t lenra/devtools:local .
 ```
 
-Choose a template from the following repository and follow the local installation and running instructions : [lenra-io/templates](https://github.com/lenra-io/templates)
+You can then use the [Lenra CLI](https://github.com/lenra-io/lenra_cli) to run your application. Just make sure that the `lenra.yml` file contains this specification to use the devtools image that you build in the previous step :
+
+```yml
+dev:
+  devtoolTag: local
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
