@@ -15,5 +15,8 @@ defmodule DevTool.Router do
 
   scope "/api", DevTool do
     ApplicationRunner.Router.resource_route(ResourcesController)
+
+    get("/webhooks", WebhooksController, :index)
+    post("/webhooks", WebhooksController, :api_create)
   end
 end
