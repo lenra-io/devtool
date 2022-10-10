@@ -29,7 +29,7 @@ RUN mix phx.digest
 
 # compile and build release
 RUN mix compile
-RUN mix release dev_tools
+RUN mix distillery.release
 
 # prepare release image
 FROM erlang:24-alpine
