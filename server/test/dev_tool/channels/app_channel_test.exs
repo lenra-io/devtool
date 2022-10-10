@@ -19,6 +19,7 @@ defmodule DevTool.AppChannelTest do
     assert {:error,
             %{
               "message" => "No application found for the current link",
+              "metadata" => %{},
               "reason" => :no_app_found
             }} ==
              res
