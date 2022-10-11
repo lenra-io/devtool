@@ -35,6 +35,8 @@ RUN mix distillery.release
 FROM erlang:24-alpine
 
 RUN adduser -D lenra
+RUN apk update && apk --no-cache --update add bash
+
 ENV SHELL=sh
 
 RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
@@ -48,4 +50,4 @@ COPY --from=build --chown=lenra /app/_build/prod/ .
 WORKDIR /lenra/devtools/rel/dev_tools
 
 ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
-CMD ["start"]
+CMD ["foreground"]
