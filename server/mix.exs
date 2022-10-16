@@ -67,7 +67,8 @@ defmodule DevTool.MixProject do
        git: "https://github.com/lenra-io/application-runner.git",
        tag: "v1.0.0-beta.74",
        submodules: true},
-      {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.3.1"}
+      {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.3.1"},
+      {:distillery, "~> 2.1"}
     ]
   end
 

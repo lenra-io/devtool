@@ -29,12 +29,14 @@ RUN mix phx.digest
 
 # compile and build release
 RUN mix compile
-RUN mix release dev_tools
+RUN mix distillery.release
 
 # prepare release image
 FROM erlang:24-alpine
 
 RUN adduser -D lenra
+RUN apk update && apk --no-cache --update add bash
+
 ENV SHELL=sh
 
 RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
@@ -48,4 +50,4 @@ COPY --from=build --chown=lenra /app/_build/prod/ .
 WORKDIR /lenra/devtools/rel/dev_tools
 
 ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
-CMD ["start"]
+CMD ["foreground"]
