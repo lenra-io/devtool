@@ -1,7 +1,5 @@
 defmodule DevTool.HealthCheck do
-  import Plug.Conn
-
-  def init(opts), do: opts
+  use DevTool, :controller
 
   def call(%Plug.Conn{request_path: "/healthcheck"} = conn, _opts) do
     conn
