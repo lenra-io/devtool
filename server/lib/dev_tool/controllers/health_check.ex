@@ -1,4 +1,7 @@
 defmodule DevTool.HealthCheck do
+  @moduledoc """
+    Controller who manages health check requests
+  """
   use DevTool, :controller
 
   def call(%Plug.Conn{request_path: "/healthcheck"} = conn, _opts) do
