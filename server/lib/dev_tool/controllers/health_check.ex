@@ -4,7 +4,7 @@ defmodule DevTool.HealthCheck do
   """
   use DevTool, :controller
 
-  def call(%Plug.Conn{request_path: "/healthcheck"} = conn, _opts) do
+  def call(%Plug.Conn{request_path: "/health"} = conn, _opts) do
     conn
     |> send_resp(200, "")
     |> halt()
