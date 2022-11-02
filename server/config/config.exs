@@ -42,7 +42,8 @@ config :application_runner,
   faas_url: "http://localhost:3000",
   faas_auth: "",
   env: Mix.env() |> Atom.to_string(),
-  mongo_url: System.get_env("MONGO_URL", "mongodb://localhost:27017")
+  mongo_url: System.get_env("MONGO_URL", "mongodb://localhost:27017"),
+  listeners_timeout: 1 * 60 * 60 * 1000
 
 config :application_runner, ApplicationRunner.Guardian.AppGuardian,
   issuer: "lenra",

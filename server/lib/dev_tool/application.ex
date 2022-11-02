@@ -9,7 +9,6 @@ defmodule DevTool.Application do
     DevTool.MigrationHelper.migrate()
     DevTool.Seeds.run()
 
-    # configure_watchdog() ++
     children =
       [
         DevTool.Repo,
@@ -44,20 +43,5 @@ defmodule DevTool.Application do
   def config_change(changed, _new, removed) do
     DevTool.Endpoint.config_change(changed, removed)
     :ok
-  end
-
-  def configure_watchdog do
-    if Application.get_env(:dev_tools, :of_watchdog) do
-      [
-        # Start the watchdog handler server
-        {
-          DevTool.Watchdog,
-          of_watchdog: Application.fetch_env!(:dev_tools, :of_watchdog),
-          port: Application.fetch_env!(:dev_tools, :port)
-        }
-      ]
-    else
-      []
-    end
   end
 end

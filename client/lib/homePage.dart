@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_ui_runner/app.dart';
-import 'package:lenra_ui_runner/models/socket_model.dart';
-import 'package:provider/provider.dart';
-
-import 'models/dev_tools_socket_model.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
-  static const String appName = "00000000-0000-0000-0000-000000000000";
+  // String getUserId() {
+  //   if (!Uri.base.queryParameters.containsKey("user")) return "1";
+  //   String userIdStr = Uri.base.queryParameters["user"]!;
+  //   return (int.tryParse(userIdStr) ?? 1).toString();
+  // }
 
-  int getUserId() {
-    if (!Uri.base.queryParameters.containsKey("user")) return 1;
-    String userIdStr = Uri.base.queryParameters["user"]!;
-    return int.tryParse(userIdStr) ?? 1;
-  }
+  String goTo;
+
+  HomePage(this.goTo);
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<SocketModel>(
-            create: (context) {
-              return DevToolsSocketModel(getUserId(), appName);
-            },
-          ),
-        ],
-        builder: (BuildContext context, _) => App(
-              appName: appName,
-              httpEndpoint: "http://localhost:4000",
-              accessToken: "",
-            ));
+    return OutlinedButton(
+      onPressed: () => GoRouter.of(context).go(goTo),
+      child: Text("Go to app"),
+    );
   }
 }
