@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<SocketModel>(
             create: (context) {
-              return DevToolsSocketModel(getUserId());
+              return DevToolsSocketModel(getUserId(), appName);
             },
           ),
         ],

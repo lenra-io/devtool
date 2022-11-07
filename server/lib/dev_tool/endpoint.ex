@@ -12,7 +12,7 @@ defmodule DevTool.Endpoint do
 
   plug(DevTool.HealthCheck)
 
-  socket("/socket", DevTool.UserSocket,
+  socket("/socket", DevTool.AppSocket,
     websocket: true,
     longpoll: false
   )

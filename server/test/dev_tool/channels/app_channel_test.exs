@@ -4,28 +4,29 @@ defmodule DevTool.AppChannelTest do
   """
   use DevTool.ChannelCase
 
-  alias DevTool.AppStub
+  # alias DevTool.AppStub
 
-  setup do
-    socket = socket(DevTool.UserSocket, "socket_id", %{})
-    bypass = AppStub.create_app_stub()
+  # setup do
+  #   socket =
+  #     socket(DevTool.AppSocket, "socket_id", %{session_id: Ecto.UUID.generate(), user_id: 42})
 
-    %{socket: socket, bypass: bypass}
-  end
+  #   bypass = AppStub.create_app_stub()
 
-  test "No app called, should return an error", %{socket: socket, bypass: _bypass} do
-    res = my_subscribe_and_join(socket)
+  #   %{socket: socket, bypass: bypass}
+  # end
 
-    assert {:error,
-            %{
-              "message" => "No application found for the current link",
-              "metadata" => %{},
-              "reason" => :no_app_found
-            }} ==
-             res
+  # test "No app called, should return an error", %{socket: socket, bypass: _bypass} do
+  #   res = my_subscribe_and_join(socket)
 
-    refute_push("ui", _)
-  end
+  #   assert {:error,
+  #           %{
+  #             "message" => "No application found for the current link",
+  #             "reason" => :no_app_found
+  #           }} ==
+  #            res
+
+  #   refute_push("ui", _)
+  # end
 
   # @app_name "Counter"
   # @listener_name "HiBob"
@@ -87,7 +88,7 @@ defmodule DevTool.AppChannelTest do
   #   assert_reply(ref, :ok)
   # end
 
-  defp my_subscribe_and_join(socket, params \\ %{}) do
-    subscribe_and_join(socket, DevTool.AppChannel, "app", params)
-  end
+  # defp my_subscribe_and_join(socket, params \\ %{}) do
+  #   subscribe_and_join(socket, DevTool.RouteChannel, "route:/", params)
+  # end
 end
