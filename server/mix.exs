@@ -65,7 +65,7 @@ defmodule DevTool.MixProject do
       {:postgrex, "~> 0.15.8"},
       {:application_runner,
        git: "https://github.com/lenra-io/application-runner.git",
-       tag: "v1.0.0-beta.83",
+       tag: "179a8fd0fdc7d55b8240ca5103ab6da74f6efd3e",
        submodules: true},
       {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.4.0"},
       {:distillery, "~> 2.1"}
