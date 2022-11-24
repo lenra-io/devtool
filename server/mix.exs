@@ -64,9 +64,7 @@ defmodule DevTool.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, "~> 0.15.8"},
       {:application_runner,
-       git: "https://github.com/lenra-io/application-runner.git",
-       tag: "b904bee",
-       submodules: true},
+       git: "https://github.com/lenra-io/application-runner.git", tag: "b904bee", submodules: true},
       {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.4.0"},
       {:distillery, "~> 2.1"}
     ]
