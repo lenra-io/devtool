@@ -51,7 +51,7 @@ jobs:
           ssh-private-key: ${{ secrets.COMPONENTS_API_SSH }}
       - uses: actions/checkout@v2
       - name: Set up Elixir
-        uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
+        uses: erlef/setup-elixir@b980a5ac9b7316a23ebc16de2bb69b7c3ad731b5
         with:
           elixir-version: "1.12" # Define the elixir version [required]
           otp-version: "24" # Define the OTP version [required]
