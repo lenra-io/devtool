@@ -31,6 +31,8 @@ RUN mix phx.digest
 RUN mix compile
 RUN mix distillery.release
 
+RUN mix ecto.setup
+
 # prepare release image
 FROM erlang:24-alpine
 
