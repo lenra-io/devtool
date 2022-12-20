@@ -11,8 +11,10 @@ WORKDIR /app
 RUN apk add --no-cache build-base git python3 openssh
 
 # install hex + rebar
-RUN mix archive.install github hexpm/hex branch latest --force && \
-    mix local.rebar --force
+RUN mix local.hex --force && \
+    mix local.rebar --force && \
+    mix archive.install github hexpm/hex branch latest --force 
+
 
 # set build ENV
 ENV MIX_ENV=prod
