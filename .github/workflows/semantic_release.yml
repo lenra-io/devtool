@@ -6,7 +6,7 @@ on:
       - beta
       - "*.x"
 env:
-  flutter_version: "3.0.x"
+  flutter_version: "3.3.0"
 jobs:
   release:
     name: Release
