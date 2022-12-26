@@ -15,7 +15,7 @@ defmodule DevTool.ErrorHelpers do
     listener_not_found: %{code: 18, message: "No listener found in app manifest."},
     timeout: %{code: 20, message: "Openfaas timeout."},
     no_app_found: %{code: 21, message: "No application found for the current link."},
-    widget_not_found: %{code: 23, message: "No Widget found in app manifest."},
+    view_not_found: %{code: 23, message: "No View found in app manifest."},
     invalid_ui: %{code: 25, message: "Invalid UI"},
     datastore_not_found: %{code: 26, message: "Datastore cannot be found"},
     data_not_found: %{code: 27, message: "Data cannot be found"},

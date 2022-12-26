@@ -7,7 +7,7 @@ on:
       - synchronize
 
 env:
-  flutter_version: "3.0.x"
+  flutter_version: "3.3.x"
 jobs:
   prIsWip:
     name: PR is WIP?
