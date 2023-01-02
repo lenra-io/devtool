@@ -309,8 +309,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-beta.100"
-      resolved-ref: "33ab476c436f8b7e1b06bd19ffbb2bf5304e6100"
+      ref: "v1.0.0-beta.101"
+      resolved-ref: "7b1cc291912592cb2474137700feb2469b95c089"
       url: "git@github.com:lenra-io/lenra_ui_runner.git"
     source: git
     version: "0.0.0"
