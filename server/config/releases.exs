@@ -32,4 +32,5 @@ config :application_runner, :mongo,
   port: System.get_env("MONGO_PORT", "27017"),
   username: System.get_env("MONGO_USERNAME"),
   password: System.get_env("MONGO_PASSWORD"),
-  ssl: System.get_env("MONGO_SSL", "false")
+  ssl: System.get_env("MONGO_SSL", "false"),
+  auth_source: System.get_env("MONGO_AUTH_SOURCE")
