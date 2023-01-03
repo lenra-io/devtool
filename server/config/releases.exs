@@ -28,7 +28,7 @@ config :application_runner,
     )
 
 config :application_runner, :mongo,
-  hostname: System.fetch_env!("MONGO_HOSTNAME"),
+  hostname: System.get_env("MONGO_HOSTNAME", "localhost"),
   port: System.get_env("MONGO_PORT", "27017"),
   username: System.get_env("MONGO_USERNAME"),
   password: System.get_env("MONGO_PASSWORD"),
