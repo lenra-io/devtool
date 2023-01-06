@@ -42,7 +42,9 @@ config :application_runner,
   faas_url: "http://localhost:3000",
   faas_auth: "",
   env: Mix.env() |> Atom.to_string(),
-  listeners_timeout: 1 * 60 * 60 * 1000
+  listeners_timeout: 1 * 60 * 60 * 1000,
+  view_timeout: 1 * 30 * 1000,
+  manifest_timeout: 1 * 30 * 1000
 
 config :application_runner, :mongo,
   hostname: System.get_env("MONGO_HOSTNAME", "localhost"),
