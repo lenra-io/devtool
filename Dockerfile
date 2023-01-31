@@ -33,8 +33,6 @@ RUN mix phx.digest
 RUN mix compile
 RUN mix distillery.release
 
-RUN mix ecto.setup
-
 # prepare release image
 FROM erlang:24-alpine
 
@@ -53,5 +51,5 @@ COPY --from=build --chown=lenra /app/_build/prod/ .
 
 WORKDIR /lenra/devtools/rel/dev_tools
 
-ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["foreground"]
