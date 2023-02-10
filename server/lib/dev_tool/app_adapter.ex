@@ -23,11 +23,6 @@ defmodule DevTool.AppAdapter do
   end
 
   @impl ApplicationRunner.Adapter
-  def get_service_name(_env_id) do
-    "test"
-  end
-
-  @impl ApplicationRunner.Adapter
   def resource_from_params(%{"userId" => userId}) do
     userId
     |> Integer.parse()

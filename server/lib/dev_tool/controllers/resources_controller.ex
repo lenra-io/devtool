@@ -1,3 +1,3 @@
 defmodule DevTool.ResourcesController do
-  use ApplicationRunner.ResourcesController
+  use ApplicationRunner.ResourcesController, adapter: DevTool.AppAdapter
 end
