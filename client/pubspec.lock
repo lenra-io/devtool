@@ -394,11 +394,9 @@ packages:
   lenra_ui_runner:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "v1.0.0-beta.112"
-      resolved-ref: e05d2b5346e27dd7c9c6e86797d6b436d0ba7fa7
-      url: "git@github.com:lenra-io/lenra_ui_runner.git"
-    source: git
+      path: "../../lenra_ui_runner"
+      relative: true
+    source: path
     version: "0.0.0"
   logging:
     dependency: transitive

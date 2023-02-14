@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_ui_runner/app.dart';
+import 'package:lenra_ui_runner/io_components/lenra_route.dart';
 import 'package:lenra_ui_runner/models/socket_model.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,13 @@ class HomePage extends StatelessWidget {
               appName: appName,
               httpEndpoint: "http://localhost:4000",
               accessToken: "",
+              wsEndpoint: "ws://localhost:4000/socket/websocket",
+              baseRoute: "/",
+              routeWidget: LenraRoute("/"),
+              navTo: (context, route) {
+                print("NAV TO");
+                print(route);
+              },
             ));
   }
 }
