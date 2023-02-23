@@ -51,5 +51,5 @@ COPY --from=build --chown=lenra /app/_build/prod/ .
 
 WORKDIR /lenra/devtools/rel/dev_tools
 
-ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["foreground"]
