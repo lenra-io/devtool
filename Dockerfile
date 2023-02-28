@@ -48,6 +48,7 @@ USER lenra
 
 WORKDIR /lenra/devtools
 COPY --from=build --chown=lenra /app/_build/prod/ .
+COPY entrypoint.sh /entrypoint.sh
 
 WORKDIR /lenra/devtools/rel/dev_tools
 
