@@ -54,6 +54,8 @@ config :application_runner, :mongo,
   ssl: System.get_env("MONGO_SSL", "false"),
   auth_source: System.get_env("MONGO_AUTH_SOURCE")
 
+config :application_runner, ApplicationRunner.Scheduler, storage: ApplicationRunner.Storage
+
 config :application_runner, ApplicationRunner.Guardian.AppGuardian,
   issuer: "lenra",
   secret_key: "5oIBVh2Hauo3LT4knNFu29lX9DYu74SWZfjZzYn+gfr0aryxuYIdpjm8xd0qGGqK"
