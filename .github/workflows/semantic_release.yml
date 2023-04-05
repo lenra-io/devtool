@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: "18"
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
@@ -53,8 +53,6 @@ jobs:
           mix deps.get
           mix compile
           cd ..
-      - name: Setup node deps
-        run: npm i conventional-changelog-conventionalcommits@4 @semantic-release/exec @semantic-release/git @semantic-release-plus/docker@2 -D
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -70,4 +68,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
           DOCKER_IMAGE: lenra/devtools
-        run: npx semantic-release@18
+        run: npx --force -p conventional-changelog-conventionalcommits@5 -p @semantic-release/exec -p @semantic-release/git -p @semantic-release-plus/docker@2 -p semantic-release-export-data -p https://github.com/Tlepel/semantic-release.git#fix-versions-share-head semantic-release

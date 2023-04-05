@@ -47,9 +47,13 @@ RUN mkdir -p /lenra/devtools/rel/dev_tools/tmp && \
 USER lenra
 
 WORKDIR /lenra/devtools
+COPY --chown=lenra --chmod=777 entrypoint.sh /entrypoint.sh
 COPY --from=build --chown=lenra /app/_build/prod/ .
+RUN ls /
+RUN ls /lenra/devtools
+
 
 WORKDIR /lenra/devtools/rel/dev_tools
 
-ENTRYPOINT [ "/lenra/devtools/rel/dev_tools/bin/dev_tools" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["foreground"]
