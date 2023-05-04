@@ -74,7 +74,8 @@ You can then use the [Lenra CLI](https://github.com/lenra-io/lenra_cli) to run y
 
 ```yml
 dev:
-  devtoolTag: local
+  devtool:
+    tag: local
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
