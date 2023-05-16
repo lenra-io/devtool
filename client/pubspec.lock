@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.4.3"
+  carousel_slider:
+    dependency: transitive
+    description:
+      name: carousel_slider
+      sha256: "9c695cc963bf1d04a47bd6021f68befce8970bcd61d24938e1fb0918cf5d9c42"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.1"
   characters:
     dependency: transitive
     description:
@@ -395,8 +403,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-alpha.2"
-      resolved-ref: "7a84f7775c044d3b9c25e5ee4e5e54e521c3a64d"
+      ref: "v1.0.0-alpha.5"
+      resolved-ref: ff04bd3a5c2e9ebe060ff06b227a487ec418b7f6
       url: "git@github.com:lenra-io/lenra_ui_runner.git"
     source: git
     version: "0.0.0"
