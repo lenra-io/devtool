@@ -7,5 +7,7 @@ defmodule DevTool.Errors.BusinessError do
   use LenraCommon.Errors.ErrorGenerator,
     module: LenraCommon.Errors.BusinessError,
     inherit: true,
-    errors: []
+    errors: [
+      {:null_parameters, "Parameters can't be null."}
+    ]
 end
