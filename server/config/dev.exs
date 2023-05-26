@@ -30,6 +30,13 @@ config :dev_tools, DevTool.Endpoint,
   check_origin: false,
   watchers: []
 
+config :dev_tools, DevTool.ClientEndpoint,
+  http: [port: 4000],
+  debug_errors: true,
+  code_reloader: false,
+  check_origin: false,
+  watchers: []
+
 config :dev_tools,
   of_watchdog: System.get_env("OF_WATCHDOG_BIN", "/usr/bin/fwatchdog"),
   port: System.get_env("OF_WATCHDOG_PORT", "8080"),

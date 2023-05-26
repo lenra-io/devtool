@@ -13,6 +13,11 @@ config :dev_tools, DevTool.Endpoint,
   http: [port: 4001],
   server: true
 
+config :dev_tools, DevTool.ClientEndpoint,
+  http: [port: 4000],
+  server: true
+
+
 # Do not print debug messages in production
 config :logger, level: :info
 

@@ -13,7 +13,14 @@ secret_key_base =
 
 config :dev_tools, DevTool.Endpoint,
   http: [
-    port: String.to_integer(System.get_env("PORT") || "4001"),
+    port: String.to_integer(System.get_env("API_PORT") || "4001"),
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  secret_key_base: secret_key_base
+
+config :dev_tools, DevTool.ClientEndpoint,
+  http: [
+    port: String.to_integer(System.get_env("PORT") || "4000"),
     transport_options: [socket_opts: [:inet6]]
   ],
   secret_key_base: secret_key_base

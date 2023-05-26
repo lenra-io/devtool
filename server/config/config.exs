@@ -24,7 +24,7 @@ config :dev_tools, DevTool.Endpoint,
 
 config :cors_plug,
   origin: "http://localhost:4000",
-  methods: ["GET", "POST", "PUT", "PATCH", "OPTION"]
+  methods: ["GET"]
 
 # Configures Elixir's Logger
 config :logger, :console,

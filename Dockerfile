@@ -1,18 +1,3 @@
-# Setup nginx client
-
-FROM bitnami/nginx as client_build
-
-USER 0
-
-RUN rm -Rf /app/* && \
-    chown -R 1001:0 /app
-
-USER 1001
-
-COPY nginx.conf /opt/bitnami/nginx/conf/server_blocks/
-
-COPY --chown=1001:0 client/build/web /app
-
 FROM elixir:1.13-alpine AS build
 
 ARG CI
@@ -63,7 +48,6 @@ USER lenra
 WORKDIR /lenra/devtools
 COPY --chown=lenra --chmod=777 entrypoint.sh /entrypoint.sh
 COPY --from=build --chown=lenra /app/_build/prod/ .
-COPY --from=client_build --chown=lenra /app/ ./client
 RUN ls /
 RUN ls /lenra/devtools
 
@@ -71,3 +55,5 @@ RUN ls /lenra/devtools
 WORKDIR /lenra/devtools/rel/dev_tools
 
 ENTRYPOINT [ "/entrypoint.sh" ]
+
+CMD ["foreground"]
