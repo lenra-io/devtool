@@ -56,5 +56,4 @@ RUN ls /lenra/devtools
 WORKDIR /lenra/devtools/rel/dev_tools
 
 ENTRYPOINT [ "/entrypoint.sh" ]
-
 CMD ["foreground"]
