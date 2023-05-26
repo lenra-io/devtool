@@ -21,6 +21,7 @@ ENV MIX_ENV=prod
 
 # copy needed files
 COPY ./server .
+COPY ./client/build/web/ ./priv/static/
 
 ENV SECRET_KEY_BASE=Lhk7igVi9p3jnV9gMqi7+pSFFfo7R3V9PnXXt1FnvyHSqjYFThwDecnS1TmR2hUE
 
