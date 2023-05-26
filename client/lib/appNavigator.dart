@@ -13,9 +13,9 @@ class AppNavigator extends CommonNavigator {
       return NoTransitionPage(
         child: App(
           appName: DevTools.appName,
-          httpEndpoint: "http://localhost:4000",
+          httpEndpoint: "http://localhost:4001",
           accessToken: "",
-          wsEndpoint: "ws://localhost:4000/socket/websocket",
+          wsEndpoint: "ws://localhost:4001/socket/websocket",
           baseRoute: "/",
           routeWidget: LenraRoute(
             "/${state.params['path']!}",

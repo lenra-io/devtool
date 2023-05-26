@@ -22,6 +22,10 @@ config :dev_tools, DevTool.Endpoint,
   render_errors: [view: DevTool.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: DevTool.PubSub
 
+config :cors_plug,
+  origin: "http://localhost:4000",
+  methods: ["GET", "POST", "PUT", "PATCH", "OPTION"]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -38,7 +42,7 @@ config :application_runner,
   lenra_environment_table: "environments",
   lenra_user_table: "users",
   repo: DevTool.Repo,
-  url: "http://localhost:4000",
+  url: "http://localhost:4001",
   faas_url: "http://localhost:3000",
   faas_auth: "",
   env: Mix.env() |> Atom.to_string(),

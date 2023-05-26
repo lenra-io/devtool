@@ -17,16 +17,6 @@ defmodule DevTool.Endpoint do
     longpoll: false
   )
 
-  # Serve at "/" the static files from "priv/static" directory.
-  #
-  # You should set gzip to true if you are running phx.digest
-  # when deploying your static files in production.
-  plug(Plug.Static,
-    at: "/",
-    from: {:dev_tools, "priv/static"},
-    gzip: false
-  )
-
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -42,6 +32,7 @@ defmodule DevTool.Endpoint do
     json_decoder: Phoenix.json_library()
   )
 
+  plug CORSPlug
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)

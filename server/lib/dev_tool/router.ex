@@ -10,8 +10,6 @@ defmodule DevTool.Router do
   end
 
   scope "/", DevTool do
-    get("/", IndexController, :index)
-
     pipe_through([:api])
     post("/apps/:app_uuid/webhooks/:webhook_uuid", WebhooksController, :trigger)
   end

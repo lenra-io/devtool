@@ -10,7 +10,7 @@ class DevToolsSocketModel extends SocketModel {
 
   DevToolsSocketModel(int userId, String appName)
       : this._socket = createPhoenixSocket(
-          "ws://localhost:4000/socket/websocket",
+          "ws://localhost:4001/socket/websocket",
           {"userId": userId.toString(), "app": appName},
         ) {
     this._socket.connect();
