@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lenra_ui_runner/app.dart';
 import 'package:lenra_ui_runner/io_components/lenra_route.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppNavigator extends CommonNavigator {
   static GoRoute appRoutes = GoRoute(
@@ -23,7 +24,13 @@ class AppNavigator extends CommonNavigator {
             key: UniqueKey(),
           ),
           navTo: (context, route) {
-            GoRouter.of(context).go(route);
+            // This regex matches http:// and https:// urls
+            RegExp exp = RegExp(r"^https?://");
+            if (exp.hasMatch(route)) {
+              _launchURL(route);
+            } else {
+              GoRouter.of(context).go(route);
+            }
           },
         ),
       );
@@ -46,4 +53,11 @@ class NoTransitionPage extends CustomTransitionPage {
             return child;
           },
         );
+}
+
+_launchURL(String url) async {
+  final Uri uri = Uri.parse(url);
+  if (!await launchUrl(uri)) {
+    throw Exception("Could not launch url: $url");
+  }
 }
