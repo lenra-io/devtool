@@ -1,4 +1,7 @@
 defmodule DevTool.ClientRouter do
+  @moduledoc """
+  The router for the client.
+  """
   use DevTool, :router
 
   scope "/", DevTool do

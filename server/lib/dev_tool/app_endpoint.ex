@@ -1,4 +1,7 @@
 defmodule DevTool.ClientEndpoint do
+  @moduledoc """
+  The endpoint for the client.
+  """
   use Phoenix.Endpoint, otp_app: :dev_tools
 
   # The session will be stored in the cookie and signed,
