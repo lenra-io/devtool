@@ -1,4 +1,7 @@
-defmodule DevTool.Endpoint do
+defmodule DevTool.ClientEndpoint do
+  @moduledoc """
+  The endpoint for the client.
+  """
   use Phoenix.Endpoint, otp_app: :dev_tools
 
   # The session will be stored in the cookie and signed,
@@ -12,9 +15,14 @@ defmodule DevTool.Endpoint do
 
   plug(DevTool.HealthCheck)
 
-  socket("/socket", DevTool.AppSocket,
-    websocket: true,
-    longpoll: false
+  # Serve at "/" the static files from "priv/static" directory.
+  #
+  # You should set gzip to true if you are running phx.digest
+  # when deploying your static files in production.
+  plug(Plug.Static,
+    at: "/",
+    from: {:dev_tools, "priv/static"},
+    gzip: false
   )
 
   # Code reloading can be explicitly enabled under the
@@ -32,9 +40,8 @@ defmodule DevTool.Endpoint do
     json_decoder: Phoenix.json_library()
   )
 
-  plug(CORSPlug)
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
-  plug(DevTool.Router)
+  plug(DevTool.ClientRouter)
 end

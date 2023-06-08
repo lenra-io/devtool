@@ -1,6 +1,10 @@
 import Config
 
 config :dev_tools, DevTool.Endpoint,
+  http: [port: 4001],
+  server: true
+
+config :dev_tools, DevTool.ClientEndpoint,
   http: [port: 4000],
   server: true
 
@@ -26,7 +30,7 @@ config :dev_tools,
     )
 
 config :application_runner,
-  url: System.get_env("LENRA_API_URL", "http://localhost:4000"),
+  url: System.get_env("LENRA_API_URL", "http://localhost:4001"),
   faas_url:
     System.get_env(
       "OF_WATCHDOG_URL",
