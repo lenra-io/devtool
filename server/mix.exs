@@ -63,9 +63,10 @@ defmodule DevTool.MixProject do
       {:finch, "~> 0.14.0"},
       {:ecto_sql, "~> 3.9.2"},
       {:postgrex, "~> 0.16.0"},
+      {:cors_plug, "~> 3.0"},
       {:application_runner,
        git: "https://github.com/lenra-io/application-runner.git",
-       tag: "v1.0.0-beta.121",
+       tag: "v1.0.0-beta.124",
        submodules: true},
       {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.6.0"},
       {:distillery, "~> 2.1"}

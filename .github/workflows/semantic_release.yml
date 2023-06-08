@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - beta
+      - alpha
       - "*.x"
 env:
   flutter_version: "3.3.x"
@@ -45,7 +46,7 @@ jobs:
       - name: Build Flutter Web
         run: |
           cd client
-          flutter build web
+          flutter build web --no-tree-shake-icons
           cd ..
       - name: Deps + compile elixir
         run: |
