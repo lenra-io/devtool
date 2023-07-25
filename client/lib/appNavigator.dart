@@ -32,6 +32,9 @@ class AppNavigator extends CommonNavigator {
               GoRouter.of(context).go(route);
             }
           },
+          customParams: {
+            "userId": state.queryParams['user'] ?? '1',
+          },
         ),
       );
     },
