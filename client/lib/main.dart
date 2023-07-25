@@ -1,10 +1,7 @@
 import 'package:client/appNavigator.dart';
-import 'package:client/models/dev_tools_socket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:lenra_ui_runner/models/socket_model.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   setPathUrlStrategy();
@@ -29,24 +26,15 @@ class DevTools extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeData = LenraThemeData();
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<SocketModel>(
-          create: (context) {
-            return DevToolsSocketModel(getUserId(), appName);
-          },
+    return LenraTheme(
+      themeData: themeData,
+      child: MaterialApp.router(
+        routerConfig: AppNavigator.router,
+        title: 'Lenra - Devtool',
+        theme: ThemeData(
+          textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
         ),
-      ],
-      builder: (BuildContext context, _) => LenraTheme(
-          themeData: themeData,
-          child: MaterialApp.router(
-            routerConfig: AppNavigator.router,
-            title: 'Lenra - Devtool',
-            theme: ThemeData(
-              textTheme:
-                  TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
-            ),
-          )),
+      ),
     );
   }
 }
