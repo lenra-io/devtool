@@ -17,8 +17,7 @@ class AppNavigator extends CommonNavigator {
         child: App(
           appName: appName,
           httpEndpoint: "http://localhost:4001",
-          accessToken:
-              "SFMyNTY.g2gDdAAAAAFkAAVzY29wZW0AAAANYXBwOndlYnNvY2tldG4GAMaoaJKJAWIAAVGA.Mic1j8bSUAmdPLOMCM_XKvebMkIm9SZA9gFC5GAr49M",
+          accessToken: oauth2Token,
           wsEndpoint: "ws://localhost:4001/socket/websocket",
           baseRoute: "/",
           routeWidget: LenraRoute(

@@ -11,7 +11,7 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
 
   def generate_token(code) do
     with {:ok, claims} <- claims_from_code(code) do
-      {:ok, Token.sign(DevTool.FakeHydra.Endpoint, @sign_salt, claims)}
+      {:ok, Token.sign(DevTool.FakeHydra.Endpoint, @sign_salt, claims), claims}
     end
   end
 

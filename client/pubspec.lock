@@ -100,9 +100,11 @@ packages:
   client_common:
     dependency: "direct main"
     description:
-      path: "../../client-common"
-      relative: true
-    source: path
+      path: "."
+      ref: "v1.0.0-beta.41"
+      resolved-ref: b697fc3315b53cb35b52abb5e0f985bbcfd4eab9
+      url: "git@github.com:lenra-io/client-common.git"
+    source: git
     version: "1.0.0"
   clock:
     dependency: transitive
@@ -295,22 +297,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_web_auth_2:
-    dependency: transitive
-    description:
-      name: flutter_web_auth_2
-      sha256: "70e4df72940183b8e269c4163f78dd5bf9102ba3329bfe00c0f2373f30fb32d0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.5"
-  flutter_web_auth_2_platform_interface:
-    dependency: transitive
-    description:
-      name: flutter_web_auth_2_platform_interface
-      sha256: f6fa7059ff3428c19cd756c02fef8eb0147131c7e64591f9060c90b5ab84f094
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.4"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -410,15 +396,17 @@ packages:
       path: "."
       ref: "v1.0.0-beta.52"
       resolved-ref: "26cc6d810bea235f59d0890f99691d065de74c98"
-      url: "https://github.com/lenra-io/lenra_components.git"
+      url: "git@github.com:lenra-io/lenra_components.git"
     source: git
     version: "0.0.0"
   lenra_ui_runner:
     dependency: "direct main"
     description:
-      path: "../../lenra_ui_runner"
-      relative: true
-    source: path
+      path: "."
+      ref: "v1.0.0-beta.115"
+      resolved-ref: d175d90c68a5264f4d10ac1b5efbf0db4af0361f
+      url: "git@github.com:lenra-io/lenra_ui_runner.git"
+    source: git
     version: "0.0.0"
   logging:
     dependency: transitive
@@ -476,14 +464,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  oauth2_client:
-    dependency: transitive
-    description:
-      name: oauth2_client
-      sha256: "7d53b2a9eec4c1cbfddfd0a69dd0b6e8db73e6f75e4fb910c8070ac6513ae544"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
   package_config:
     dependency: transitive
     description:
@@ -588,14 +568,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
-  random_string:
-    dependency: transitive
-    description:
-      name: random_string
-      sha256: "03b52435aae8cbdd1056cf91bfc5bf845e9706724dd35ae2e99fa14a1ef79d02"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -833,14 +805,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.3"
-  window_to_front:
-    dependency: transitive
-    description:
-      name: window_to_front
-      sha256: "7aef379752b7190c10479e12b5fd7c0b9d92adc96817d9e96c59937929512aee"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.3"
   xdg_directories:
     dependency: transitive
     description:
