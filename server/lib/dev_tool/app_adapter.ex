@@ -6,6 +6,7 @@ defmodule DevTool.AppAdapter do
 
   alias DevTool.User
   alias DevTool.UserServices
+  alias DevTool.FakeHydra.OAuth2Helper
 
   @impl ApplicationRunner.Adapter
   def allow(_user_id, _app_name) do
@@ -23,11 +24,13 @@ defmodule DevTool.AppAdapter do
   end
 
   @impl ApplicationRunner.Adapter
-  def resource_from_params(%{"userId" => userId}) do
-    userId
-    |> Integer.parse()
-    |> elem(0)
-    |> do_resource_from_params()
+  def resource_from_params(%{"userId" => userId, "token" => token}) do
+    with {:ok, _scope} <- OAuth2Helper.verify_scope(token, "app:websocket") do
+      userId
+      |> Integer.parse()
+      |> elem(0)
+      |> do_resource_from_params()
+    end
   end
 
   def resource_from_params(_params) do

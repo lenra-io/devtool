@@ -22,9 +22,12 @@ config :dev_tools, DevTool.Endpoint,
   render_errors: [view: DevTool.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: DevTool.PubSub
 
+config :dev_tools, DevTool.FakeHydra.Endpoint,
+  secret_key_base: "1wu9UopQFdqOPU4HVbQnyceUB/xTGh/MUEsYQrxJh11t+jGtqVKr3DWJ67MFpL3R"
+
 config :cors_plug,
-  origin: "http://localhost:4000",
-  methods: ["GET"]
+  origin: "*",
+  methods: ["GET", "POST"]
 
 # Configures Elixir's Logger
 config :logger, :console,

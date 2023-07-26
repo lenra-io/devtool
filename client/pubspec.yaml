@@ -37,13 +37,15 @@ dependencies:
   url_strategy: ^0.2.0
   go_router: ^6.0.1
   client_common:
-    git:
-      url: git@github.com:lenra-io/client-common.git
-      ref: v1.0.0-beta.41
+    # git:
+    #   url: git@github.com:lenra-io/client-common.git
+    #   ref: v1.0.0-beta.41
+    path: ../../client-common
   lenra_ui_runner:
-    git:
-      url: git@github.com:lenra-io/lenra_ui_runner.git
-      ref: v1.0.0-beta.115
+    path: ../../lenra_ui_runner
+    # git:
+    #   url: git@github.com:lenra-io/lenra_ui_runner.git
+    #   ref: v1.0.0-beta.115
   url_launcher: ^6.1.11
 dev_dependencies:
   flutter_test:
