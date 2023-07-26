@@ -4,9 +4,9 @@ defmodule DevTool.AppAdapter do
   """
   @behaviour ApplicationRunner.Adapter
 
+  alias DevTool.FakeHydra.OAuth2Helper
   alias DevTool.User
   alias DevTool.UserServices
-  alias DevTool.FakeHydra.OAuth2Helper
 
   @impl ApplicationRunner.Adapter
   def allow(_user_id, _app_name) do

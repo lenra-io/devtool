@@ -1,4 +1,7 @@
 defmodule DevTool.FakeHydra.OAuth2Helper do
+  @moduledoc """
+    Helper function to create Oauth2 code/token and check them.
+  """
   alias DevTool.Errors.BusinessError
   alias Phoenix.Token
 

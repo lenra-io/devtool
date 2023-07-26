@@ -1,6 +1,6 @@
 defmodule DevTool.FakeHydra.Router do
   @moduledoc """
-  The router for the client.
+  The router for the fake hydra.
   """
   use DevTool, :router
 
