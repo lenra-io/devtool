@@ -42,7 +42,7 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
   defp claims_from_token(token) do
     case Token.verify(DevTool.FakeHydra.Endpoint, @sign_salt, token) do
       {:ok, claims} -> {:ok, claims}
-      {:error, _reason} -> BusinessError.invalid_oauth2_code_tuple()
+      {:error, _reason} -> BusinessError.invalid_oauth2_token_tuple()
     end
   end
 
