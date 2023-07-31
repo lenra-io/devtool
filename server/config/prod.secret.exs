@@ -27,7 +27,7 @@ config :dev_tools, DevTool.Client.Endpoint,
 
 config :dev_tools, DevTool.FakeHydra.Endpoint,
   http: [
-    port: String.to_integer(System.get_env("PORT") || "4444"),
+    port: String.to_integer(System.get_env("OAUTH_PORT") || "4444"),
     transport_options: [socket_opts: [:inet6]]
   ],
   secret_key_base: secret_key_base
