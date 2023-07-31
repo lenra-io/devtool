@@ -10,21 +10,16 @@ defmodule DevTool.AppAdapter do
 
   @impl ApplicationRunner.Adapter
   def allow(_user_id, _app_name) do
-    IO.inspect("-----allow-----")
-
     :ok
   end
 
   @impl ApplicationRunner.Adapter
   def get_function_name(_app_name) do
-    IO.inspect("get_function_name test")
     "test"
   end
 
   @impl ApplicationRunner.Adapter
   def get_env_id(_app_name) do
-    IO.inspect("-----get_env_id-----")
-
     1
   end
 
@@ -44,15 +39,9 @@ defmodule DevTool.AppAdapter do
     raise "No token found. Please add a token to your websocket request."
   end
 
-  defp do_resource_from_params(userId, token) do
-    IO.inspect("-----resource_from_params-----")
-
-    IO.inspect("user #{userId} with token #{token}, CHECK ACCESS")
-
+  defp do_resource_from_params(user_id, token) do
     with {:ok, _scope} <- OAuth2Helper.verify_scope(token, "app:websocket"),
-         {:ok, %User{id: id}} <- UserServices.upsert_fake_user(userId) do
-      IO.inspect("user #{userId} with token #{token}, ACCESS GRANTED !")
-
+         {:ok, %User{id: id}} <- UserServices.upsert_fake_user(user_id) do
       {:ok, id}
     end
   end
