@@ -101,9 +101,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-beta.41"
-      resolved-ref: b697fc3315b53cb35b52abb5e0f985bbcfd4eab9
-      url: "git@github.com:lenra-io/client-common.git"
+      ref: "v1.0.0-beta.44"
+      resolved-ref: "5a59ac19c0a4ef24354ca8ccfeed2992f4c2e5df"
+      url: "https://github.com/lenra-io/client-common.git"
     source: git
     version: "1.0.0"
   clock:
@@ -396,16 +396,16 @@ packages:
       path: "."
       ref: "v1.0.0-beta.52"
       resolved-ref: "26cc6d810bea235f59d0890f99691d065de74c98"
-      url: "git@github.com:lenra-io/lenra_components.git"
+      url: "https://github.com/lenra-io/lenra_components.git"
     source: git
     version: "0.0.0"
   lenra_ui_runner:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.0-beta.115"
-      resolved-ref: d175d90c68a5264f4d10ac1b5efbf0db4af0361f
-      url: "git@github.com:lenra-io/lenra_ui_runner.git"
+      ref: "v1.0.0-beta.118"
+      resolved-ref: "94daccb8fdd30dab015448c27df695e20f413640"
+      url: "https://github.com/lenra-io/lenra_ui_runner.git"
     source: git
     version: "0.0.0"
   logging:
