@@ -32,7 +32,7 @@ class DevTools extends StatelessWidget {
         routerConfig: AppNavigator.router,
         title: 'Lenra - Devtool',
         theme: ThemeData(
-          textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),
+          textTheme: TextTheme(bodyMedium: themeData.lenraTextThemeData.bodyText),
         ),
       ),
     );
