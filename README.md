@@ -63,7 +63,7 @@ You might not want to use the Docker Hub image, if it is the case you can clone 
 # Go the the client folder
 cd client
 # Build flutter web
-flutter build web
+flutter build web --no-tree-shake-icons
 # Go to the root of the repository
 cd ..
 # Build docker image
