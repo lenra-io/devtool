@@ -23,7 +23,10 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
   end
 
   def verify_scope(token, needed_scope) do
-    with {:ok, %{scope: token_scope}} <- claims_from_token(token),
+    IO.inspect(token)
+    IO.inspect(needed_scope)
+
+    with {:ok, %{scope: token_scope}} <- IO.inspect(claims_from_token(token)),
          true <- scopes_matches(token_scope, needed_scope) do
       {:ok, needed_scope}
     else
@@ -40,7 +43,9 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
   end
 
   def claims_from_token(token) do
-    case Token.verify(DevTool.FakeHydra.Endpoint, @sign_salt, token) do
+    IO.inspect("claims_from_token")
+    IO.inspect(Token.verify("Lhk7igVi9p3jnV9gMqi7+pSFFfo7R3V9PnXXt1FnvyHSqjYFThwDecnS1TmR2hUE", @sign_salt, token))
+    case IO.inspect(Token.verify(DevTool.FakeHydra.Endpoint, @sign_salt, token)) do
       {:ok, claims} -> {:ok, claims}
       {:error, _reason} -> BusinessError.invalid_oauth2_token_tuple()
     end
