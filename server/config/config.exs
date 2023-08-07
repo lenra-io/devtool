@@ -24,8 +24,7 @@ config :dev_tools, DevTool.Endpoint,
   render_errors: [view: DevTool.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: DevTool.PubSub
 
-config :dev_tools, DevTool.FakeHydra.Endpoint,
-  secret_key_base: secret_key_base
+config :dev_tools, DevTool.FakeHydra.Endpoint, secret_key_base: secret_key_base
 
 config :cors_plug,
   origin: "*",
