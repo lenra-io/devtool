@@ -66,7 +66,7 @@ defmodule DevTool.MixProject do
       {:cors_plug, "~> 3.0"},
       {:application_runner,
        git: "https://github.com/lenra-io/application-runner.git",
-       tag: "v1.0.0-beta.125",
+       tag: "v1.0.0-beta.126",
        submodules: true},
       {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.7.1"},
       {:distillery, "~> 2.1"}
