@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+secret_key_base = "Lhk7igVi9p3jnV9gMqi7+pSFFfo7R3V9PnXXt1FnvyHSqjYFThwDecnS1TmR2hUE"
+
 config :dev_tools,
   ecto_repos: [DevTool.Repo],
   application_url: System.get_env("APPLICATION_URL", "http://localhost:3000/")
@@ -18,13 +20,15 @@ config :dev_tools, DevTool.Repo,
 # Configures the endpoint
 config :dev_tools, DevTool.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "q0rPsy3L8JOAYVx0hglOsYuKwo/uVWvdYVQTkus5a/wkJnka3F1k7xyLJEK7r2TH",
+  secret_key_base: secret_key_base,
   render_errors: [view: DevTool.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: DevTool.PubSub
 
+config :dev_tools, DevTool.FakeHydra.Endpoint, secret_key_base: secret_key_base
+
 config :cors_plug,
-  origin: "http://localhost:4000",
-  methods: ["GET"]
+  origin: "*",
+  methods: ["GET", "POST"]
 
 # Configures Elixir's Logger
 config :logger, :console,

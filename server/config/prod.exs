@@ -13,8 +13,12 @@ config :dev_tools, DevTool.Endpoint,
   http: [port: 4001],
   server: true
 
-config :dev_tools, DevTool.ClientEndpoint,
+config :dev_tools, DevTool.Client.Endpoint,
   http: [port: 4000],
+  server: true
+
+config :dev_tools, DevTool.FakeHydra.Endpoint,
+  http: [port: 4444],
   server: true
 
 # Do not print debug messages in production

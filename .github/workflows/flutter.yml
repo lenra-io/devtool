@@ -25,7 +25,7 @@ jobs:
       - prIsWip
     if: needs.prIsWip.outputs.isWip == 'false'
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: ./client

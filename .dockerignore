@@ -1,3 +1,4 @@
 server/_build
 server/.elixir_ls
 server/deps
+server/priv/static/

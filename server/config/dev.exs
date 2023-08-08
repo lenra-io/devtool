@@ -24,16 +24,23 @@ config :application_runner, ApplicationRunner.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :dev_tools, DevTool.Endpoint,
-  http: [port: 4001],
+  http: [:inet6, port: 4001],
   debug_errors: true,
-  code_reloader: false,
+  code_reloader: true,
   check_origin: false,
   watchers: []
 
-config :dev_tools, DevTool.ClientEndpoint,
+config :dev_tools, DevTool.Client.Endpoint,
   http: [port: 4000],
   debug_errors: true,
-  code_reloader: false,
+  code_reloader: true,
+  check_origin: false,
+  watchers: []
+
+config :dev_tools, DevTool.FakeHydra.Endpoint,
+  http: [port: 4444],
+  debug_errors: true,
+  code_reloader: true,
   check_origin: false,
   watchers: []
 

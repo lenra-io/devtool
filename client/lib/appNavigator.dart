@@ -1,4 +1,3 @@
-import 'package:client/main.dart';
 import 'package:client_common/navigator/common_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,15 +6,18 @@ import 'package:lenra_ui_runner/io_components/lenra_route.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppNavigator extends CommonNavigator {
+  static const String appName = "00000000-0000-0000-0000-000000000000";
+  static const String oauth2Token =
+      "SFMyNTY.g2gDdAAAAAFkAAVzY29wZW0AAAANYXBwOndlYnNvY2tldG4GABrgaNCJAWIAAVGA.DDWCjMt1GYbVcsvI-tLSyQjv83x2c4Ri68hSeqwrMHQ";
   static GoRoute appRoutes = GoRoute(
     name: "appRoutes",
     path: "/:path(.*)",
     pageBuilder: (_, state) {
       return NoTransitionPage(
         child: App(
-          appName: DevTools.appName,
+          appName: appName,
           httpEndpoint: "http://localhost:4001",
-          accessToken: "",
+          accessToken: oauth2Token,
           wsEndpoint: "ws://localhost:4001/socket/websocket",
           baseRoute: "/",
           routeWidget: LenraRoute(

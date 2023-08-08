@@ -8,6 +8,9 @@ defmodule DevTool.Errors.BusinessError do
     module: LenraCommon.Errors.BusinessError,
     inherit: true,
     errors: [
-      {:null_parameters, "Parameters can't be null."}
+      {:null_parameters, "Parameters can't be null."},
+      {:invalid_oauth2_code, "Invalid code"},
+      {:invalid_oauth2_token, "Invalid token", 401},
+      {:invalid_oauth2_scopes, "Scopes are insufficient", 401}
     ]
 end
