@@ -7,7 +7,7 @@ defmodule DevTool.FakeHydra.OAuth2Controller do
   def auth(conn, params) do
     uri = params["redirect_uri"]
     code = OAuth2Helper.generate_code(params["scope"])
-    encoded_params = URI.encode_query(%{"code" => code})
+    encoded_params = URI.encode_query(%{"code" => code, "state" => params["state"]})
     redirect(conn, external: "#{uri}?#{encoded_params}")
   end
 
