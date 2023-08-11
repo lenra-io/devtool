@@ -78,6 +78,34 @@ dev:
     tag: local
 ```
 
+### Using local environment
+
+To run the devtools locally, not in a Docker container, you can use the following command :
+
+```bash
+# Go the the client folder
+cd client
+# Build flutter web
+flutter build web --no-tree-shake-icons
+# Copy the generated web folder to the server
+cp -r build/web ../server/priv/static
+# Go to the server repository
+cd ../server
+# Setup the server project
+mix setup
+# Start the server
+mix phx.server
+```
+
+To update the client, you can use the following command from the client folder :
+
+```bash
+# Build flutter web
+flutter build web --no-tree-shake-icons
+# Copy the generated web folder to the server
+cp -r build/web ../server/priv/static
+```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 

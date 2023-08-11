@@ -81,7 +81,7 @@ defmodule DevTool.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"],
+      setup: ["deps.get", "ecto.setup"],
       "ecto.setup": [
         "ecto.create",
         "ecto.migrate"

@@ -5,6 +5,8 @@ import 'package:lenra_ui_runner/app.dart';
 import 'package:lenra_ui_runner/io_components/lenra_route.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:http/http.dart' as http;
+
 class AppNavigator extends CommonNavigator {
   static const String appName = "00000000-0000-0000-0000-000000000000";
   static const String oauth2Token =
@@ -14,28 +16,41 @@ class AppNavigator extends CommonNavigator {
     path: "/:path(.*)",
     pageBuilder: (_, state) {
       return NoTransitionPage(
-        child: App(
-          appName: appName,
-          httpEndpoint: "http://localhost:4001",
-          accessToken: oauth2Token,
-          wsEndpoint: "ws://localhost:4001/socket/websocket",
-          baseRoute: "/",
-          routeWidget: LenraRoute(
-            "/${state.params['path']!}",
-            // Use UniqueKey to make sure that the LenraRoute Widget is properly reloaded with the new route when navigating.
-            key: UniqueKey(),
-          ),
-          navTo: (context, route) {
-            // This regex matches http:// and https:// urls
-            RegExp exp = RegExp(r"^https?://");
-            if (exp.hasMatch(route)) {
-              _launchURL(route);
-            } else {
-              GoRouter.of(context).go(route);
+        child: FutureBuilder(
+          future: http.Client().post(Uri.parse("http://localhost:4001/token")),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var token = snapshot.data!.body;
+              return App(
+                appName: appName,
+                httpEndpoint: "http://localhost:4001",
+                accessToken: token,
+                wsEndpoint: "ws://localhost:4001/socket/websocket",
+                baseRoute: "/",
+                routeWidget: LenraRoute(
+                  "/${state.params['path']!}",
+                  // Use UniqueKey to make sure that the LenraRoute Widget is properly reloaded with the new route when navigating.
+                  key: UniqueKey(),
+                ),
+                navTo: (context, route) {
+                  // This regex matches http:// and https:// urls
+                  RegExp exp = RegExp(r"^https?://");
+                  if (exp.hasMatch(route)) {
+                    _launchURL(route);
+                  } else {
+                    GoRouter.of(context).go(route);
+                  }
+                },
+                customParams: {
+                  "userId": state.queryParams['user'] ?? '1',
+                },
+              );
             }
-          },
-          customParams: {
-            "userId": state.queryParams['user'] ?? '1',
+            return Container(
+              child: CircularProgressIndicator(),
+              alignment: Alignment.center,
+              color: Colors.white,
+            );
           },
         ),
       );
