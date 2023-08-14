@@ -1,6 +1,6 @@
 defmodule DevTool.LenraTokenController do
   @moduledoc """
-    Controller who generates fake token for Lenra client
+    Controller which generates fake token for Lenra client
   """
   use DevTool, :controller
 

@@ -89,7 +89,7 @@ cd client
 flutter build web --no-tree-shake-icons
 # Copy the generated web folder to the server
 cp -r build/web ../server/priv/static
-# Go to the server repository
+# Go to the server folder
 cd ../server
 # Setup the server project
 mix setup
