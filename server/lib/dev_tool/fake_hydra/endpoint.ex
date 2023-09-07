@@ -1,6 +1,6 @@
-defmodule DevTool.ClientEndpoint do
+defmodule DevTool.FakeHydra.Endpoint do
   @moduledoc """
-  The endpoint for the client.
+  The endpoint for the fake hydra.
   """
   use Phoenix.Endpoint, otp_app: :dev_tools
 
@@ -19,11 +19,11 @@ defmodule DevTool.ClientEndpoint do
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
-  plug(Plug.Static,
-    at: "/",
-    from: {:dev_tools, "priv/static"},
-    gzip: false
-  )
+  # plug(Plug.Static,
+  #   at: "/",
+  #   from: {:dev_tools, "priv/static"},
+  #   gzip: false
+  # )
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -40,8 +40,9 @@ defmodule DevTool.ClientEndpoint do
     json_decoder: Phoenix.json_library()
   )
 
+  plug(CORSPlug)
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
-  plug(DevTool.ClientRouter)
+  plug(DevTool.FakeHydra.Router)
 end

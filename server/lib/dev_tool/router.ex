@@ -17,4 +17,8 @@ defmodule DevTool.Router do
   scope "/api", DevTool do
     ApplicationRunner.Router.resource_route(ResourcesController)
   end
+
+  scope "/", DevTool do
+    post("/token", LenraTokenController, :generate)
+  end
 end
