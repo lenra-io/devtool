@@ -25,7 +25,8 @@ defmodule DevTool.Application do
         id: :finch_faas_http
       ),
       DevTool.Endpoint,
-      DevTool.ClientEndpoint,
+      DevTool.Client.Endpoint,
+      DevTool.FakeHydra.Endpoint,
       DevTool.Terminal
     ]
 

@@ -1,4 +1,4 @@
-defmodule DevTool.IndexController do
+defmodule DevTool.Client.IndexController do
   use DevTool, :controller
 
   def index(conn, _params) do
