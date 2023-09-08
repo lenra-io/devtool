@@ -65,10 +65,10 @@ defmodule DevTool.MixProject do
       {:postgrex, "~> 0.16.0"},
       {:cors_plug, "~> 3.0"},
       {:application_runner,
-       git: "https://github.com/lenra-io/application-runner.git",
-       tag: "v1.0.0-beta.126",
+       git: "https://github.com/lenra-io/server.git",
+       ref: "mono-repo",
+       subdir: "libs/application_runner",
        submodules: true},
-      {:lenra_common, git: "https://github.com/lenra-io/lenra-common.git", tag: "v2.7.1"},
       {:distillery, "~> 2.1"}
     ]
   end
@@ -87,13 +87,14 @@ defmodule DevTool.MixProject do
         "ecto.migrate"
       ],
       "ecto.migrations": [
-        "ecto.migrations --migrations-path priv/repo/migrations --migrations-path deps/application_runner/priv/repo/migrations"
+        "ecto.migrations --migrations-path priv/repo/migrations --migrations-path deps/application_runner/libs/application_runner/priv/repo/migrations"
       ],
       "ecto.migrate": [
-        "ecto.migrate --migrations-path priv/repo/migrations --migrations-path deps/application_runner/priv/repo/migrations"
+        "ecto.migrate --migrations-path priv/repo/migrations --migrations-path deps/application_runner/libs/application_runner/priv/repo/migrations"
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: [
+        "ecto.drop --quiet",
         "ecto.create --quiet",
         "ecto.migrate",
         "test"
