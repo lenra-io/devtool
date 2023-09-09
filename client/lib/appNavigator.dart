@@ -9,8 +9,6 @@ import 'package:http/http.dart' as http;
 
 class AppNavigator extends CommonNavigator {
   static const String appName = "00000000-0000-0000-0000-000000000000";
-  static const String oauth2Token =
-      "SFMyNTY.g2gDdAAAAAFkAAVzY29wZW0AAAANYXBwOndlYnNvY2tldG4GABrgaNCJAWIAAVGA.DDWCjMt1GYbVcsvI-tLSyQjv83x2c4Ri68hSeqwrMHQ";
   static GoRoute appRoutes = GoRoute(
     name: "appRoutes",
     path: "/:path(.*)",

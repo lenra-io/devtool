@@ -52,7 +52,8 @@ config :application_runner,
   env: Mix.env() |> Atom.to_string(),
   listeners_timeout: 1 * 60 * 60 * 1000,
   view_timeout: 1 * 30 * 1000,
-  manifest_timeout: 1 * 30 * 1000
+  manifest_timeout: 1 * 30 * 1000,
+  scale_to_zero: false
 
 config :application_runner, :mongo,
   hostname: System.get_env("MONGO_HOSTNAME", "localhost"),
