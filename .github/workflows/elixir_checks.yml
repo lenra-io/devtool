@@ -7,17 +7,6 @@ on:
       - synchronize
 
 jobs:
-  prIsWip:
-    name: PR is WIP?
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    outputs:
-      isWip: ${{ steps.prIsWip.outputs.isWip }}
-    steps:
-      - id: prIsWip
-        uses: shiipou/pr-is-wip-action@v1.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   checks:
     services:
       postgres:
@@ -36,9 +25,6 @@ jobs:
     name: Checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs:
-      - prIsWip
-    if: needs.prIsWip.outputs.isWip == 'false'
     env:
       GH_PERSONNAL_TOKEN: ${{secrets.GH_PERSONNAL_TOKEN}}
       SHELL: /bin/bash
