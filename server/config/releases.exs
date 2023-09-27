@@ -34,7 +34,7 @@ config :dev_tools,
     )
 
 config :application_runner,
-  url: System.get_env("LENRA_API_URL", "http://localhost:4001"),
+  internal_api_url: System.get_env("LENRA_API_URL", "http://localhost:4001"),
   faas_url:
     System.get_env(
       "OF_WATCHDOG_URL",
