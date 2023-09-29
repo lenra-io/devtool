@@ -24,8 +24,8 @@ defmodule DevTool.AppAdapter do
   end
 
   @impl ApplicationRunner.Adapter
-  def resource_from_params(%{"userId" => userId, "token" => token} = params) do
-    userId
+  def resource_from_params(%{"userId" => user_id, "token" => token} = params) do
+    user_id
     |> Integer.parse()
     |> elem(0)
     |> do_resource_from_params(token, params)
