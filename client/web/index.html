@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -26,7 +27,14 @@
 
   <title>Lenra - Devtools</title>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    window.flutterConfiguration = {
+      canvasKitBaseUrl: "/canvaskit/"
+    };
+  </script>
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
@@ -96,4 +104,5 @@
     }
   </script>
 </body>
+
 </html>
