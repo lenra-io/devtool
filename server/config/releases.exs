@@ -1,5 +1,7 @@
 import Config
 
+config :logger, level: String.to_atom(System.get_env("LOG_LEVEL", "info"))
+
 config :dev_tools, DevTool.Endpoint,
   http: [port: 4001],
   server: true
