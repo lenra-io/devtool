@@ -19,7 +19,7 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
   end
 
   def generate_fake_token(scope) do
-    Token.sign(DevTool.FakeHydra.Endpoint, @sign_salt, %{scope: scope})
+    Token.sign(DevTool.FakeHydra.Endpoint, @sign_salt, %{scope: scope, user: 1})
   end
 
   def claims_from_verified_token(token, needed_scope) do

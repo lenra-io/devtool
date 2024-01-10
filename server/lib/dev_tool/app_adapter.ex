@@ -43,7 +43,7 @@ defmodule DevTool.AppAdapter do
     with {:ok, %{user: user_id}} <-
            OAuth2Helper.claims_from_verified_token(token, "app:websocket"),
          # The user id given in the socket is prioritized over the one in the token
-         {:ok, %User{id: id}} <- UserServices.upsert_fake_user(forced_user_id || user_id) do
+         {:ok, %User{id: id}} <- UserServices.upsert_fake_user(forced_user_id || user_id || 1) do
       {:ok, id, "devtool-app", ApplicationRunner.AppSocket.extract_context(params)}
     end
   end
