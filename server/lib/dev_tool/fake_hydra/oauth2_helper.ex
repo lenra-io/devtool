@@ -8,8 +8,8 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
   @encrypt_salt "devtool_encrypt_salt"
   @sign_salt "devtool_sign_salt"
 
-  def generate_code(scope) do
-    Token.encrypt(DevTool.FakeHydra.Endpoint, @encrypt_salt, %{scope: scope})
+  def generate_code(scope, user) do
+    Token.encrypt(DevTool.FakeHydra.Endpoint, @encrypt_salt, %{scope: scope, user: user})
   end
 
   def generate_token(code) do
@@ -20,6 +20,16 @@ defmodule DevTool.FakeHydra.OAuth2Helper do
 
   def generate_fake_token(scope) do
     Token.sign(DevTool.FakeHydra.Endpoint, @sign_salt, %{scope: scope})
+  end
+
+  def claims_from_verified_token(token, needed_scope) do
+    with {:ok, %{scope: token_scope} = claims} <- claims_from_token(token),
+         true <- scopes_matches(token_scope, needed_scope) do
+      {:ok, claims}
+    else
+      false -> BusinessError.invalid_oauth2_scopes_tuple()
+      err -> err
+    end
   end
 
   def verify_scope(token, needed_scope) do

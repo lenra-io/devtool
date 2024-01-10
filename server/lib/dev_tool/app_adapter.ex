@@ -40,7 +40,7 @@ defmodule DevTool.AppAdapter do
   end
 
   defp do_resource_from_params(user_id, token, params) do
-    with {:ok, _scope} <- OAuth2Helper.verify_scope(token, "app:websocket"),
+    with {:ok, %{user: user_id}} <- OAuth2Helper.claims_from_verified_token(token, "app:websocket"),
          {:ok, %User{id: id}} <- UserServices.upsert_fake_user(user_id) do
       {:ok, id, "devtool-app", ApplicationRunner.AppSocket.extract_context(params)}
     end

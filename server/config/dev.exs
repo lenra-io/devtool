@@ -42,7 +42,13 @@ config :dev_tools, DevTool.FakeHydra.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [],
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"lib/identity_web/templates/.*(eex)$"
+    ]
+  ]
 
 config :dev_tools,
   of_watchdog: System.get_env("OF_WATCHDOG_BIN", "/usr/bin/fwatchdog"),

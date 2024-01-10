@@ -12,6 +12,11 @@ defmodule DevTool.FakeHydra.Endpoint do
     key: "_dev_tool_key",
     signing_salt: "ehlojLyn"
   ]
+  plug Plug.Static,
+    at: "/",
+    from: {:dev_tools, "priv/static_hydra"},
+    gzip: false,
+    only: ~w(assets css fonts images favicon.ico robots.txt)
 
   plug(DevTool.HealthCheck)
 
@@ -28,6 +33,7 @@ defmodule DevTool.FakeHydra.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    plug Phoenix.LiveReloader
     plug(Phoenix.CodeReloader)
   end
 
