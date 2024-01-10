@@ -32,16 +32,18 @@ defmodule DevTool.AppAdapter do
   end
 
   def resource_from_params(%{"token" => token} = params) do
-    do_resource_from_params(1, token, params)
+    do_resource_from_params(nil, token, params)
   end
 
   def resource_from_params(_params) do
     raise "No token found. Please add a token to your websocket request."
   end
 
-  defp do_resource_from_params(user_id, token, params) do
-    with {:ok, %{user: user_id}} <- OAuth2Helper.claims_from_verified_token(token, "app:websocket"),
-         {:ok, %User{id: id}} <- UserServices.upsert_fake_user(user_id) do
+  defp do_resource_from_params(forced_user_id, token, params) do
+    with {:ok, %{user: user_id}} <-
+           OAuth2Helper.claims_from_verified_token(token, "app:websocket"),
+         # The user id given in the socket is prioritized over the one in the token
+         {:ok, %User{id: id}} <- UserServices.upsert_fake_user(forced_user_id || user_id) do
       {:ok, id, "devtool-app", ApplicationRunner.AppSocket.extract_context(params)}
     end
   end
