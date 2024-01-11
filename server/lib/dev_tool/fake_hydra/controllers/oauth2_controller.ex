@@ -11,6 +11,11 @@ defmodule DevTool.FakeHydra.OAuth2Controller do
       Enum.map(Repo.all(User), fn user -> user.manual_id end)
       |> Enum.sort()
 
+    if (Enum.empty?(users)) do
+      {:ok, user} = UserServices.upsert_fake_user(1)
+      ^users = [1]
+    end
+
     next_id = Enum.max(users) + 1
 
     render(
