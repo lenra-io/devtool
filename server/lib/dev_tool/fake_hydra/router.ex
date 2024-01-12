@@ -5,16 +5,16 @@ defmodule DevTool.FakeHydra.Router do
   use DevTool, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
     # plug :fetch_live_flash
-    plug :put_root_layout, {DevTool.LayoutView, :root}
+    plug(:put_root_layout, {DevTool.LayoutView, :root})
     # plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:put_secure_browser_headers)
   end
 
   scope "/", DevTool.FakeHydra do
-    pipe_through [:browser]
+    pipe_through([:browser])
     get("/oauth2/auth", OAuth2Controller, :auth)
     get("/choose/user", OAuth2Controller, :user)
     post("/oauth2/token", OAuth2Controller, :token)
