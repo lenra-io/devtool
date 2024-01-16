@@ -54,4 +54,11 @@ defmodule DevTool.FakeHydra.Oauth2Controller do
   def revoke(conn, _params) do
     resp(conn, 200, "ok")
   end
+
+  def logout(conn, _params) do
+    render(
+      conn,
+      "logout.html"
+    )
+  end
 end

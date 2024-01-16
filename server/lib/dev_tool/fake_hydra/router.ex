@@ -18,6 +18,7 @@ defmodule DevTool.FakeHydra.Router do
     get("/oauth2/auth", Oauth2Controller, :auth)
     get("/choose/user", Oauth2Controller, :user)
     post("/oauth2/token", Oauth2Controller, :token)
-    get("/oauth2/revoke", Oauth2Controller, :revoke)
+    post("/oauth2/revoke", Oauth2Controller, :revoke)
+    get("/oauth2/sessions/logout", Oauth2Controller, :logout)
   end
 end
