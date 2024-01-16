@@ -1,8 +1,8 @@
-defmodule DevTool.FakeHydra.OAuth2Controller do
+defmodule DevTool.FakeHydra.Oauth2Controller do
   alias DevTool.UserServices
   use DevTool, :controller
 
-  alias DevTool.FakeHydra.OAuth2Helper
+  alias DevTool.FakeHydra.Oauth2Helper
   alias DevTool.{Repo, User}
   require Logger
 
@@ -31,7 +31,7 @@ defmodule DevTool.FakeHydra.OAuth2Controller do
 
   def user(conn, %{"user" => user_id, "redirect_uri" => uri, "scope" => scope, "state" => state}) do
     UserServices.upsert_fake_user(user_id)
-    code = OAuth2Helper.generate_code(scope, user_id)
+    code = Oauth2Helper.generate_code(scope, user_id)
     encoded_params = URI.encode_query(%{"code" => code, "state" => state})
     redirect(conn, external: "#{uri}?#{encoded_params}")
   end
@@ -39,7 +39,7 @@ defmodule DevTool.FakeHydra.OAuth2Controller do
   # defp encode_token(scope, )
 
   def token(conn, %{"code" => code}) do
-    with {:ok, token, %{scope: scope}} <- OAuth2Helper.generate_token(code) do
+    with {:ok, token, %{scope: scope}} <- Oauth2Helper.generate_token(code) do
       response = %{
         access_token: token,
         expire_in: 3600,

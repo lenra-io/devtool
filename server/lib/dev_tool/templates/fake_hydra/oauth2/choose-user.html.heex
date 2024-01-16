@@ -1,11 +1,10 @@
-<% base_url = DevTool.FakeHydra.Router.Helpers.o_auth2_path(@conn, :user) %>
 <main class="arrows">
     <nav>
         <%= for user_id <- @users do %>
-            <a href={DevTool.FakeHydra.Router.Helpers.o_auth2_path(@conn, :user, user: user_id, redirect_uri: @redirect_uri, scope: @scope, state: @state)}>User <%= user_id %></a>
+            <a href={DevTool.FakeHydra.Router.Helpers.oauth2_path(@conn, :user, user: user_id, redirect_uri: @redirect_uri, scope: @scope, state: @state)}>User <%= user_id %></a>
         <% end %>
     </nav>
-    <form action={base_url}>
+    <form action={DevTool.FakeHydra.Router.Helpers.oauth2_path(@conn, :user)}>
         <input type="number" name="user" value={@next_id} min="1" step="1"/>
         <input type="hidden" name="redirect_uri" value={@redirect_uri}/>
         <input type="hidden" name="scope" value={@scope}/>

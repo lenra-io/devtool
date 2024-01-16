@@ -1,3 +1,3 @@
-defmodule DevTool.FakeHydra.OAuth2View do
+defmodule DevTool.FakeHydra.Oauth2View do
   use DevTool, :view
 end

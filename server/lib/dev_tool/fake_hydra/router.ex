@@ -15,9 +15,9 @@ defmodule DevTool.FakeHydra.Router do
 
   scope "/", DevTool.FakeHydra do
     pipe_through([:browser])
-    get("/oauth2/auth", OAuth2Controller, :auth)
-    get("/choose/user", OAuth2Controller, :user)
-    post("/oauth2/token", OAuth2Controller, :token)
-    get("/oauth2/revoke", OAuth2Controller, :revoke)
+    get("/oauth2/auth", Oauth2Controller, :auth)
+    get("/choose/user", Oauth2Controller, :user)
+    post("/oauth2/token", Oauth2Controller, :token)
+    get("/oauth2/revoke", Oauth2Controller, :revoke)
   end
 end

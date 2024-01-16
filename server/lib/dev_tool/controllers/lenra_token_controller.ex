@@ -4,11 +4,11 @@ defmodule DevTool.LenraTokenController do
   """
   use DevTool, :controller
 
-  alias DevTool.FakeHydra.OAuth2Helper
+  alias DevTool.FakeHydra.Oauth2Helper
 
   def generate(conn, _opts) do
     conn
-    |> send_resp(200, OAuth2Helper.generate_fake_token("app:websocket"))
+    |> send_resp(200, Oauth2Helper.generate_fake_token("app:websocket"))
     |> halt()
   end
 end

@@ -1,4 +1,4 @@
-defmodule DevTool.FakeHydra.OAuth2Helper do
+defmodule DevTool.FakeHydra.Oauth2Helper do
   @moduledoc """
     Helper function to create Oauth2 code/token and check them.
   """
