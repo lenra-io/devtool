@@ -13,7 +13,7 @@ defmodule DevTool.FakeHydra.Oauth2Controller do
 
     if Enum.empty?(users) do
       {:ok, user} = UserServices.upsert_fake_user(1)
-      ^users = [1]
+      users = [1]
     end
 
     next_id = Enum.max(users) + 1
