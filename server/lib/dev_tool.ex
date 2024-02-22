@@ -24,6 +24,10 @@ defmodule DevTool do
       import LenraCommonWeb.ControllerHelpers
       import Plug.Conn
 
+      plug(:put_view, LenraCommonWeb.BaseView)
+
+      action_fallback(LenraCommonWeb.FallbackController)
+
       alias DevTool.Router.Helpers, as: Routes
     end
   end
