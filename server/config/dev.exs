@@ -46,7 +46,7 @@ config :dev_tools, DevTool.FakeHydra.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"lib/identity_web/templates/.*(eex)$"
+      ~r"lib/dev_tool/templates/fake_hydra.*(eex)$"
     ]
   ]
 

@@ -24,7 +24,7 @@ defmodule DevTool do
       import LenraCommonWeb.ControllerHelpers
       import Plug.Conn
 
-      plug(:put_view, LenraCommonWeb.BaseView)
+      # plug(:put_view, LenraCommonWeb.BaseView)
 
       action_fallback(LenraCommonWeb.FallbackController)
 
