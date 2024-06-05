@@ -67,7 +67,6 @@ defmodule DevTool.MixProject do
       {:ecto_sql, "~> 3.9.2"},
       {:postgrex, "~> 0.16.0"},
       {:cors_plug, "~> 3.0"},
-      # {:application_runner, path: "../../server/libs/application_runner"},
       {:application_runner,
        git: "https://github.com/lenra-io/server.git",
        ref: "v1.6.0",
