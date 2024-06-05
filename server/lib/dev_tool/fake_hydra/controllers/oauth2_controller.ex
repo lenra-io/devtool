@@ -8,13 +8,14 @@ defmodule DevTool.FakeHydra.Oauth2Controller do
 
   def auth(conn, %{"redirect_uri" => redirect_uri, "scope" => scope, "state" => state}) do
     users =
-      Enum.map(Repo.all(User), fn user -> user.manual_id end)
-      |> Enum.sort()
+      case Enum.map(Repo.all(User), fn user -> user.manual_id end) do
+        [] ->
+          {:ok, _user} = UserServices.upsert_fake_user(1)
+          [1]
 
-    if Enum.empty?(users) do
-      {:ok, user} = UserServices.upsert_fake_user(1)
-      users = [1]
-    end
+        ids ->
+          Enum.sort(ids)
+      end
 
     next_id = Enum.max(users) + 1
 

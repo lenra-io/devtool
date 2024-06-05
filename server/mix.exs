@@ -70,7 +70,7 @@ defmodule DevTool.MixProject do
       # {:application_runner, path: "../../server/libs/application_runner"},
       {:application_runner,
        git: "https://github.com/lenra-io/server.git",
-       ref: "json-subviews",
+       ref: "v1.6.0",
        subdir: "libs/application_runner",
        submodules: true},
       {:distillery, "~> 2.1"}
